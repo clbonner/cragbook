@@ -12,22 +12,22 @@
 $sitetitle = "Cragbook";
 
 // the folder where your Cragbook installation resides (slash at the end)
-$siteroot = "";
+$siteroot = "/home/ubuntu/workspace/cragbook/";
 
 // the root web URL for your Cragbook installation (no tailing slash)
-$siteurl = "";
+$siteurl = "https://web-dev-workspace-clbonner.c9users.io/cragbook";
 
 // hostname
-$host = "";
+$host = getenv('IP');
 
 // port number (default 3306)
 $dbport = 3306;
 
 // database name
-$dbname = "";
+$dbname = "c9";
 
 // database user name
-$dbuser = "";
+$dbuser = getenv('C9_USER');
 
 // database user password
 $dbpass = "";

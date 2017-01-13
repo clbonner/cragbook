@@ -90,8 +90,8 @@ else
         // show crag info page with no routes
         view("crag_info.php", ["crag" => $crag, "routes" => 0, "area" => $area]);
     }
+    
+    $db->close();
 }
-
-$db->close();
     
 ?>

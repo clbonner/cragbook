@@ -26,7 +26,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
         error("You must provide your password.");
     }
     
-    // security checks
     $username = sec_check($_POST["username"]);
     $password = sec_check($_POST["password"]);
     
@@ -36,13 +35,12 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     $sql = "SELECT * FROM users WHERE username = \"" .$username ."\";";
     $result = $db->query($sql);
     
-    // check the user exists
     if ($result->num_rows == 1) {
         $user = [];
         $user = $result->fetch_assoc();
     }
     else 
-        error("Username not found.");
+        error("Incorrect username or password.");
     
     // check the password supplied matches the hash in the database
     if (password_verify($password, $user["password"])) {
@@ -50,9 +48,9 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
         $_SESSION["username"] = $user["username"];
     }
     else
-        error("Invalid username and/or password.");
+        error("Incorrect username or password.");
         
-    // show homepage
+    // show home page
     require(SITEROOT ."index.php");
     
     $db->close();

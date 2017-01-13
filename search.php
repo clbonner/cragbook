@@ -10,14 +10,15 @@
  
 require_once("include/config.php");
 
-if ($_GET["search"] != "")
+// search database
+if ($_GET["search"] != NULL)
 {
     $db = db_connect();
     
     // security check
     $search = sec_check($_GET["search"]);
     
-    // search areas
+    // search areas/crags/routes
     $sql = "SELECT * FROM areas WHERE LCASE(name) LIKE LCASE(\"%" .$search ."%\");";
     $result = $db->query($sql);
     
@@ -28,8 +29,7 @@ if ($_GET["search"] != "")
     else
         $areas = 0;
     
-    // search crags
-    $sql = "SELECT * FROM crags WHERE LCASE(name) LIKE LCASE(\"%" .$_GET["search"] ."%\");";
+    $sql = "SELECT * FROM crags WHERE LCASE(name) LIKE LCASE(\"%" .$search ."%\");";
     $result = $db->query($sql);
     
     if ($result->num_rows > 0) {
@@ -40,8 +40,7 @@ if ($_GET["search"] != "")
         $crags = 0;
     }
     
-    // search routes
-    $sql = "SELECT * FROM routes WHERE (LCASE(name) LIKE LCASE(\"%" .$_GET["search"] ."%\")) OR (grade LIKE \"%" .$_GET["search"] ."%\") ORDER BY name ASC;";
+    $sql = "SELECT * FROM routes WHERE (LCASE(name) LIKE LCASE(\"%" .$search ."%\")) OR (grade LIKE \"%" .$search ."%\") ORDER BY name ASC;";
     $result = $db->query($sql);
     
     if ($result->num_rows > 0) {
@@ -53,7 +52,7 @@ if ($_GET["search"] != "")
         $routes = 0;
     }
     
-    // get crag list for routes
+    // get crag list for routes found
     $sql = "SELECT cragid, name FROM crags";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
@@ -65,8 +64,6 @@ if ($_GET["search"] != "")
         $craglist = 0;
     }
     
-    
-    // show results
     view("search_results.php", ["areas" => $areas, "crags" => $crags, "routes" => $routes, "craglist" => $craglist]);
     
     $db->close();

@@ -11,33 +11,28 @@
 require_once("../include/config.php");
 $db = db_connect();
 
-// add an area
+// show add area form
 if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
 {
-    // set session data
     set_data("add", NULL);
     
-    // show area form for adding a crag
     $button = "Add";
     $returnurl = SITEURL ."/areas.php";
     
     view("area_form.php", ["button" => $button, "returnurl" => $returnurl]);
 }
 
-// edit an existing area
+// show edit area form
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 {
-    // get area details
     $result = $db->query("SELECT * FROM areas WHERE areaid=" .$_GET["areaid"]);
     if ($result->num_rows == 1)
         $area = $result->fetch_assoc();
     else
         error("Area details could not be found. :( <p>areaid = " .$_GET["areaid"] ."</p><p> query = " .$sql ."</p>");
     
-    // set session data
     set_data("edit", $_GET["areaid"]);
     
-    // show form
     $button = "Update";
     $returnurl = SITEURL ."/crags.php?areaid=" .$_GET["areaid"];
     
@@ -47,17 +42,14 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 // show delete confirmation
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
 {
-    // get area details
     $result = $db->query("SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] .";");
     if ($result->num_rows == 1)
         $area = $result->fetch_assoc();
     else
         error("Cannot find area.");
     
-    // set session data
     set_data("delete", $_GET["areaid"]);
     
-    // show form
     $message = "Are you sure you want to delete <b>" .$area["name"] ."</b> and all associated crags and routes?";
     $controller = "area.php";
     $returnurl = SITEURL ."/crags.php?areaid=" .$_GET["areaid"];
@@ -68,14 +60,13 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
 // remove area from database
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
 {
-    // get area details
+    // get area and crag details
     $sql = "SELECT * FROM areas WHERE areaid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
         error("Area not found when getting area details. cragid = " .$_SESSION["id"] ." query = " .$sql);
 
     $area = $result->fetch_assoc();
     
-    // get crags for area
     $crags = [];
     $sql = "SELECT * FROM crags WHERE areaid=" .$area["areaid"];
     if ($result = $db->query($sql)) {
@@ -85,7 +76,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
     else
         error("Crag(s) not found for area. areaid = " .$area["areaid"] ." query = " .$sql);
     
-    // delete crags and routes
+    // remove crags and routes
     foreach ($crags as $crag) {
         $sql = "DELETE FROM crags WHERE cragid=" .$crag["cragid"] .";";
         $result = $db->query($sql);
@@ -93,7 +84,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
         $result = $db->query($sql);
     }
     
-    // delete area
+    // remove area
     $sql = "DELETE FROM areas WHERE areaid=" .$area["areaid"] .";";
     if (!$result = $db->query($sql))
         error("Could not delete area. areaid = " .$area["areaid"] ." query = " .$sql);
@@ -107,11 +98,10 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
 // add or update an area
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || $_SESSION["action"] == "edit")
 {
-    // security checks
     $name = sec_check($_POST["name"]);
     $description = sec_check($_POST["description"]);
     
-    // add or update database
+    // add/update area details
     if ($_SESSION["action"] == "add")
         $sql = "INSERT INTO areas (name,description) VALUES (\"" .$name ."\",\"" .$description ."\");";
     elseif ($_SESSION["action"] == "edit") {
@@ -136,7 +126,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     // return to area page
     header("Location: " .SITEURL ."/crags.php?areaid=" .$area["areaid"]);
     
-    // clear session data
     clear_data();
 }
 

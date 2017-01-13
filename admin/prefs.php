@@ -14,7 +14,6 @@ $db = db_connect();
 // show preferences form
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
-    // get user details
     $sql = "SELECT * FROM users WHERE userid=" .$_SESSION["userid"];
     $result = $db->query($sql);
     
@@ -26,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
 // update preferences
 elseif ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    // info view parameters
     $button = "Back";
     $returnurl = SITEURL ."/admin/prefs.php";
     
@@ -53,7 +51,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
         exit;
     }
     
-    // check passwords
     if (!empty($oldpass)) {
         // check new password isn't blank
         if (empty($newpass)) {
@@ -64,7 +61,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
         // check password matches current one
         if (password_verify($oldpass, $user["password"])) {
             if ($newpass == $confirmpass) {
-                //update password in database
+                // update password in database
                 $sql = "UPDATE users SET password=\"" .password_hash($newpass, PASSWORD_DEFAULT) ."\" WHERE userid=" .$_SESSION["userid"] .";";
                 if (!$db->query($sql))
                     error("Error updating password.");

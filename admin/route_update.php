@@ -14,8 +14,8 @@ $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
+    // send JSON data for routes at crag
     if (isset($_GET["cragid"])) {
-        // get routes
         $sql = "SELECT * FROM routes WHERE cragid=" .$_GET["cragid"] ." ORDER by orderid ASC;";
         if (!$result = $db->query($sql)) {
             $errors .= $db->error ."\n";
@@ -23,7 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
             exit;
         }
         
-        // store routes in array
         $routes = [];
         while ($route = $result->fetch_assoc()) {
             array_push($routes, $route);
@@ -32,8 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
         // send routes as JSON
         echo json_encode($routes);
     }
+    
+    // update route order for crag
     else {
-        // decode sent data to array
         $routes = urldecode($_SERVER["QUERY_STRING"]);
         $routes = json_decode($routes, true);
         
@@ -41,12 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
         foreach ($routes as $route) {
             $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
             if(!$db->query($sql)){
-                $error = $db->error;
+                echo "{\"error\" : \"" .$db->error ."\"}";
                 exit;
             }
         }
         
-        // notify
+        // notify success
         echo "{\"status\":\"SUCCESS\"}";
     }
 }

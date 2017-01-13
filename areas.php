@@ -11,7 +11,7 @@
 require_once("include/config.php");
 $db = db_connect(); 
 
-// get areas
+// get list of areas
 $sql = "SELECT areaid,name FROM areas ORDER BY name ASC;";
 $result = $db->query($sql);
 

@@ -9,17 +9,11 @@
  */
     
 require_once("include/config.php");
-
 $db = db_connect();
 
-// get site preferences
-$title = $db->query("SELECT value FROM site WHERE setting = \"home_title\";");
-$text = $db->query("SELECT value FROM site WHERE setting = \"home_text\";");
+$result = $db->query("SELECT value FROM site WHERE setting = \"home_text\";");
+$home_text = $result->fetch_row();
 
-$home_title = $title->fetch_row();
-$home_text = $text->fetch_row();
-
-// show home page
-view("home.php", ["home_title" => $home_title[0], "home_text" => $home_text[0] ]);
+view("home.php", ["home_text" => $home_text[0] ]);
     
 ?>

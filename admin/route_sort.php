@@ -12,9 +12,9 @@
 require_once("../include/config.php");
 $db = db_connect();
 
+// get details and show route sorting page
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
-    // get crag info
     $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"];
     if (!$result = $db->query($sql))
         error("Cannot retrieve crag details. (route_sort.php) query = " .$sql);
@@ -22,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
     $crag = $result->fetch_assoc();
     $returnurl = SITEURL ."/crag_info.php?cragid=" .$crag["cragid"];
     
-    // show form
     view("route_sort.php", ["crag" => $crag, "returnurl" => $returnurl]);
 }
 

@@ -11,27 +11,23 @@
 require_once("../include/config.php");
 $db = db_connect();
 
-// edit home page
+// edit home page text
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // get site settings
     $sql = "SELECT * FROM site;";
     $result = $db->query($sql);
     
     while ($row = $result->fetch_assoc())
         $site[$row["setting"]] = $row["value"];
     
-    // show form
     view("home_form.php", ["site" => $site]);
 }
 
+// update home page text
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // security check
     $text = sec_check($_POST["text"]);
     
-    // update database
     $result = $db->query("UPDATE site SET value = \"" .$text ."\" WHERE setting = \"home_text\";" );
     
-    // return to home page
     require(SITEROOT ."index.php");
 }
 

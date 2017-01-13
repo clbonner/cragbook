@@ -11,20 +11,18 @@
 require_once("../include/config.php");
 $db = db_connect();
 
-// add a new route
+// show new route form
 if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
 {
-    // set session data and show form
     set_data("add", $_GET["cragid"]);
     $returnurl = SITEURL ."/crag_info.php?cragid=" .$_GET["cragid"];
     
     view("route_form.php", ["button" => "Add", "returnurl" => $returnurl]);
 }
 
-// edit existing route
+// show edit route form
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 {
-    // get route details
     $sql = "SELECT * FROM routes WHERE routeid = " .$_GET["routeid"] .";";
     $result = $db->query($sql);
     
@@ -33,17 +31,15 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
     else
         error("Route not found. routeid = " .$_GET["routeid"] ." query = " .$sql);
     
-    // set session data and show form
     set_data("edit", $_GET["routeid"]);
     $returnurl = SITEURL ."/crag_info.php?cragid=" .$route["cragid"];
 
     view("route_form.php", ["button" => "Save", "route" => $route, "returnurl" => $returnurl]);
 }
 
-// delete confirmation
+// show delete confirmation
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
 {
-    // get route info
     $sql = "SELECT * FROM routes WHERE routeid=" .$_GET["routeid"] .";";
     $result = $db->query($sql);
     
@@ -54,7 +50,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
     
     set_data("delete", $_GET["routeid"]);
     
-    // show confirmation
     $message = "Are you sure you want to delete the route <b>" .$route["name"] ."</b>?";
     $returnurl = SITEURL ."/crag_info.php?cragid=" .$route["cragid"];
     $controller = "route.php";
@@ -84,13 +79,13 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
     else
         error("Crag not found before attempting to delete route. cragid = " .$route["cragid"] ." query = " .$sql);
     
-    // delete route
+    // remove route
     $sql = "DELETE FROM routes WHERE routeid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
         error("Cannot delete route. routeid = " .$_SESSION["id"] ." query = " .$sql);
     
     // return to crag page
-    header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"];
+    header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"]);
     
     clear_data();
 }
@@ -98,7 +93,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
 // update route database
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || $_SESSION["action"] == "edit")
 {
-    // security checks
     $name = sec_check($_POST["name"]);
     $description = sec_check($_POST["description"]);
     $grade = sec_check($_POST["grade"]);
@@ -154,7 +148,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
             error("Cannot get crag info. :( <p>id = " .$route["cragid"] ."</p><p> query = " .$sql ."</p>");
 
     // return to crag page
-    header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"];
+    header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"]);
 
     clear_data();
 }

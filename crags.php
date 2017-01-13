@@ -49,7 +49,7 @@ else {
         exit;
     }
     
-    // get route list for area according to filter
+    // get route list for area according to filter (default by name)
     foreach($crags as $crag) {
         $values = $values . $crag["cragid"] . ",";
     }
@@ -82,15 +82,6 @@ else {
     elseif($_GET["filter"] == "vgrade") {
         $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ";
         $sql .= $vGradeFilter . $OrderByGrade . $vGrade . $ElseAsc;
-        $sql = str_replace(",)", ")", $sql);
-    }
-    elseif($_GET["sort"] == "grade") {
-        $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ";
-        $sql .= $OrderByGrade . $BritishAdj . $FrenchNum . $FontNum . $ElseAsc;
-        $sql = str_replace(",)", ")", $sql);
-    }
-    elseif($_GET["sort"] == "crag") {
-        $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ORDER BY grade ASC;";
         $sql = str_replace(",)", ")", $sql);
     }
     else {

@@ -39,9 +39,9 @@
             <table class="w3-table-all w3-tiny w3-margin-bottom">
                 <tr class="w3-blue">
                     <th><a href="<?= SITEURL ?>/crags.php?areaid=<?= $data["area"]["areaid"] ?>&sort=name">Name</a></th>
-                    <th><a href="<?= SITEURL ?>/crags.php?areaid=<?= $data["area"]["areaid"] ?>&sort=grade">Grade</a></th>
+                    <th>Grade</th>
                     <th><a href="<?= SITEURL ?>/crags.php?areaid=<?= $data["area"]["areaid"] ?>&sort=stars">Stars</a></th>
-                    <th style="width:50%"><a href="<?= SITEURL ?>/crags.php?areaid=<?= $data["area"]["areaid"] ?>&sort=crag">Crag</a></th>
+                    <th style="width:50%">Crag</th>
                 </tr>
                 <?php foreach ($data["routes"] as $route): ?>
                     <tr>

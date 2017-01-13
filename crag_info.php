@@ -26,7 +26,7 @@ else
     $result = $db->query($sql);
     $crag = $result->fetch_assoc();
         
-    // get routes according to filter
+    // get routes according to filter (default orderid)
     if ($_GET["filter"] == "british") {
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
         $sql .= $BritishAdjFilter . $OrderByGrade . $BritishAdj . $ElseAsc;
@@ -50,10 +50,6 @@ else
     elseif ($_GET["filter"] == "vgrade") {
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
         $sql .= $vGradeFilter . $OrderByGrade . $vGrade . $ElseAsc;
-    }
-    elseif ($_GET["sort"] == "grade") {
-        $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
-        $sql .= $OrderByGrade . $BritishAdj . $FrenchNum . $FontNum . $ElseAsc;
     }
     else {
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";

@@ -36,7 +36,7 @@
             <table class="w3-table-all w3-tiny w3-margin-bottom">
                 <tr class="w3-blue">
                     <th><a href="<?= SITEURL ?>/crag_info.php?cragid=<?= $data["crag"]["cragid"] ?>&sort=name">Name</a></th>
-                    <th><a href="<?= SITEURL ?>/crag_info.php?cragid=<?= $data["crag"]["cragid"] ?>&sort=grade">Grade</a></th>
+                    <th>Grade</th>
                     <th><a href="<?= SITEURL ?>/crag_info.php?cragid=<?= $data["crag"]["cragid"] ?>&sort=stars">Stars</a></th>
                     <th>Length</th>
                     <th>Sector</th>

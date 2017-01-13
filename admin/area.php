@@ -90,7 +90,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
         error("Could not delete area. areaid = " .$area["areaid"] ." query = " .$sql);
     
     // return to area page
-    header("Location: " .SITEURL ."/areas.php";
+    header("Location: " .SITEURL ."/areas.php");
 
     clear_data();
 }

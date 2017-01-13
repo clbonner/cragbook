@@ -1,0 +1,18 @@
+Installation Notes
+==================
+
+Installing Cragbook is very simple. 
+
+1. Copy the files in to the folder on your web server where you would like to host it. 
+
+2. Import the 'cragbook.sql' file in to the MySQL database that you would like to use.
+
+3. Make sure that all PHP file permissions are set 644 and folders to 755.
+
+4. Change the settings in include/config.php for your installation.
+
+And away you go!
+
+The default username and password are 'admin' and 'password'. These can be changed in Preferences.
+
+Enjoy!

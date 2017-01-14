@@ -14,9 +14,10 @@ $db = db_connect();
 // get all crags if no areaid
 if ($_GET["areaid"] == NULL) {
     $sql = "SELECT cragid,name FROM crags ORDER BY name ASC";
-    $result = $db->query($sql);
     
-    if ($result->num_rows == 0)
+    if (!$result = $db->query($sql))
+        error("Error in crags.php: " .$db->error());
+    elseif ($result->num_rows == 0)
         $crags = 0;
     else {
         while($crag = $result->fetch_assoc())
@@ -29,15 +30,19 @@ if ($_GET["areaid"] == NULL) {
 // get crags for areaid
 else {
     $sql = "SELECT * FROM areas WHERE areaid = ". $_GET["areaid"] .";";
-    $result = $db->query($sql);
+    
+    if (!$result = $db->query($sql))
+        error("Error in crags.php: " .$db->error());
+    
     $area = $result->fetch_assoc();
     
     $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." ORDER BY name ASC;";
-    $craglist = $db->query($sql);
-
-    if ($craglist->num_rows > 0) {
+    
+    if (!$result = $db->query($sql))
+        error("Error in crags.php: " .$db->error());
+    elseif ($result->num_rows > 0) {
         $crags = [];
-        while($row = $craglist->fetch_assoc()) 
+        while($row = $result->fetch_assoc()) 
             array_push($crags, $row);
     }
     
@@ -89,23 +94,21 @@ else {
         $sql = str_replace(",)", ")", $sql);
     }
     
-    $routelist = $db->query($sql);
+    if (!$result = $db->query($sql))
+        error("Error in crags.php: " .$db->error());
     
     // show routes
     $routes = [];
-    if ($routelist->num_rows > 0)
-    {
-        while($row = $routelist->fetch_assoc())
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc())
             array_push($routes, $row);
-        
-        view("crags.php", ["crags" => $crags, "area" => $area, "routes" => $routes ]);
     }
     
     // no routes found
     else
-    {
-        view("crags.php", ["crags" => $crags, "area" => $area, "routes" => 0 ]);
-    }
+        $routes = 0;
+    
+    view("crags.php", ["crags" => $crags, "area" => $area, "routes" => $routes ]);
 }
 
 $db->close();

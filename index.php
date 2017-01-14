@@ -11,7 +11,11 @@
 require_once("include/config.php");
 $db = db_connect();
 
-$result = $db->query("SELECT value FROM site WHERE setting = \"home_text\";");
+$sql = "SELECT value FROM site WHERE setting = \"home_text\";";
+
+if (!$result = $db->query($sql))
+        error("Error in index.php: " .$db->error());
+
 $home_text = $result->fetch_row();
 
 view("home.php", ["home_text" => $home_text[0] ]);

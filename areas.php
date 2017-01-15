@@ -15,7 +15,7 @@ $db = db_connect();
 $sql = "SELECT areaid,name FROM areas ORDER BY name ASC;";
 
 if (!$result = $db->query($sql))
-    error("Error in areas.php: " .$db->error());
+    error("Error in areas.php: " .$db->error);
 elseif ($result->num_rows > 0) {
     while($area = $result->fetch_assoc())
         $areas[$area["areaid"]] = $area["name"];

@@ -21,7 +21,7 @@ if ($_GET["search"] != NULL)
     $sql = "SELECT * FROM areas WHERE LCASE(name) LIKE LCASE(\"%" .$search ."%\");";
     
     if (!$result = $db->query($sql))
-        error("Error in search.php: " .$db->error());
+        error("Error in search.php: " .$db->error);
     elseif ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) 
             $areas[$row["areaid"]] = $row["name"];
@@ -33,7 +33,7 @@ if ($_GET["search"] != NULL)
     $sql = "SELECT * FROM crags WHERE LCASE(name) LIKE LCASE(\"%" .$search ."%\");";
     
     if (!$result = $db->query($sql))
-        error("Error in search.php: " .$db->error());
+        error("Error in search.php: " .$db->error);
     elseif ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) 
             $crags[$row["cragid"]] = $row["name"];
@@ -45,7 +45,7 @@ if ($_GET["search"] != NULL)
     $sql = "SELECT * FROM routes WHERE (LCASE(name) LIKE LCASE(\"%" .$search ."%\")) OR (grade LIKE \"%" .$search ."%\") ORDER BY name ASC;";
     
     if (!$result = $db->query($sql))
-        error("Error in search.php: " .$db->error());
+        error("Error in search.php: " .$db->error);
     elseif ($result->num_rows > 0) {
         $routes = [];
         while($row = $result->fetch_assoc()) 
@@ -58,7 +58,7 @@ if ($_GET["search"] != NULL)
     $sql = "SELECT cragid, name FROM crags";
     
     if (!$result = $db->query($sql))
-        error("Error in search.php: " .$db->error());
+        error("Error in search.php: " .$db->error);
     elseif ($result->num_rows > 0) {
         $craglist = [];
         while($row = $result->fetch_assoc())

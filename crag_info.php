@@ -25,7 +25,7 @@ else
     $sql = "SELECT * FROM crags WHERE cragid = ". $_GET["cragid"] .";";
     
     if (!$result = $db->query($sql))
-        error("Error in crag_info.php: " .$db->error());
+        error("Error in crag_info.php: " .$db->error);
     
     $crag = $result->fetch_assoc();
         
@@ -60,7 +60,7 @@ else
     
     // get routes
     if (!$result = $db->query($sql))
-        error("Error in crag_info.php: " .$db->error());
+        error("Error in crag_info.php: " .$db->error);
     elseif ($result->num_rows > 0) {
         $routes = [];
         while($row = $result->fetch_assoc())
@@ -73,7 +73,7 @@ else
     $sql = "SELECT * FROM areas WHERE areaid = ". $crag["areaid"] .";";
     
     if (!$result = $db->query($sql))
-        error("Error in crag_info.php: " .$db->error());
+        error("Error in crag_info.php: " .$db->error);
     else
         $area = $result->fetch_assoc();
 

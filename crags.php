@@ -16,7 +16,7 @@ if ($_GET["areaid"] == NULL) {
     $sql = "SELECT cragid,name FROM crags ORDER BY name ASC";
     
     if (!$result = $db->query($sql))
-        error("Error in crags.php: " .$db->error());
+        error("Error in crags.php: " .$db->error);
     elseif ($result->num_rows == 0)
         $crags = 0;
     else {
@@ -32,14 +32,14 @@ else {
     $sql = "SELECT * FROM areas WHERE areaid = ". $_GET["areaid"] .";";
     
     if (!$result = $db->query($sql))
-        error("Error in crags.php: " .$db->error());
+        error("Error in crags.php: " .$db->error);
     
     $area = $result->fetch_assoc();
     
     $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." ORDER BY name ASC;";
     
     if (!$result = $db->query($sql))
-        error("Error in crags.php: " .$db->error());
+        error("Error in crags.php: " .$db->error);
     elseif ($result->num_rows > 0) {
         $crags = [];
         while($row = $result->fetch_assoc()) 
@@ -95,7 +95,7 @@ else {
     }
     
     if (!$result = $db->query($sql))
-        error("Error in crags.php: " .$db->error());
+        error("Error in crags.php: " .$db->error);
     
     // show routes
     $routes = [];

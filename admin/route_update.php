@@ -12,14 +12,13 @@
 require_once("../include/config.php");
 $db = db_connect();
 
-if ($_SERVER["REQUEST_METHOD"] == "GET")
-{
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // send JSON data for routes at crag
     if (isset($_GET["cragid"])) {
         $sql = "SELECT * FROM routes WHERE cragid=" .$_GET["cragid"] ." ORDER by orderid ASC;";
         if (!$result = $db->query($sql)) {
-            $errors .= $db->error ."\n";
-            echo $errors;
+            $error = $db->error ."\n";
+            echo $error;
             exit;
         }
         

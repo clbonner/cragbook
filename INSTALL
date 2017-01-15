@@ -9,7 +9,7 @@ Installing Cragbook is very simple.
 
 3. Make sure that all PHP file permissions are set 644 and folders to 755.
 
-4. Change the settings in include/config.php for your installation.
+4. Change the settings in include/config-example.php for your installation, then rename it to config.php.
 
 And away you go!
 

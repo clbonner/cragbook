@@ -12,8 +12,7 @@ require_once("../include/config.php");
 $db = db_connect();
 
 // show new route form
-if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
-{
+if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add") {
     set_data("add", $_GET["cragid"]);
     $returnurl = SITEURL ."/crag_info.php?cragid=" .$_GET["cragid"];
     
@@ -21,15 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
 }
 
 // show edit route form
-elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
-{
+elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit") {
     $sql = "SELECT * FROM routes WHERE routeid = " .$_GET["routeid"] .";";
-    $result = $db->query($sql);
-    
-    if ($result->num_rows == 1)
+    if (!$result = $db->query($sql))
+        error("Error in admin/route.php: " .$db->error);
+    elseif ($result->num_rows == 1)
         $route = $result->fetch_assoc();
-    else
-        error("Route not found. routeid = " .$_GET["routeid"] ." query = " .$sql);
     
     set_data("edit", $_GET["routeid"]);
     $returnurl = SITEURL ."/crag_info.php?cragid=" .$route["cragid"];
@@ -38,15 +34,12 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 }
 
 // show delete confirmation
-elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
-{
+elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete") {
     $sql = "SELECT * FROM routes WHERE routeid=" .$_GET["routeid"] .";";
-    $result = $db->query($sql);
-    
-    if ($result->num_rows == 1)
+    if (!$result = $db->query($sql))
+        error("Error in admin/route.php: " .$db->error);
+    elseif ($result->num_rows == 1)
         $route = $result->fetch_assoc();
-    else
-        error("Route not found. routeid = " .$_GET["routeid"] ." query = " .$sql);
     
     set_data("delete", $_GET["routeid"]);
     
@@ -59,30 +52,25 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
 }
 
 // remove route from database
-elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
-{
+elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete") {
     // get route info
     $sql = "SELECT * FROM routes WHERE routeid=" .$_SESSION["id"] .";";
-    $result = $db->query($sql);
-    
-    if ($result->num_rows == 1)
+    if (!$result = $db->query($sql))
+        error("Error in admin/route.php: " .$db->error);
+    elseif ($result->num_rows == 1)
         $route = $result->fetch_assoc();
-    else
-        error("Route not found. routeid = " .$_SESSION["id"] ." query = " .$sql);
     
     // get crag info
     $sql = "SELECT * FROM crags WHERE cragid=" .$route["cragid"] .";";
-    $result = $db->query($sql);
-    
-    if ($result->num_rows == 1)
+    if (!$result = $db->query($sql))
+        error("Error in admin/route.php: " .$db->error);
+    elseif ($result->num_rows == 1)
         $crag = $result->fetch_assoc();
-    else
-        error("Crag not found before attempting to delete route. cragid = " .$route["cragid"] ." query = " .$sql);
     
     // remove route
     $sql = "DELETE FROM routes WHERE routeid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
-        error("Cannot delete route. routeid = " .$_SESSION["id"] ." query = " .$sql);
+        error("Error in admin/route.php: " .$db->error);
     
     // return to crag page
     header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"]);
@@ -105,10 +93,11 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     {
         // get last route at crag
         $sql = "SELECT * FROM routes WHERE cragid=" .$_SESSION["id"] ." ORDER BY orderid DESC LIMIT 1;";
-        $result = $db->query($sql);
-        if ($result->num_rows == 0)
+        if (!$result = $db->query($sql))
+            error("Error in admin/route.php: " .$db->error);
+        elseif ($result->num_rows == 0)
             $orderid = 1;
-        elseif ($result != FALSE) {
+        else {
             $last = $result->fetch_assoc();
             $orderid = ++$last["orderid"];
         }
@@ -116,24 +105,21 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
         $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,orderid) VALUES (" .$_SESSION["id"] .",\"" .$name 
             ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\"," .$orderid .");";
     }
-    elseif ($_SESSION["action"] == "edit")
-    {
+    elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE routes SET name=\"" .$name. "\",description=\"" .$description 
             ."\",grade=\"" .$grade ."\",stars=\"" .$stars ."\",length=\"" .$length 
             ."\",sector=\"" .$sector ."\" WHERE routeid = " .$_SESSION["id"] .";";
     }
-    $result = $db->query($sql);
-    
-    if ($result == FALSE)
-        error("Route details could not be added/updated. :( <p>id = " .$_SESSION["id"] ."</p><p> query = " .$sql ."</p>");
+    if (!$result = $db->query($sql))
+        error("Error in admin/route.php: " .$db->error);
     
     // get cragid
     if ($_SESSION["action"] == "edit") {
         $sql = "SELECT * FROM routes WHERE routeid=" .$_SESSION["id"] .";";
-        if ($result = $db->query($sql))
-            $route = $result->fetch_assoc();
+        if (!$result = $db->query($sql))
+            error("Error in admin/route.php: " .$db->error);
         else
-            error("Cannot get route info. :( <p>id = " .$_SESSION["id"] ."</p><p> query = " .$sql ."</p>");
+            $route = $result->fetch_assoc();
         
         $cragid = $route["cragid"];
     }
@@ -142,11 +128,11 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     
     // get crag details
     $sql = "SELECT * FROM crags WHERE cragid=" .$cragid .";";
-        if ($result = $db->query($sql))
-            $crag = $result->fetch_assoc();
-        else
-            error("Cannot get crag info. :( <p>id = " .$route["cragid"] ."</p><p> query = " .$sql ."</p>");
-
+    if (!$result = $db->query($sql))
+        error("Error in admin/route.php: " .$db->error);
+    else
+        $crag = $result->fetch_assoc();
+    
     // return to crag page
     header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"]);
 

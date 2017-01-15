@@ -17,9 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
     $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"];
     if (!$result = $db->query($sql))
-        error("Cannot retrieve crag details. (route_sort.php) query = " .$sql);
+        error("Error in admin/route_sort.php: " .$db->error);
+    else
+        $crag = $result->fetch_assoc();
     
-    $crag = $result->fetch_assoc();
     $returnurl = SITEURL ."/crag_info.php?cragid=" .$crag["cragid"];
     
     view("route_sort.php", ["crag" => $crag, "returnurl" => $returnurl]);

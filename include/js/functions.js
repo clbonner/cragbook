@@ -10,7 +10,7 @@ var routes, returnurl;
 
 // gets routes from database by parsing JSON data
 function showRoutes() {
-    var x, table;
+    var x, table, buttons;
     
     // sort array objects by orderid
     routes.sort(function(a, b){return a.orderid - b.orderid});
@@ -26,6 +26,13 @@ function showRoutes() {
     }
     table += "</table>";
     
+    // add the buttons
+    buttons = '<div class="w3-margin-top w3-margin-bottom">';
+    buttons += '<input class="w3-btn w3-round w3-green" type="button" onclick="updateRoutes()" value="Save">';
+    buttons += '<input class="w3-btn w3-round w3-red w3-margin-left" type="button" onclick="window.location.assign(\'' + returnurl + '\')" value="Cancel">';
+    buttons += '</div>';
+    table += buttons;
+    
     // display table
     $("#routes").html(table);
 }
@@ -33,6 +40,7 @@ function showRoutes() {
 // gets routes from route_update.php as JSON and stores in routes
 function getRoutes(crag) {
     var url = "route_update.php?cragid=" + crag;
+    returnurl = '../crag_info.php?cragid=' + crag;
     
     $.getJSON(url, function (data,status,xhr){
         routes = data;
@@ -47,7 +55,7 @@ function getRoutes(crag) {
 }
 
 // send route order data back to database
-function updateRoutes(returnurl){
+function updateRoutes(){
     var url = "route_update.php";
     
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x w3-display-middle\"></i>");

@@ -43,9 +43,10 @@ function getRoutes(crag) {
     $.getJSON(url, function (data,status,xhr){
         routes = data;
         
-        // convert orderid to int
+        var i = 1;
+        // assign orderid to each route
         for (var x in routes) {
-            routes[x].orderid = parseInt(routes[x].orderid);
+            routes[x].orderid = i++;
         }
         
         showRoutes();

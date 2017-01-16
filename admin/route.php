@@ -89,21 +89,9 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     $sector = sec_check($_POST["sector"]);
     
     // add/update database
-    if ($_SESSION["action"] == "add")
-    {
-        // get last route at crag
-        $sql = "SELECT * FROM routes WHERE cragid=" .$_SESSION["id"] ." ORDER BY orderid DESC LIMIT 1;";
-        if (!$result = $db->query($sql))
-            error("Error in admin/route.php: " .$db->error);
-        elseif ($result->num_rows == 0)
-            $orderid = 1;
-        else {
-            $last = $result->fetch_assoc();
-            $orderid = ++$last["orderid"];
-        }
-            
-        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,orderid) VALUES (" .$_SESSION["id"] .",\"" .$name 
-            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\"," .$orderid .");";
+    if ($_SESSION["action"] == "add") {
+        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector) VALUES (" .$_SESSION["id"] .",\"" .$name 
+            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\");";
     }
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE routes SET name=\"" .$name. "\",description=\"" .$description 

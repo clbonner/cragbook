@@ -2,8 +2,7 @@
 <html>
 <head>
     <title><?= $sitetitle ?></title>
-    <script src="<?= SITEURL ?>/include/js/jquery-3.1.1.min.js"></script>
-    <script src="<?= SITEURL ?>/include/js/functions.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
     <meta name="viewport" content="width=device-width, initial-scale=1">

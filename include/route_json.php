@@ -4,7 +4,7 @@
  * and is licensesed under the GNU General Public License version 3.
  * Copyright 2017 Christopher L Bonner
  *
- * admin/route_update.php 
+ * include/route_update.php 
  * Returns JSON data so the user can manipulate the 
  * route order for a crag, then submit it back to update the database.
  */

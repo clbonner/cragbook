@@ -37,7 +37,7 @@ function showRoutes() {
 
 // gets routes from route_update.php as JSON and stores in routes
 function getRoutes(crag) {
-    var url = "route_update.php?cragid=" + crag;
+    var url = "../include/route_json.php?cragid=" + crag;
     returnurl = '../crag_info.php?cragid=' + crag;
     
     $.getJSON(url, function (data,status,xhr){
@@ -55,7 +55,7 @@ function getRoutes(crag) {
 
 // send route order data back to database
 function updateRoutes() {
-    var url = "route_update.php";
+    var url = "../include/route_json.php";
     
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x w3-display-middle\"></i>");
     $("#buttons").hide();

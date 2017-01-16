@@ -2,7 +2,8 @@
  * and is licensesed under the GNU General Public License version 3.
  * Copyright 2017 Christopher L Bonner
  *
- * Javascript functions for sorting routes.
+ * include/js/functions.js
+ * Javascript functions for Cragbook.
  */
 
 // global variables
@@ -40,7 +41,7 @@ function getRoutes(crag) {
     var url = "../include/route_json.php?cragid=" + crag;
     returnurl = '../crag_info.php?cragid=' + crag;
     
-    $.getJSON(url, function (data,status,xhr){
+    $.getJSON(url, function (data, status, xhr){
         routes = data;
         
         var i = 1;

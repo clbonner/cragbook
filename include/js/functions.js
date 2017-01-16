@@ -27,14 +27,12 @@ function showRoutes() {
     table += "</table>";
     
     // add the buttons
-    buttons = '<div class="w3-margin-top w3-margin-bottom">';
-    buttons += '<input class="w3-btn w3-round w3-green" type="button" onclick="updateRoutes()" value="Save">';
-    buttons += '<input class="w3-btn w3-round w3-red w3-margin-left" type="button" onclick="window.location.assign(\'' + returnurl + '\')" value="Cancel">';
-    buttons += '</div>';
-    table += buttons;
+    buttons = '<input class="w3-btn w3-round w3-green" style="margin-right:4px" type="button" onclick="updateRoutes()" value="Save">';
+    buttons += '<input class="w3-btn w3-round w3-red" type="button" onclick="window.location.assign(\'' + returnurl + '\')" value="Cancel">';
     
-    // display table
+    // display table and buttons
     $("#routes").html(table);
+    $("#buttons").html(buttons);
 }
 
 // gets routes from route_update.php as JSON and stores in routes
@@ -55,10 +53,11 @@ function getRoutes(crag) {
 }
 
 // send route order data back to database
-function updateRoutes(){
+function updateRoutes() {
     var url = "route_update.php";
     
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x w3-display-middle\"></i>");
+    $("#buttons").hide();
     
     $.getJSON(url, JSON.stringify(routes), function (data, status, xhr){
         console.log(returnurl);

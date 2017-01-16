@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 {
     $sql = "SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] .";";
-    if (!$result = $db-query($sql))
+    if (!$result = $db->query($sql))
         error("Error in admin/area.php: " .$db->error);
     elseif ($result->num_rows == 1)
         $area = $result->fetch_assoc();

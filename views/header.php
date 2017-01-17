@@ -6,9 +6,9 @@
     <title><?= $sitetitle ?></title>
     
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script src="<? SITEURL ?>/include/js/functions.js"></script>
+    <script src="<?= SITEURL ?>/include/js/functions.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
     
     <link rel="stylesheet" href="<?= SITEURL ?>/css/w3.css">

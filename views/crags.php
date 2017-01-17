@@ -1,3 +1,9 @@
+<script>
+    $( function() {
+        initMap();
+        getCrags(<?= $_GET["areaid"] ?>);
+    });
+</script>
 <div class="w3-container w3-small">
     <div class="w3-container w3-small w3-card-2 w3-border w3-margin-top">
         <?php if(isset($_SESSION["userid"])): ?>
@@ -23,6 +29,7 @@
                 <?php endforeach ?>
             <?php endif ?>
         </div>
+        <div id="map" class="w3-margin-bottom w3-card-2" style="height: 300px; width: 100%"></div>
     </div>
     <div class="w3-container w3-card-2 w3-margin-top">
         <h4>Routes</h4>

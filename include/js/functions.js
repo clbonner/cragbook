@@ -7,7 +7,10 @@
  */
 
 // global variables
-var routes, returnurl;
+var routes, crags, returnurl, map, markers = [];
+
+// info window for markers
+infowindow = new google.maps.InfoWindow;
 
 // gets routes from database by parsing JSON data
 function showRoutes() {
@@ -85,7 +88,7 @@ function routeDown(dom) {
 // moves a route up in the table
 function routeUp(dom) {
     var x, routeName = dom[1].firstChild.innerText;
-
+    
     for (x in routes) {
         if (routeName == routes[x].name && routes[x].orderid > 1){
             routes[x].orderid = --routes[x].orderid;
@@ -95,4 +98,56 @@ function routeUp(dom) {
     }
     
     showRoutes();
+}
+
+// get JSON data on crags
+function getCrags(areaid) {
+    var url = "include/crag_json.php?areaid=" + areaid;
+    var i, contentString;
+    
+    $.getJSON(url, function (data, status, xhr) {
+        crags = data;
+        
+        // set crag markers on map
+        for (i in crags) {
+            if (crags[i].location == "");
+                // skip
+            else {
+                var location = crags[i].location.split(",");
+                var latlng = new google.maps.LatLng(location[0], location[1]);
+                
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    title: crags[i].name
+                });
+                
+                // set info window content
+                contentString = '<div class="w3-container"><a href="crag_info.php?cragid=' + crags[i].cragid + '"><b><h6>' + crags[i].name + '</h6></b></a></div>';
+                contentString += '<div class="w3-container w3-small">' + crags[i].description + '</div>';
+                
+                marker.info = contentString;
+                
+                marker.addListener('click', function() {
+                    infowindow.setContent(this.info);
+                    infowindow.open(map, this);
+                });
+                
+                markers.push(marker);
+            }
+        }
+        
+        // don't show the map if no markers were placed
+        if (markers.length == 0)
+            $("#map").hide();
+    });
+}
+
+function initMap() {
+    var canvas = $("#map").get(0);
+    
+    map = new google.maps.Map(canvas, {
+        zoom: 10,
+        center: {lat: 51.237045, lng: -2.569498}
+    });
 }

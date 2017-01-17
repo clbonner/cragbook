@@ -1,4 +1,3 @@
-<script src="<?= SITEURL ?>/include/js/route_sort.js"></script>
 <script>
     $(function() {
         getRoutes(<?= $data["crag"]["cragid"] ?>);

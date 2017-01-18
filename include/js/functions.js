@@ -103,11 +103,24 @@ function routeUp(dom) {
 }
 
 // get JSON data on crags
-function getCrags(areaid) {
-    if (areaid == 'all')
+function getCrags(id) {
+    // get all crags
+    if (id == 'all')
         var url = "include/crag_json.php";
+    
+    // get crags in area
     else
-        var url = "include/crag_json.php?areaid=" + areaid;
+        var url = "include/crag_json.php?areaid=" + id;
+    
+    $.getJSON(url, function (data, status, xhr) {
+        crags = data;
+    });
+}
+
+// get JSON data on crags
+function getCrag(id) {
+    // get crags in area
+    var url = "include/crag_json.php?cragid=" + id;
     
     $.getJSON(url, function (data, status, xhr) {
         crags = data;
@@ -124,7 +137,7 @@ function getAreas() {
 }
 
 // show map on area page with drop pins for crags in the area
-function showMapCrags(location) {
+function viewCragMap(location) {
     var i, contentString;
     
     // set map options for all crags
@@ -132,6 +145,14 @@ function showMapCrags(location) {
         var latlng = new google.maps.LatLng(53.815474, -4.632684);
         var zoom = 5;
         var height = 500;
+    }
+    
+    // set map options for single crag
+    else if (location == 'crag') {
+        location = crags[0].location.split(",");
+        var latlng = new google.maps.LatLng(location[0], location[1]);
+        var zoom = 15;
+        var height = 300;
     }
     
     // set map options for area
@@ -267,5 +288,22 @@ function listViewAreas() {
     view += '</div>';
     
     // show list of crags
+    $('#view').html(view);
+}
+
+
+// display list of areas for climbing areas page
+function viewCragInfo() {
+    var i, view;
+    
+    // build crag info
+    view = '<div id="info" class="w3-margin-top w3-margin-bottom">';
+    view += '<h6>' + crags[0].description + '</h6>';
+    view += '<p><b>Access: </b>' + crags[0].access + '</p>';
+    view += '<p><b>Policy on fixed gear: </b>' + crags[0].policy + '</p>';
+    view += '<p><b>Approach: </b>' + crags[0].approach + '</p>';
+    view += '</div>';
+    
+    // show crag info
     $('#view').html(view);
 }

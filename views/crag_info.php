@@ -1,3 +1,9 @@
+<script>
+    getCrag(<?= $_GET["cragid"] ?>);
+    $(document).ajaxSuccess(function() {
+        viewCragInfo();
+    });
+</script>
 <div class="w3-container w3-small">
     <div class="w3-margin-top">
         <a style="text-decoration: none" href="<?= SITEURL ?>/crags.php?areaid=<?= $data["area"]["areaid"] ?>"><i class="fa fa-angle-left"></i> <?= $data["area"]["name"] ?> </a>
@@ -10,10 +16,11 @@
             </div>
         <?php endif ?>
         <h1><?= $data["crag"]["name"] ?></h1>
-        <h6><?= htmlspecialchars_decode($data["crag"]["description"]) ?></h6>
-        <p><b>Access: </b><?= $data["crag"]["access"] ?></p>
-        <p><b>Policy on fixed gear: </b><?= $data["crag"]["policy"] ?></p>
-        <p><b>Approach: </b><?= htmlspecialchars_decode($data["crag"]["approach"]) ?></p>
+        <div class="w3-btn-bar">
+            <i id="listview" class="fa fa-list w3-btn w3-round w3-white w3-hover-red" onclick="viewCragInfo()"></i>
+            <i id="mapview" class="fa fa-map-o w3-btn w3-round w3-white w3-hover-red" onclick="viewCragMap('crag')"></i>
+        </div>
+        <div id="view" class="w3-small w3-margin-bottom"></div>
     </div>
     <div class="w3-container w3-card-2 w3-margin-top">
         <?php if (isset($_SESSION["userid"])): ?>

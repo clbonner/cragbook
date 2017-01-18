@@ -14,12 +14,17 @@ $db = db_connect();
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET["areaid"])) {
         // get crags for area
-        $sql = "SELECT * FROM crags WHERE areaid=" .$_GET["areaid"] .";";
+        $sql = "SELECT * FROM crags WHERE areaid=" .$_GET["areaid"] ." ORDER BY name ASC;";
+        
+    }
+    elseif (isset($_GET["cragid"])) {
+        // get a single crag
+        $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"] .";";
         
     }
     else {
         // return all crags
-        $sql = "SELECT * FROM crags ORDER BY name;";
+        $sql = "SELECT * FROM crags ORDER BY name ASC;";
     }
     
     if (!$result = $db->query($sql)) {
@@ -28,10 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         exit;
     }
     
-    // put crags in to array
+    // put crag(s) in to array
     $crags = [];
     while ($crag = $result->fetch_assoc()) {
         $crag["description"] = htmlspecialchars_decode($crag["description"]);
+        $crag["approach"] = htmlspecialchars_decode($crag["approach"]);
         array_push($crags, $crag);
     }
     

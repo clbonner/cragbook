@@ -19,5 +19,7 @@ if (!$result = $db->query($sql))
 $home_text = $result->fetch_row();
 
 view("home.php", ["home_text" => $home_text[0] ]);
+
+$db->close();
     
 ?>

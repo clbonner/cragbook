@@ -7,7 +7,7 @@
  */
 
 // global variables
-var routes, crags, returnurl, map, markers = [];
+var routes, crags, areas, returnurl, map, markers = [];
 
 // info window for markers
 infowindow = new google.maps.InfoWindow;
@@ -57,6 +57,8 @@ function getRoutes(crag) {
     });
 }
 
+
+
 // send route order data back to database
 function updateRoutes() {
     var url = "../include/route_json.php";
@@ -103,51 +105,151 @@ function routeUp(dom) {
 // get JSON data on crags
 function getCrags(areaid) {
     var url = "include/crag_json.php?areaid=" + areaid;
-    var i, contentString;
     
     $.getJSON(url, function (data, status, xhr) {
         crags = data;
-        
-        // set crag markers on map
-        for (i in crags) {
-            if (crags[i].location == "");
-                // skip
-            else {
-                var location = crags[i].location.split(",");
-                var latlng = new google.maps.LatLng(location[0], location[1]);
-                
-                var marker = new google.maps.Marker({
-                    position: latlng,
-                    map: map,
-                    title: crags[i].name
-                });
-                
-                // set info window content
-                contentString = '<div class="w3-container"><a href="crag_info.php?cragid=' + crags[i].cragid + '"><b><h6>' + crags[i].name + '</h6></b></a></div>';
-                contentString += '<div class="w3-container w3-small">' + crags[i].description + '</div>';
-                
-                marker.info = contentString;
-                
-                marker.addListener('click', function() {
-                    infowindow.setContent(this.info);
-                    infowindow.open(map, this);
-                });
-                
-                markers.push(marker);
-            }
-        }
-        
-        // don't show the map if no markers were placed
-        if (markers.length == 0)
-            $("#map").hide();
     });
 }
 
-function initMap() {
+// get JSON data on areas
+function getAreas() {
+    var url = "include/area_json.php";
+    
+    $.getJSON(url, function (data, status, xhr) {
+        areas = data;
+    });
+}
+
+// show map on area page with drop pins for crags in the area
+function showMapCrags(location) {
+    var i, contentString;
+    
+    // location for area
+    location = location.split(",");
+    var latlng = new google.maps.LatLng(location[0], location[1]);
+    
+    // set and get map canvas
+    $('#view').html('<div id="map" class="w3-card-2 w3-margin-top" style="height: 300px; width: 100%"></div>');
     var canvas = $("#map").get(0);
     
+    // create map
     map = new google.maps.Map(canvas, {
         zoom: 10,
-        center: {lat: 51.237045, lng: -2.569498}
+        center: latlng,
+        scroll: false
     });
+    
+    for (i in crags) {
+        if (crags[i].location == "");
+            // skip
+        else {
+            // get crag location
+            var location = crags[i].location.split(",");
+            var latlng = new google.maps.LatLng(location[0], location[1]);
+            
+            // set marker
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: crags[i].name
+            });
+            
+            // set marker info window content
+            contentString = '<div class="w3-container"><a href="crag_info.php?cragid=' + crags[i].cragid + '"><b><h6>' + crags[i].name + '</h6></b></a></div>';
+            contentString += '<div class="w3-container w3-small">' + crags[i].description + '</div>';
+            
+            marker.info = contentString;
+            
+            // add event listener for pin click
+            marker.addListener('click', function() {
+                infowindow.setContent(this.info);
+                infowindow.open(map, this);
+            });
+            
+            markers.push(marker);
+        }
+    }
+}
+
+// shows map for areas in the climbing areas page
+function showMapAreas() {
+    var i, contentString;
+    
+    // set and get map canvas
+    $('#view').html('<div id="map" class="w3-card-2 w3-margin-top" style="height: 500px; width: 100%"></div>');
+    var canvas = $("#map").get(0);
+    
+    // create map
+    map = new google.maps.Map(canvas, {
+        zoom: 5,
+        center: {lat: 53.815474, lng: -4.632684}, // somewhere in the Irish Sea
+        scroll: false
+    });
+    
+    for (i in areas) {
+        if (areas[i].location == "");
+            // skip
+        else {
+            // get area location
+            var location = areas[i].location.split(",");
+            var latlng = new google.maps.LatLng(location[0], location[1]);
+            
+            // set marker
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: areas[i].name
+            });
+            
+            // set marker info window content
+            contentString = '<div class="w3-container"><a href="crags.php?areaid=' + areas[i].areaid + '"><b><h6>' + areas[i].name + '</h6></b></a></div>';
+            contentString += '<div class="w3-container w3-small">' + areas[i].description + '</div>';
+            
+            marker.info = contentString;
+            
+            // add event listener for pin click
+            marker.addListener('click', function() {
+                infowindow.setContent(this.info);
+                infowindow.open(map, this);
+            });
+            
+            markers.push(marker);
+        }
+    }
+}
+
+// display list of crags for area page
+function listViewCrags() {
+    var i, view;
+    
+    // build list of crags
+    view = '<div id="list" class="w3-margin-top w3-margin-bottom">';
+    
+    for (i in crags) {
+        view += '<a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="crag_info.php?cragid=' + crags[i].cragid + '">';
+        view += crags[i].name + '</a>';
+    }
+    
+    view += '</div>';
+    
+    // show list of crags
+    $('#view').html(view);
+}
+
+// display list of areas for climbing areas page
+function listViewAreas() {
+    var i, view;
+    
+    // build list of crags
+    view = '<div id="list" class="w3-margin-top w3-margin-bottom">';
+    
+    for (i in areas) {
+        view += '<a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="crags.php?areaid=' + areas[i].areaid + '">';
+        view += areas[i].name + '</a>';
+    }
+    
+    view += '</div>';
+    
+    // show list of crags
+    $('#view').html(view);
 }

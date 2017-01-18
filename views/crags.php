@@ -1,7 +1,7 @@
 <script>
     getCrags(<?= $_GET["areaid"] ?>);
     $(document).ajaxSuccess(function() {
-        listViewCrags();
+        viewCragList();
     });
 </script>
 <div class="w3-container w3-small">
@@ -23,8 +23,8 @@
         <?php endif ?>
         <h4>Crags</h4>
         <div class="w3-btn-bar">
-            <i id="listview" class="fa fa-list w3-btn w3-round w3-white w3-hover-red" onclick="listViewCrags()"></i>
-            <i id="mapview" class="fa fa-map-o w3-btn w3-round w3-white w3-hover-red" onclick="showMapCrags('<?= $data["area"]["location"] ?>')"></i>
+            <i id="listview" class="fa fa-list w3-btn w3-round w3-white w3-hover-red" onclick="viewCragList()"></i>
+            <i id="mapview" class="fa fa-map-o w3-btn w3-round w3-white w3-hover-red" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></i>
         </div>
         <div id="view" class="w3-small w3-margin-bottom"></div>
     </div>

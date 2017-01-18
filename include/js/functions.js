@@ -208,7 +208,7 @@ function viewCragMap(location) {
 }
 
 // shows map for areas in the climbing areas page
-function showMapAreas() {
+function viewAreaMap() {
     var i, contentString;
     
     // set and get map canvas
@@ -256,7 +256,7 @@ function showMapAreas() {
 }
 
 // display list of crags for area page
-function listViewCrags() {
+function viewCragList() {
     var i, view;
     
     // build list of crags
@@ -274,7 +274,7 @@ function listViewCrags() {
 }
 
 // display list of areas for climbing areas page
-function listViewAreas() {
+function viewAreaList() {
     var i, view;
     
     // build list of crags

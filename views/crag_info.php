@@ -17,7 +17,7 @@
         <?php endif ?>
         <h1><?= $data["crag"]["name"] ?></h1>
         <div class="w3-btn-bar">
-            <i id="listview" class="fa fa-list w3-btn w3-round w3-white w3-hover-red" onclick="viewCragInfo()"></i>
+            <i id="listview" class="fa fa-info w3-btn w3-round w3-white w3-hover-red" onclick="viewCragInfo()"></i>
             <i id="mapview" class="fa fa-map-o w3-btn w3-round w3-white w3-hover-red" onclick="viewCragMap('crag')"></i>
         </div>
         <div id="view" class="w3-small w3-margin-bottom"></div>

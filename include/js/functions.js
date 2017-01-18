@@ -104,7 +104,7 @@ function routeUp(dom) {
 
 // get JSON data on crags
 function getCrags(areaid) {
-    if (areaid = 'all')
+    if (areaid == 'all')
         var url = "include/crag_json.php";
     else
         var url = "include/crag_json.php?areaid=" + areaid;
@@ -127,13 +127,15 @@ function getAreas() {
 function showMapCrags(location) {
     var i, contentString;
     
+    // set map options for all crags
     if (location == 'all') {
         var latlng = new google.maps.LatLng(53.815474, -4.632684);
         var zoom = 5;
         var height = 500;
     }
+    
+    // set map options for area
     else {
-        // location for area
         location = location.split(",");
         var latlng = new google.maps.LatLng(location[0], location[1]);
         var zoom = 10
@@ -151,6 +153,7 @@ function showMapCrags(location) {
         scroll: false
     });
     
+    // add markers
     for (i in crags) {
         if (crags[i].location == "");
             // skip
@@ -198,6 +201,7 @@ function showMapAreas() {
         scroll: false
     });
     
+    // add markers
     for (i in areas) {
         if (areas[i].location == "");
             // skip

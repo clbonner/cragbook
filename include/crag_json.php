@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
     else {
         // return all crags
-        $sql = "SELECT * FROM crags;";
+        $sql = "SELECT * FROM crags ORDER BY name;";
     }
     
     if (!$result = $db->query($sql)) {

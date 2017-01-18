@@ -104,7 +104,10 @@ function routeUp(dom) {
 
 // get JSON data on crags
 function getCrags(areaid) {
-    var url = "include/crag_json.php?areaid=" + areaid;
+    if (areaid = 'all')
+        var url = "include/crag_json.php";
+    else
+        var url = "include/crag_json.php?areaid=" + areaid;
     
     $.getJSON(url, function (data, status, xhr) {
         crags = data;
@@ -124,17 +127,26 @@ function getAreas() {
 function showMapCrags(location) {
     var i, contentString;
     
-    // location for area
-    location = location.split(",");
-    var latlng = new google.maps.LatLng(location[0], location[1]);
+    if (location == 'all') {
+        var latlng = new google.maps.LatLng(53.815474, -4.632684);
+        var zoom = 5;
+        var height = 500;
+    }
+    else {
+        // location for area
+        location = location.split(",");
+        var latlng = new google.maps.LatLng(location[0], location[1]);
+        var zoom = 10
+        var height = 300;
+    }
     
     // set and get map canvas
-    $('#view').html('<div id="map" class="w3-card-2 w3-margin-top" style="height: 300px; width: 100%"></div>');
+    $('#view').html('<div id="map" class="w3-card-2 w3-margin-top" style="height: ' + height + 'px; width: 100%"></div>');
     var canvas = $("#map").get(0);
     
     // create map
     map = new google.maps.Map(canvas, {
-        zoom: 10,
+        zoom: zoom,
         center: latlng,
         scroll: false
     });

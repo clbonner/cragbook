@@ -7,7 +7,7 @@
  */
 
 // global variables
-var routes, crags, areas, returnurl, map, marker, markers = [];
+var routes, crags, areas, returnurl, map, marker;
 var defaultCenter = {lat: 53.815474, lng: -4.632684};
 
 // info window for markers
@@ -203,8 +203,6 @@ function viewCragMap(location) {
                 infowindow.setContent(this.info);
                 infowindow.open(map, this);
             });
-            
-            markers.push(marker);
         }
     }
 }
@@ -252,8 +250,6 @@ function viewAreaMap() {
                 infowindow.setContent(this.info);
                 infowindow.open(map, this);
             });
-            
-            markers.push(marker);
         }
     }
 }

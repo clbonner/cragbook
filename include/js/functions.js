@@ -171,7 +171,8 @@ function viewCragMap(location) {
     map = new google.maps.Map(canvas, {
         zoom: zoom,
         center: latlng,
-        scroll: false
+        scrollwheel: false,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
     });
     
     // add markers
@@ -219,7 +220,8 @@ function viewAreaMap() {
     map = new google.maps.Map(canvas, {
         zoom: 5,
         center: {lat: 53.815474, lng: -4.632684}, // somewhere in the Irish Sea
-        scroll: false
+        scrollwheel: false,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
     });
     
     // add markers
@@ -253,6 +255,67 @@ function viewAreaMap() {
             markers.push(marker);
         }
     }
+}
+
+// map for setting area location on area form
+function setAreaMap() {
+    
+    // get map canvas
+    var canvas = $("#map").get(0);
+    
+    // create map
+    map = new google.maps.Map(canvas, {
+        zoom: 5,
+        center: {lat: 53.815474, lng: -4.632684}, // somewhere in the Irish Sea
+        scrollwheel: false,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    });
+    
+    // get center location on map when moved
+    map.addListener('center_changed', function() {
+        var center = map.getCenter();
+        $("#latlng").val(center.lat() + ',' + center.lng());
+    })
+}
+
+// map for setting crag location on crag form
+function setCragMap() {
+    
+    // get map canvas
+    var canvas = $("#map").get(0);
+    
+    // create map
+    map = new google.maps.Map(canvas, {
+        zoom: 5,
+        center: {lat: 53.815474, lng: -4.632684}, // somewhere in the Irish Sea
+        scrollwheel: false,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    });
+    
+    // right click to drop a pin
+    map.addListener('rightclick', function(location) {
+        
+        // remove any markers from map
+        for (i in markers) {
+              markers[i].setMap(null);
+              markers[i].length = 0;
+        }
+        
+        // add new marker
+        var marker = new google.maps.Marker({
+            position: location.latLng,
+            map: map
+        });
+        
+        // center map on marker
+        map.panTo(location.latLng);
+        
+        // remember marker
+        markers[0] = marker;
+        
+        // set lat and lng values for location
+        $("#latlng").val(location.latLng.lat() + ',' + location.latLng.lng());
+    });
 }
 
 // display list of crags for area page

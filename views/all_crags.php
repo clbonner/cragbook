@@ -1,8 +1,10 @@
 <script>
+$(document).ready( function () {
     getCrags('all');
     $(document).ajaxSuccess(function() {
         viewCragList();
     });
+});
 </script>
 <div class="w3-container w3-card-2 w3-margin">
     <h4>All Crags</h4>

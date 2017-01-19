@@ -1,8 +1,10 @@
 <script>
+$(document).ready( function () {
     getCrags(<?= $_GET["areaid"] ?>);
     $(document).ajaxSuccess(function() {
         viewCragList();
     });
+});
 </script>
 <div class="w3-container w3-small">
     <div class="w3-container w3-small w3-card-2 w3-border w3-margin-top">

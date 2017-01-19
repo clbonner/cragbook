@@ -1,8 +1,10 @@
 <script>
+$(document).ready( function () {
     getCrag(<?= $_GET["cragid"] ?>);
     $(document).ajaxSuccess(function() {
         viewCragInfo();
     });
+});
 </script>
 <div class="w3-container w3-small">
     <div class="w3-margin-top">

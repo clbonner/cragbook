@@ -1,8 +1,10 @@
 <script>
+$(document).ready( function () {
     getAreas();
     $(document).ajaxSuccess(function() {
         viewAreaList();
     });
+});
 </script>
 <div class="w3-container w3-small w3-card-2 w3-white w3-margin">
     <?php if(isset($_SESSION["userid"])): ?>

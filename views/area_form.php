@@ -1,6 +1,6 @@
 <script>
     $(document).ready( function () {
-        setAreaMap();
+        setAreaMap('<?= $data["area"]["location"] ?>');
     });
 </script>
 <form class="w3-container w3-small" action="<?= SITEURL ?>/admin/area.php" method="post">

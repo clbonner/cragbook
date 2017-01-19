@@ -1,6 +1,6 @@
 <script>
 $(document).ready( function () {
-    setCragMap();
+    setCragMap('<?= $data["crag"]["location"] ?>');
 });
 </script>
 <form class="w3-container w3-small" action="<?= SITEURL ?>/admin/crag.php" method="post">

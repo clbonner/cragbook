@@ -7,7 +7,8 @@
  */
 
 // global variables
-var routes, crags, areas, returnurl, map, markers = [];
+var routes, crags, areas, returnurl, map, marker, markers = [];
+var defaultCenter = {lat: 53.815474, lng: -4.632684};
 
 // info window for markers
 infowindow = new google.maps.InfoWindow;
@@ -142,7 +143,7 @@ function viewCragMap(location) {
     
     // set map options for all crags
     if (location == 'all') {
-        var latlng = new google.maps.LatLng(53.815474, -4.632684);
+        var latlng = new google.maps.LatLng(defaultCenter);
         var zoom = 5;
         var height = 500;
     }
@@ -219,7 +220,7 @@ function viewAreaMap() {
     // create map
     map = new google.maps.Map(canvas, {
         zoom: 5,
-        center: {lat: 53.815474, lng: -4.632684}, // somewhere in the Irish Sea
+        center: defaultCenter,
         scrollwheel: false,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     });
@@ -258,15 +259,26 @@ function viewAreaMap() {
 }
 
 // map for setting area location on area form
-function setAreaMap() {
+function setAreaMap(location) {
+    
+    // set current location if editing area
+    if (location == "") {
+        var center = defaultCenter;
+        var zoom = 5;
+    }
+    else {
+        location = location.split(",");
+        var center = new google.maps.LatLng(location[0], location[1]);
+        var zoom = 10;
+    }
     
     // get map canvas
     var canvas = $("#map").get(0);
     
     // create map
     map = new google.maps.Map(canvas, {
-        zoom: 5,
-        center: {lat: 53.815474, lng: -4.632684}, // somewhere in the Irish Sea
+        zoom: zoom,
+        center: center,
         scrollwheel: false,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     });
@@ -279,39 +291,52 @@ function setAreaMap() {
 }
 
 // map for setting crag location on crag form
-function setCragMap() {
+function setCragMap(location) {
+    
+    // set crag location if editing crag
+    if (location == "") {
+        var center = defaultCenter;
+        var zoom = 5;
+    }
+    else {
+        location = location.split(",");
+        var center = new google.maps.LatLng(location[0], location[1]);
+        var zoom = 12;
+    }
     
     // get map canvas
     var canvas = $("#map").get(0);
     
     // create map
     map = new google.maps.Map(canvas, {
-        zoom: 5,
-        center: {lat: 53.815474, lng: -4.632684}, // somewhere in the Irish Sea
+        zoom: zoom,
+        center: center,
         scrollwheel: false,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     });
     
+    // set current location of marker if editing
+    if (location != "") {
+        marker = new google.maps.Marker({
+            position: center,
+            map: map
+        });
+    }
+    
     // right click to drop a pin
     map.addListener('rightclick', function(location) {
         
-        // remove any markers from map
-        for (i in markers) {
-              markers[i].setMap(null);
-              markers[i].length = 0;
-        }
+        // remove current marker from map
+        marker.setMap(null);
         
         // add new marker
-        var marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: location.latLng,
             map: map
         });
         
         // center map on marker
         map.panTo(location.latLng);
-        
-        // remember marker
-        markers[0] = marker;
         
         // set lat and lng values for location
         $("#latlng").val(location.latLng.lat() + ',' + location.latLng.lng());

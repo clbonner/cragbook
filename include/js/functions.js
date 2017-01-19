@@ -323,11 +323,16 @@ function setCragMap(location) {
         });
     }
     
+    // set marker to null if new crag
+    else
+        marker = null;
+        
     // right click to drop a pin
     map.addListener('rightclick', function(location) {
         
         // remove current marker from map
-        marker.setMap(null);
+        if (marker != null)
+            marker.setMap(null);
         
         // add new marker
         marker = new google.maps.Marker({

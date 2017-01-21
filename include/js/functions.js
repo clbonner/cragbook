@@ -8,10 +8,10 @@
 
 // global variables
 var routes, crags, areas, returnurl, map, marker;
-var defaultCenter = {lat: 53.815474, lng: -4.632684};
+const defaultCenter = {lat: 53.815474, lng: -4.632684};
 
 // info window for markers
-infowindow = new google.maps.InfoWindow;
+var infowindow = new google.maps.InfoWindow();
 
 // gets routes from database by parsing JSON data
 function showRoutes() {
@@ -57,8 +57,6 @@ function getRoutes(crag) {
         showRoutes();
     });
 }
-
-
 
 // send route order data back to database
 function updateRoutes() {
@@ -160,7 +158,7 @@ function viewCragMap(location) {
     else {
         location = location.split(",");
         var latlng = new google.maps.LatLng(location[0], location[1]);
-        var zoom = 10
+        var zoom = 10;
         var height = 300;
     }
     
@@ -178,7 +176,7 @@ function viewCragMap(location) {
     
     // add markers
     for (i in crags) {
-        if (crags[i].location == "");
+        if (crags[i].location === "");
             // skip
         else {
             // get crag location
@@ -225,7 +223,7 @@ function viewAreaMap() {
     
     // add markers
     for (i in areas) {
-        if (areas[i].location == "");
+        if (areas[i].location === "");
             // skip
         else {
             // get area location
@@ -258,7 +256,7 @@ function viewAreaMap() {
 function setAreaMap(location) {
     
     // set current location if editing area
-    if (location == "") {
+    if (location === "") {
         var center = defaultCenter;
         var zoom = 5;
     }
@@ -283,14 +281,14 @@ function setAreaMap(location) {
     map.addListener('center_changed', function() {
         var center = map.getCenter();
         $("#latlng").val(center.lat() + ',' + center.lng());
-    })
+    });
 }
 
 // map for setting crag location on crag form
 function setCragMap(location) {
     
     // set crag location if editing crag
-    if (location == "") {
+    if (location === "") {
         var center = defaultCenter;
         var zoom = 5;
     }
@@ -312,7 +310,7 @@ function setCragMap(location) {
     });
     
     // set current location of marker if editing
-    if (location != "") {
+    if (location !== "") {
         marker = new google.maps.Marker({
             position: center,
             map: map
@@ -327,7 +325,7 @@ function setCragMap(location) {
     map.addListener('rightclick', function(location) {
         
         // remove current marker from map
-        if (marker != null)
+        if (marker !== null)
             marker.setMap(null);
         
         // add new marker
@@ -380,10 +378,9 @@ function viewAreaList() {
     $('#view').html(view);
 }
 
-
 // display list of areas for climbing areas page
 function viewCragInfo() {
-    var i, view;
+    var view;
     
     // build crag info
     view = '<div id="info" class="w3-margin-top w3-margin-bottom">';

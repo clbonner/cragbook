@@ -15,7 +15,39 @@ $db = db_connect();
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // send JSON data for routes at crag
     if (isset($_GET["cragid"])) {
-        $sql = "SELECT * FROM routes WHERE cragid=" .$_GET["cragid"] ." ORDER by orderid ASC;";
+        
+        // check for a filter
+        if (isset($_GET["filter"])) {
+            if ($_GET["filter"] == "british") {
+                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
+                $sql .= $BritishAdjFilter . $OrderByGrade . $BritishAdj . $ElseAsc;
+            }
+            elseif ($_GET["filter"] == "french") {
+                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
+                $sql .= $frenchGradeFilter . $OrderByGrade . $frenchGrade . $ElseAsc;
+            }
+            elseif ($_GET["filter"] == "font") {
+                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
+                $sql .= $fontGradeFilter . $OrderByGrade . $fontGrade . $ElseAsc;
+            }
+            elseif ($_GET["filter"] == "yds") {
+                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
+                $sql .= $ydsGradeFilter . $OrderByGrade . $ydsGrade . $ElseAsc;
+            }
+            elseif ($_GET["filter"] == "uiaa") {
+                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
+                $sql .= $uiaaGradeFilter . $OrderByGrade . $uiaaGrade . $ElseAsc;
+            }
+            elseif ($_GET["filter"] == "vgrade") {
+                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
+                $sql .= $vGradeFilter . $OrderByGrade . $vGrade . $ElseAsc;
+            }
+        }
+        
+        // default order
+        else
+            $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";
+        
         if (!$result = $db->query($sql)) {
             $error = $db->error ."\n";
             echo $error;
@@ -30,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // send routes as JSON
         echo json_encode($routes);
     }
+    
     
     // update route order for crag
     else {

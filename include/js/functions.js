@@ -48,8 +48,8 @@ function getRoutes(crag) {
     $.getJSON(url, function (data, status, xhr){
         routes = data;
         
-        var i = 1;
         // assign orderid to each route
+        var i = 1;
         for (var x in routes) {
             routes[x].orderid = i++;
         }

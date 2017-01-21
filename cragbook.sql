@@ -20,7 +20,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `areas` (
   `areaid` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL
+  `description` text COLLATE utf8_bin NOT NULL,
+  `location` varchar(50) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -38,7 +39,7 @@ CREATE TABLE `crags` (
   `approach` text COLLATE utf8_bin NOT NULL,
   `access` text COLLATE utf8_bin NOT NULL,
   `policy` text COLLATE utf8_bin NOT NULL,
-  `location` varchar(255) COLLATE utf8_bin NOT NULL
+  `location` varchar(50) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------

@@ -9,6 +9,11 @@
  */
 
 require_once("../include/config.php");
+
+// check user is logged in before we start
+if (!isset($_SESSION["userid"]))
+    exit;
+
 $db = db_connect();
 
 // show add area form

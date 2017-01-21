@@ -10,6 +10,11 @@
  */
 
 require_once("../include/config.php");
+
+// check user is logged in before we start
+if (!isset($_SESSION["userid"]))
+    exit;
+
 $db = db_connect();
 
 // get details and show route sorting page

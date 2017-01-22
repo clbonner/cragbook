@@ -1,6 +1,6 @@
 <script>
     $(function() {
-        getRoutes(<?= $data["crag"]["cragid"] ?>);
+        sortRoutes(<?= $data["crag"]["cragid"] ?>);
     });
 </script>
 <div class="w3-container w3-small w3-margin-top">

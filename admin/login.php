@@ -48,10 +48,10 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     else
         error("Incorrect username or password.");
         
+    $db->close();
+    
     // show home page
     require(SITEROOT ."index.php");
-    
-    $db->close();
 }
 
 ?>

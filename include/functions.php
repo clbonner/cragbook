@@ -233,7 +233,7 @@ function db_connect()
         return $db;
 }
 
-// Performs security checks on variable for storing in the database
+// Performs security checks on data that will be outputted as html
 function sec_check($data)
 {
     $data = trim($data);

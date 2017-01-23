@@ -24,6 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
     
     view("home_form.php", ["site" => $site]);
+    
+    $db->close();
 }
 
 // update home page text
@@ -37,6 +39,4 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     require(SITEROOT ."index.php");
 }
 
-$db->close();
-    
 ?>

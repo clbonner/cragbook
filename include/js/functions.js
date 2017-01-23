@@ -25,8 +25,8 @@ function showRoutes() {
     table += '<tr class="w3-blue"><th>Name</th><th>Order</th><th>Grade</th><th>Sector</th></tr>';
     for (x in routes) {
         table += '<tr><td id=\"route\">' + routes[x].name + '</td>';
-        table += '<td><i id=' + routes[x].routeid + ' class=\"fa fa-arrow-down w3-btn w3-round w3-red w3-hover-red w3-small w3-margin-right\" onclick=\"routeDown($(this).parents())\"></i>';
-        table += '<i id=' + routes[x].routeid + ' class=\"fa fa-arrow-up w3-btn w3-round w3-red w3-hover-red w3-small\" onclick=\"routeUp($(this).parents())\"></i></td>';
+        table += '<td><i id=' + routes[x].routeid + ' class=\"fa fa-arrow-up w3-btn w3-round w3-red w3-hover-red w3-small w3-margin-right\" onclick=\"routeUp($(this).parents())\"></i>';
+        table += '<i id=' + routes[x].routeid + ' class=\"fa fa-arrow-down w3-btn w3-round w3-red w3-hover-red w3-small \" onclick=\"routeDown($(this).parents())\"></i></td>';
         table += '<td>' + routes[x].grade + '</td><td>' + routes[x].sector + '</td></tr>';
     }
     table += "</table>";

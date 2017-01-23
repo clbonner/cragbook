@@ -9,15 +9,21 @@
  */
 
 require_once("../include/config.php");
+
+// check user is logged in before we start
+if (!isset($_SESSION["userid"]))
+    exit;
+
 $db = db_connect();
 
 // show preferences form
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
     $sql = "SELECT * FROM users WHERE userid=" .$_SESSION["userid"];
-    $result = $db->query($sql);
-    
-    $user = $result->fetch_assoc();
+    if (!$result = $db->query($sql))
+        error("Error in admin/prefs.php: " .$db->error);
+    else
+        $user = $result->fetch_assoc();
     
     view("prefs.php", ["user" => $user]);
 }
@@ -30,9 +36,10 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     
     // get user details
     $sql = "SELECT * FROM users WHERE userid=" .$_SESSION["userid"];
-    $result = $db->query($sql);
-    
-    $user = $result->fetch_assoc();
+    if (!$result = $db->query($sql))
+        error("Error in admin/prefs.php: " .$db->error);
+    else
+        $user = $result->fetch_assoc();
     
     // security checks
     $username = sec_check($_POST["username"]);
@@ -46,12 +53,11 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
         view("info.php", ["message" => "You must provide a username.", "button" => $button, "returnurl" => $returnurl]);
         exit;
     }
-    if (empty($displayname)) {
+    elseif (empty($displayname)) {
         view("info.php", ["message" => "You must provide a display name.", "button" => $button, "returnurl" => $returnurl]);
         exit;
     }
-    
-    if (!empty($oldpass)) {
+    elseif (!empty($oldpass)) {
         // check new password isn't blank
         if (empty($newpass)) {
             view("info.php", ["message" => "Your password cannot be blank.", "button" => $button, "returnurl" => $returnurl]);
@@ -64,7 +70,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
                 // update password in database
                 $sql = "UPDATE users SET password=\"" .password_hash($newpass, PASSWORD_DEFAULT) ."\" WHERE userid=" .$_SESSION["userid"] .";";
                 if (!$db->query($sql))
-                    error("Error updating password.");
+                    error("Error updating password: " .$db->error);
             }
             else {
                 view("info.php",["message" => "New passwords do not match!", "button" => $button, "returnurl" => $returnurl]);
@@ -80,7 +86,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     // update username/displayname
     $sql = "UPDATE users SET username=\"" .$username ."\", displayname=\"" .$displayname ."\" WHERE userid=" .$_SESSION["userid"] .";";
     if (!$db->query($sql))
-        error("Error updating user details.");
+        error("Error updating user details:" .$db->error);
         
     info("Preferences updated.");
 }

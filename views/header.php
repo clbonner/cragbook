@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $sitetitle ?></title>
-    <script src="<?= SITEURL ?>/include/js/jquery-3.1.1.min.js"></script>
-    <script src="<?= SITEURL ?>/include/js/functions.js"></script>
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'textarea' });</script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
+    <title><?= $sitetitle ?></title>
+    
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script src="<?= SITEURL ?>/include/js/functions.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+    
     <link rel="stylesheet" href="<?= SITEURL ?>/css/w3.css">
     <link rel="stylesheet" href="<?= SITEURL ?>/css/font-awesome/css/font-awesome.min.css">
 </head>

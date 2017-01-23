@@ -1,3 +1,11 @@
+<script>
+$(document).ready( function () {
+    getCrags(<?= $_GET["areaid"] ?>);
+    $(document).ajaxSuccess(function() {
+        viewCragList();
+    });
+});
+</script>
 <div class="w3-container w3-small">
     <div class="w3-container w3-small w3-card-2 w3-border w3-margin-top">
         <?php if(isset($_SESSION["userid"])): ?>
@@ -16,13 +24,11 @@
             </div>
         <?php endif ?>
         <h4>Crags</h4>
-        <div class="w3-small w3-margin-bottom">
-            <?php if($data["crags"] != 0): ?>
-                <?php foreach($data["crags"] as $crag): ?>
-                        <a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="<?= SITEURL ?>/crag_info.php?cragid=<?= $crag["cragid"] ?>"><?= $crag["name"] ?></a>
-                <?php endforeach ?>
-            <?php endif ?>
+        <div class="w3-btn-bar">
+            <i id="listview" class="fa fa-list w3-btn w3-round w3-white w3-hover-red" onclick="viewCragList()"></i>
+            <i id="mapview" class="fa fa-map-o w3-btn w3-round w3-white w3-hover-red" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></i>
         </div>
+        <div id="view" class="w3-small w3-margin-bottom"></div>
     </div>
     <div class="w3-container w3-card-2 w3-margin-top">
         <h4>Routes</h4>

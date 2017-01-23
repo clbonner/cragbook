@@ -22,7 +22,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     if (empty($_POST["username"])) {
         error("You must provide your username.");
     }
-    else if (empty($_POST["password"])) {
+    elseif (empty($_POST["password"])) {
         error("You must provide your password.");
     }
     
@@ -33,14 +33,12 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     
     // get user details
     $sql = "SELECT * FROM users WHERE username = \"" .$username ."\";";
-    $result = $db->query($sql);
-    
-    if ($result->num_rows == 1) {
+    if (!$result = $db->query($sql))
+        error("Incorrect username or password.");
+    elseif ($result->num_rows == 1) {
         $user = [];
         $user = $result->fetch_assoc();
     }
-    else 
-        error("Incorrect username or password.");
     
     // check the password supplied matches the hash in the database
     if (password_verify($password, $user["password"])) {
@@ -50,10 +48,10 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     else
         error("Incorrect username or password.");
         
+    $db->close();
+    
     // show home page
     require(SITEROOT ."index.php");
-    
-    $db->close();
 }
 
 ?>

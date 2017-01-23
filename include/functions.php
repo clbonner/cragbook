@@ -187,7 +187,7 @@ $vGrade .= "WHEN grade LIKE \"V14\" THEN 518 ";
 $vGrade .= "WHEN grade LIKE \"V15\" THEN 519 ";
 
 // V-grade grade filter
-$vGradeFilter = "AND grade REGEXP \"^V[0-9]*\" ";
+$vGradeFilter = "AND grade REGEXP \"^V[0-9]+\" ";
 
 
 // outputs a page to the browser with header and footer
@@ -233,7 +233,7 @@ function db_connect()
         return $db;
 }
 
-// Performs security checks on variable for storing in the database
+// Performs security checks on data that will be outputted as html
 function sec_check($data)
 {
     $data = trim($data);

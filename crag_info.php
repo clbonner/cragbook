@@ -23,7 +23,10 @@ else
     $db = db_connect();
     
     $sql = "SELECT * FROM crags WHERE cragid = ". $_GET["cragid"] .";";
-    $result = $db->query($sql);
+    
+    if (!$result = $db->query($sql))
+        error("Error in crag_info.php: " .$db->error);
+    
     $crag = $result->fetch_assoc();
         
     // get routes according to filter (default orderid)
@@ -55,28 +58,27 @@ else
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";
     }
     
-    $routelist = $db->query($sql);
+    // get routes
+    if (!$result = $db->query($sql))
+        error("Error in crag_info.php: " .$db->error);
+    elseif ($result->num_rows > 0) {
+        $routes = [];
+        while($row = $result->fetch_assoc())
+            array_push($routes, $row);
+    }
+    else
+        $routes = 0;
     
     // get area info
     $sql = "SELECT * FROM areas WHERE areaid = ". $crag["areaid"] .";";
+    
     if (!$result = $db->query($sql))
-        error("Could not get area details. query = " .$sql);
+        error("Error in crag_info.php: " .$db->error);
     else
         $area = $result->fetch_assoc();
 
-    // show routes
-    if ($routelist->num_rows > 0) {
-        $routes = [];
-        while($row = $routelist->fetch_assoc())
-            array_push($routes, $row);
-        
-        view("crag_info.php", ["crag" => $crag, "routes" => $routes, "area" => $area]);
-    }
-    
-    // if no routes were found
-    else {
-        view("crag_info.php", ["crag" => $crag, "routes" => 0, "area" => $area]);
-    }
+    // show crag page
+    view("crag_info.php", ["crag" => $crag, "routes" => $routes, "area" => $area]);
     
     $db->close();
 }

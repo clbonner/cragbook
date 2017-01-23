@@ -9,15 +9,22 @@
  */
 
 require_once("../include/config.php");
+
+// check user is logged in before we start
+if (!isset($_SESSION["userid"]))
+    exit;
+
 $db = db_connect();
 
 // edit home page text
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $sql = "SELECT * FROM site;";
-    $result = $db->query($sql);
-    
-    while ($row = $result->fetch_assoc())
-        $site[$row["setting"]] = $row["value"];
+    if (!$result = $db->query($sql))
+        error("Error in admin/home.php: " .$db->error);
+    else {
+        while ($row = $result->fetch_assoc())
+            $site[$row["setting"]] = $row["value"];
+    }
     
     view("home_form.php", ["site" => $site]);
 }
@@ -26,7 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $text = sec_check($_POST["text"]);
     
-    $result = $db->query("UPDATE site SET value = \"" .$text ."\" WHERE setting = \"home_text\";" );
+    $sql = "UPDATE site SET value = \"" .$text ."\" WHERE setting = \"home_text\";";
+    if (!$result = $db->query($sql))
+        error("Error in home.php: " .$db->error);
     
     require(SITEROOT ."index.php");
 }

@@ -9,13 +9,17 @@
  */
 
 require_once("../include/config.php");
+
+// check user is logged in before we start
+if (!isset($_SESSION["userid"]))
+    exit;
+
 $db = db_connect();
 
 // show add area form
 if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
 {
     set_data("add", NULL);
-    
     $button = "Add";
     $returnurl = SITEURL ."/areas.php";
     
@@ -25,11 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
 // show edit area form
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 {
-    $result = $db->query("SELECT * FROM areas WHERE areaid=" .$_GET["areaid"]);
-    if ($result->num_rows == 1)
+    $sql = "SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] .";";
+    if (!$result = $db->query($sql))
+        error("Error in admin/area.php: " .$db->error);
+    elseif ($result->num_rows == 1)
         $area = $result->fetch_assoc();
-    else
-        error("Area details could not be found. :( <p>areaid = " .$_GET["areaid"] ."</p><p> query = " .$sql ."</p>");
     
     set_data("edit", $_GET["areaid"]);
     
@@ -42,11 +46,11 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 // show delete confirmation
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
 {
-    $result = $db->query("SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] .";");
-    if ($result->num_rows == 1)
+    $sql = "SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] .";";
+    if (!$result = $db->query($sql))
+        error("Error in admin/area.php: " .$db->error);
+    elseif ($result->num_rows == 1)
         $area = $result->fetch_assoc();
-    else
-        error("Cannot find area.");
     
     set_data("delete", $_GET["areaid"]);
     
@@ -63,31 +67,35 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
     // get area and crag details
     $sql = "SELECT * FROM areas WHERE areaid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
-        error("Area not found when getting area details. cragid = " .$_SESSION["id"] ." query = " .$sql);
-
-    $area = $result->fetch_assoc();
+        error("Error in admin/area.php: " .$db->error);
+    else
+        $area = $result->fetch_assoc();
     
-    $crags = [];
+    
     $sql = "SELECT * FROM crags WHERE areaid=" .$area["areaid"];
-    if ($result = $db->query($sql)) {
+    if (!$result = $db->query($sql)) 
+        error("Error in admin/area.php: " .$db->error);
+    else {
+        $crags = [];
         while($row = $result->fetch_assoc())
             array_push($crags, $row);
     }
-    else
-        error("Crag(s) not found for area. areaid = " .$area["areaid"] ." query = " .$sql);
     
     // remove crags and routes
     foreach ($crags as $crag) {
         $sql = "DELETE FROM crags WHERE cragid=" .$crag["cragid"] .";";
-        $result = $db->query($sql);
+        if (!$result = $db->query($sql))
+            error("Error in admin/area.php: " .$db->error);
+        
         $sql = "DELETE FROM routes WHERE cragid=" .$crag["cragid"] .";";
-        $result = $db->query($sql);
+        if (!$result = $db->query($sql))
+            error("Error in admin/area.php: " .$db->error);
     }
     
     // remove area
     $sql = "DELETE FROM areas WHERE areaid=" .$area["areaid"] .";";
     if (!$result = $db->query($sql))
-        error("Could not delete area. areaid = " .$area["areaid"] ." query = " .$sql);
+        error("Error in admin/area.php: " .$db->error);
     
     // return to area page
     header("Location: " .SITEURL ."/areas.php");
@@ -100,29 +108,25 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
 {
     $name = sec_check($_POST["name"]);
     $description = sec_check($_POST["description"]);
+    $location = $_POST["location"];
     
     // add/update area details
     if ($_SESSION["action"] == "add")
-        $sql = "INSERT INTO areas (name,description) VALUES (\"" .$name ."\",\"" .$description ."\");";
+        $sql = "INSERT INTO areas (name,description,location) VALUES (\"" .$name ."\",\"" .$description ."\",\"" .$location ."\");";
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE areas SET name=\"" .$name ."\",description=\"" .$description 
-            ."\" WHERE areaid=" .$_SESSION["id"] .";";
+            ."\",location=\"" .$location ."\" WHERE areaid=" .$_SESSION["id"] .";";
     }
-    
-    $result = $db->query($sql);
-    
-    if ($result == FALSE)
-        error("Area details could not be added/updated. :( <p>id = " .$_SESSION["id"] ."</p><p> query = " .$sql ."</p>");
+    if (!$result = $db->query($sql))
+        error("Error in admin/area.php: " .$db->error);
     
     // get area details
     $sql = "SELECT * FROM areas WHERE name=\"" .$name ."\";";
-    $result = $db->query($sql);
-    
-    if ($result->num_rows == 1)
+    if (!$result = $db->query($sql))
+        error("Error in admin/area.php: " .$db->error);
+    elseif ($result->num_rows == 1)
         $area = $result->fetch_assoc();
-    else
-        error("Area details could not be retrieved. :( <p>id = " .$_SESSION["id"] ."</p><p> query = " .$sql ."</p>");
-    
+
     // return to area page
     header("Location: " .SITEURL ."/crags.php?areaid=" .$area["areaid"]);
     

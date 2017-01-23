@@ -11,6 +11,7 @@
 require_once("../include/config.php");
 
 unset($_SESSION["userid"]);
+unset($_SESSION["username"]);
 require(SITEROOT ."index.php");
 
 ?>

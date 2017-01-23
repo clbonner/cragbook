@@ -9,10 +9,7 @@
  */
 
 require_once("../include/config.php");
-
-// check user is logged in before we start
-if (!isset($_SESSION["userid"]))
-    exit;
+login_check();
 
 $db = db_connect();
 
@@ -27,6 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
     
     view("home_form.php", ["site" => $site]);
+    
+    $db->close();
 }
 
 // update home page text
@@ -40,6 +39,4 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     require(SITEROOT ."index.php");
 }
 
-$db->close();
-    
 ?>

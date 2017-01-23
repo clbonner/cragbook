@@ -191,8 +191,7 @@ $vGradeFilter = "AND grade REGEXP \"^V[0-9]+\" ";
 
 
 // outputs a page to the browser with header and footer
-function view($filename, $data = [])
-{
+function view($filename, $data = []) {
     require(SITEROOT ."include/config.php");
     
     if (file_exists(SITEROOT ."views/{$filename}")) {
@@ -207,22 +206,19 @@ function view($filename, $data = [])
 }
 
 // shows an error message to the user
-function error($string)
-{
+function error($string) {
 	view("error.php", ["error" => $string]);
 	exit;
 }
 
 // shows an info screen to the user
-function info($string)
-{
+function info($string) {
 	view("info.php", ["message" => $string]);
 	return;
 }
 
 // connect the user to the database
-function db_connect()
-{
+function db_connect() {
     require(SITEROOT ."include/config.php");
     
     $db = new mysqli($host, $dbuser, $dbpass, $dbname, $dbport);
@@ -234,8 +230,7 @@ function db_connect()
 }
 
 // Performs security checks on data that will be outputted as html
-function sec_check($data)
-{
+function sec_check($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
@@ -243,17 +238,21 @@ function sec_check($data)
 }
 
 // sets specific session data for adding and editing areas/crags/routes
-function set_data($action, $id)
-{
+function set_data($action, $id) {
     $_SESSION["action"] = $action;
     $_SESSION["id"] = $id;
 }
 
 // clears any set session data
-function clear_data()
-{
+function clear_data() {
     unset($_SESSION["action"]);
     unset($_SESSION["id"]);
 }
-    
+
+// check user is logged in before performing any database updates
+function login_check() {
+    if (!isset($_SESSION["userid"]))
+        exit;
+}
+
 ?>

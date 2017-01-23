@@ -9,27 +9,19 @@
  */
 
 require_once("include/config.php");
+$db = db_connect();
 
 // show all crags if no cragid supplied
-if ($_GET["cragid"] == NULL)
+if (!isset($_GET["cragid"]))
 {
     view("all_crags.php", []);
     exit;
 }
 
-// get details for crag
-else
-{
-    $db = db_connect();
+// return ajax request for routes when filter is given
+elseif (isset($_GET["filter"])) {
     
-    $sql = "SELECT * FROM crags WHERE cragid = ". $_GET["cragid"] .";";
-    
-    if (!$result = $db->query($sql))
-        error("Error in crag_info.php: " .$db->error);
-    
-    $crag = $result->fetch_assoc();
-        
-    // get routes according to filter (default orderid)
+    // get routes according to filter
     if ($_GET["filter"] == "british") {
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
         $sql .= $BritishAdjFilter . $OrderByGrade . $BritishAdj . $ElseAsc;
@@ -54,8 +46,12 @@ else
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
         $sql .= $vGradeFilter . $OrderByGrade . $vGrade . $ElseAsc;
     }
-    else {
+    elseif ($_GET["filter"] == "all") {
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";
+    }
+    else {
+        // return nothing if incorrect filter given
+        exit;
     }
     
     // get routes
@@ -65,22 +61,79 @@ else
         $routes = [];
         while($row = $result->fetch_assoc())
             array_push($routes, $row);
+    
+        // build table
+        $table = "<table class=\"w3-table-all w3-tiny w3-margin-bottom\">";
+        $table .= "<tr class=\"w3-blue\">";
+        $table .= "<th>Name</th>";
+        $table .= "<th>Grade</th>";
+        $table .= "<th>Stars</th>";
+        $table .= "<th>Length</th>";
+        $table .= "<th>Sector</th>";
+        $table .= "<th style=\"width:50%\">Description</th>";
+        $table .= "</tr>";
+        
+        // show editing options if user logged in
+        if (isset($_SESSION["userid"])) {
+            foreach ($routes as $route) {
+                $table .= "<tr>";
+                $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."\"><i class=\"fa fa-times w3-btn w3-red w3-round w3-small w3-margin-right\"></i></a>";
+                $table .= "<a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
+                $table .= "<td>" .$route["grade"] ."</td>";
+                $table .= "<td>" .$route["stars"] ."</td>";
+                $table .= "<td>" .$route["length"] ."m</td>";
+                $table .= "<td>" .$route["sector"] ."</td>";
+                $table .= "<td>" .htmlspecialchars_decode($route["description"]) ."</td>";
+                $table .= "</tr>";
+            }
+        }
+        
+        // not logged in
+        else {
+            foreach ($routes as $route) {
+                $table .= "<tr>";
+                $table .= "<td>" .$route["name"] ."</td>";
+                $table .= "<td>" .$route["grade"] ."</td>";
+                $table .= "<td>" .$route["stars"] ."</td>";
+                $table .= "<td>" .$route["length"] ."m</td>";
+                $table .= "<td>" .$route["sector"] ."</td>";
+                $table .= "<td>" .htmlspecialchars_decode($route["description"]) ."</td>";
+                $table .= "</tr>";
+            }
+        }
+        
+        $table .= "</table>";
     }
     else
-        $routes = 0;
+        $table = "No routes";
+    
+    // send table
+    echo $table;
+}
+
+// show crag info page
+elseif (isset($_GET["cragid"])) {
+    
+    // get crag info
+    $sql = "SELECT * FROM crags WHERE cragid = ". $_GET["cragid"] .";";
+    
+    if (!$result = $db->query($sql))
+        error("Error in crag_info.php: " .$db->error);
+    else
+        $crag = $result->fetch_assoc();
     
     // get area info
-    $sql = "SELECT * FROM areas WHERE areaid = ". $crag["areaid"] .";";
+    $sql = "SELECT name,areaid FROM areas WHERE areaid = ". $crag["areaid"] .";";
     
     if (!$result = $db->query($sql))
         error("Error in crag_info.php: " .$db->error);
     else
         $area = $result->fetch_assoc();
-
-    // show crag page
-    view("crag_info.php", ["crag" => $crag, "routes" => $routes, "area" => $area]);
     
-    $db->close();
+    // show crag page
+    view("crag_info.php", ["crag" => $crag, "area" => $area]);
 }
+    
+$db->close();
     
 ?>

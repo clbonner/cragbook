@@ -77,7 +77,8 @@ elseif (isset($_GET["filter"])) {
         if (isset($_SESSION["userid"])) {
             foreach ($routes as $route) {
                 $table .= "<tr class=\"w3-round w3-hover-red\">";
-                $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."><i class=\"fa fa-times w3-small\"></i></a>    <a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
+                $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."\"><i class=\"fa fa-times w3-medium\"></i></a>";
+                $table .= "\t<a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
                 $table .= "<td>" .$route["stars"] ."</td>";
                 $table .= "<td>" .$route["length"] ."m</td>";

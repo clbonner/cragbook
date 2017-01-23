@@ -8,11 +8,13 @@
  * Returns JSON data so the user can manipulate the 
  * route order for a crag, then submit it back to update the database.
  */
-
+ 
 require_once("../include/config.php");
+login_check();
 $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    
     // send JSON data for routes at crag
     if (isset($_GET["cragid"])) {
         

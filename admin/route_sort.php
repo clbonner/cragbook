@@ -4,16 +4,13 @@
  * and is licensesed under the GNU General Public License version 3.
  * Copyright 2017 Christopher L Bonner
  *
- * admin/route_update.php 
- * Returns JSON data so the user can manipulate the 
- * route order for a crag, then submit it back to update the database.
+ * admin/route_sort.php 
+ * Shows the route sorting page where the user can change the order of
+ * routes at a particular crag.
  */
 
 require_once("../include/config.php");
-
-// check user is logged in before we start
-if (!isset($_SESSION["userid"]))
-    exit;
+login_check();
 
 $db = db_connect();
 

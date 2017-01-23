@@ -1,8 +1,10 @@
 <script>
 $(document).ready( function () {
     getAreas();
-    $(document).ajaxSuccess(function() {
-        viewAreaList();
+    
+    $(document).ajaxSuccess(function(event, xhr, settings) {
+        if (settings.url.includes("include/area_json.php"))
+            viewAreaList();
     });
 });
 </script>

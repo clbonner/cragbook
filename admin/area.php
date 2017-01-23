@@ -9,10 +9,7 @@
  */
 
 require_once("../include/config.php");
-
-// check user is logged in before we start
-if (!isset($_SESSION["userid"]))
-    exit;
+login_check();
 
 $db = db_connect();
 

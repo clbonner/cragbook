@@ -70,6 +70,28 @@ function updateRoutes() {
     });
 }
 
+// get routes for area
+function getAreaRoutes(areaid, filter) {
+    var url = "crags.php?areaid=" + areaid + "&filter=" + filter;
+    
+    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x \"></i>");
+    
+    $.get(url, function (data) {
+        $('#routes').html(data);
+    });
+}
+
+// get routes for crag
+function getCragRoutes(cragid, filter) {
+    var url = "crag_info.php?cragid=" + cragid + "&filter=" + filter;
+    
+    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x \"></i>");
+    
+    $.get(url, function (data) {
+        $('#routes').html(data);
+    });
+}
+
 // moves a route down in the table
 function routeDown(dom) {
     var x, routeName = dom[1].firstChild.innerText;
@@ -100,8 +122,9 @@ function routeUp(dom) {
     showRoutes();
 }
 
-// get JSON data on crags
+// get JSON data on crags for area
 function getCrags(id) {
+    
     // get all crags
     if (id == 'all')
         var url = "include/crag_json.php";
@@ -115,9 +138,8 @@ function getCrags(id) {
     });
 }
 
-// get JSON data on crags
+// get JSON data on a crag
 function getCrag(id) {
-    // get crags in area
     var url = "include/crag_json.php?cragid=" + id;
     
     $.getJSON(url, function (data, status, xhr) {
@@ -345,15 +367,20 @@ function setCragMap(location) {
 function viewCragList() {
     var i, view;
     
-    // build list of crags
-    view = '<div id="list" class="w3-margin-top w3-margin-bottom">';
-    
-    for (i in crags) {
-        view += '<a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="crag_info.php?cragid=' + crags[i].cragid + '">';
-        view += crags[i].name + '</a>';
+    if (crags.length != 0) {
+        
+        // build list of crags
+        view = '<div id="list" class="w3-margin-top w3-margin-bottom">';
+        
+        for (i in crags) {
+            view += '<a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="crag_info.php?cragid=' + crags[i].cragid + '">';
+            view += crags[i].name + '</a>';
+        }
+        
+        view += '</div>';
     }
-    
-    view += '</div>';
+    else
+        view = "<div class=\"w3-center w3-margin-top w3-margin-bottom\">No crags</div>";
     
     // show list of crags
     $('#view').html(view);
@@ -363,15 +390,20 @@ function viewCragList() {
 function viewAreaList() {
     var i, view;
     
-    // build list of crags
-    view = '<div id="list" class="w3-margin-top w3-margin-bottom">';
-    
-    for (i in areas) {
-        view += '<a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="crags.php?areaid=' + areas[i].areaid + '">';
-        view += areas[i].name + '</a>';
+    if (areas.length != 0) {
+        
+        // build list of crags
+        view = '<div id="list" class="w3-margin-top w3-margin-bottom">';
+        
+        for (i in areas) {
+            view += '<a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="crags.php?areaid=' + areas[i].areaid + '">';
+            view += areas[i].name + '</a>';
+        }
+        
+        view += '</div>';
     }
-    
-    view += '</div>';
+    else
+        view = "<div class=\"w3-center w3-margin-top w3-margin-bottom\">No areas</div>";
     
     // show list of crags
     $('#view').html(view);

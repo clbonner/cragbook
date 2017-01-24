@@ -89,16 +89,17 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     $stars = sec_check($_POST["stars"]);
     $length = sec_check($_POST["length"]);
     $sector = sec_check($_POST["sector"]);
+    $fascent = sec_check($_POST["fascent"]);
     
     // add/update database
     if ($_SESSION["action"] == "add") {
-        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector) VALUES (" .$_SESSION["id"] .",\"" .$name 
-            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\");";
+        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent) VALUES (" .$_SESSION["id"] .",\"" .$name 
+            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector .",\"" .$fascent ."\");";
     }
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE routes SET name=\"" .$name. "\",description=\"" .$description 
             ."\",grade=\"" .$grade ."\",stars=\"" .$stars ."\",length=\"" .$length 
-            ."\",sector=\"" .$sector ."\" WHERE routeid = " .$_SESSION["id"] .";";
+            ."\",sector=\"" .$sector ."\",firstascent=\"" .$fascent ."\" WHERE routeid = " .$_SESSION["id"] .";";
     }
     if (!$result = $db->query($sql))
         error("Error in admin/route.php: " .$db->error);

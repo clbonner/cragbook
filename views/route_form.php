@@ -11,6 +11,8 @@
     <input class="w3-input w3-white w3-border w3-margin-bottom" style="width: 50%" type="text" name="length" value="<?= $data["route"]["length"] ?>" required>
     <label class="w3-label w3-text-black"><b>Crag Sector (if applicable)</b></label>
     <input class="w3-input w3-white w3-border w3-margin-bottom" style="width: 50%" type="text" name="sector" value="<?= $data["route"]["sector"] ?>">
+    <label class="w3-label w3-text-black"><b>First ascent:</b></label>
+    <input class="w3-input w3-white w3-border w3-margin-bottom" style="width: 50%" type="text" name="fascent" value="<?= $data["route"]["firstascent"] ?>">
     <div>
         <input class="w3-btn w3-round w3-green" type="submit" value="<?= $data["button"] ?>">
         <input class="w3-btn w3-round w3-red" type="button" onclick="window.location.assign('<?= $data["returnurl"] ?>')" value="Cancel">

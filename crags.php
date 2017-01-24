@@ -93,7 +93,7 @@ elseif (isset($_GET["filter"])) {
             $table .= "</tr>";
             
             foreach ($routes as $route) {
-                $table .= "<tr>";
+                $table .= "<tr class=\"w3-hover-grey\" onclick=\"getRouteInfo(" .$route["routeid"] .")\">";
                 $table .= "<td>" .$route["name"] ."</td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
                 $table .= "<td>" .$route["stars"] ."</td>";

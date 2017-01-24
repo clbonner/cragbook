@@ -13,8 +13,8 @@ const defaultCenter = {lat: 53.815474, lng: -4.632684};
 // info window for markers
 var infowindow = new google.maps.InfoWindow();
 
-// gets routes from database by parsing JSON data
-function showRoutes() {
+// sorts routes by orderid and updates DOM element
+function showRouteOrder() {
     var x, table, buttons;
     
     // sort array objects by orderid
@@ -32,7 +32,7 @@ function showRoutes() {
     table += "</table>";
     
     // add the buttons
-    buttons = '<input class="w3-btn w3-round w3-green" style="margin-right:4px" type="button" onclick="updateRoutes()" value="Save">';
+    buttons = '<input class="w3-btn w3-round w3-green" style="margin-right:4px" type="button" onclick="updateRouteOrder()" value="Save">';
     buttons += '<input class="w3-btn w3-round w3-red" type="button" onclick="window.location.assign(\'' + returnurl + '\')" value="Cancel">';
     
     // display table and buttons
@@ -41,7 +41,7 @@ function showRoutes() {
 }
 
 // gets routes from route_update.php as JSON and stores in routes
-function sortRoutes(crag) {
+function getRouteOrder(crag) {
     var url = "../include/route_json.php?cragid=" + crag;
     returnurl = '../crag_info.php?cragid=' + crag;
     
@@ -54,12 +54,12 @@ function sortRoutes(crag) {
             routes[x].orderid = i++;
         }
         
-        showRoutes();
+        showRouteOrder();
     });
 }
 
 // send route order data back to database
-function updateRoutes() {
+function updateRouteOrder() {
     var url = "../include/route_json.php";
     
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x w3-display-middle\"></i>");
@@ -68,6 +68,36 @@ function updateRoutes() {
     $.getJSON(url, JSON.stringify(routes), function (data, status, xhr){
         window.location.assign(returnurl);
     });
+}
+
+// moves a route down in the table
+function routeDown(dom) {
+    var x, routeName = dom[1].firstChild.innerText;
+
+    for (x in routes) {
+        if (routeName == routes[x].name && routes[x].orderid < routes.length){
+            routes[x].orderid = ++routes[x].orderid;
+            routes[++x].orderid = --routes[x].orderid;
+            break;
+        }
+    }
+    
+    showRouteOrder();
+}
+
+// moves a route up in the table
+function routeUp(dom) {
+    var x, routeName = dom[1].firstChild.innerText;
+    
+    for (x in routes) {
+        if (routeName == routes[x].name && routes[x].orderid > 1){
+            routes[x].orderid = --routes[x].orderid;
+            routes[--x].orderid = ++routes[x].orderid;
+            break;
+        }
+    }
+    
+    showRouteOrder();
 }
 
 // get routes for area
@@ -90,36 +120,6 @@ function getCragRoutes(cragid, filter) {
     $.get(url, function (data) {
         $('#routes').html(data);
     });
-}
-
-// moves a route down in the table
-function routeDown(dom) {
-    var x, routeName = dom[1].firstChild.innerText;
-
-    for (x in routes) {
-        if (routeName == routes[x].name && routes[x].orderid < routes.length){
-            routes[x].orderid = ++routes[x].orderid;
-            routes[++x].orderid = --routes[x].orderid;
-            break;
-        }
-    }
-    
-    showRoutes();
-}
-
-// moves a route up in the table
-function routeUp(dom) {
-    var x, routeName = dom[1].firstChild.innerText;
-    
-    for (x in routes) {
-        if (routeName == routes[x].name && routes[x].orderid > 1){
-            routes[x].orderid = --routes[x].orderid;
-            routes[--x].orderid = ++routes[x].orderid;
-            break;
-        }
-    }
-    
-    showRoutes();
 }
 
 // get JSON data on crags for area
@@ -247,6 +247,7 @@ function viewAreaMap() {
         if (areas[i].location === "");
             // skip
         else {
+            
             // get area location
             var location = areas[i].location.split(",");
             var latlng = new google.maps.LatLng(location[0], location[1]);

@@ -45,5 +45,6 @@ $(document).ready( function () {
             <button class="w3-btn w3-white w3-hover-red w3-round" style="box-shadow: none" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'vgrade')">V grade</button>
         </div>
         <div id="routes" class="w3-center w3-margin-bottom"></div>
+        <div id="routeinfo"></div>
     </div>
 </div>

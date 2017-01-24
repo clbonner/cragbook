@@ -48,6 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $route = $result->fetch_assoc();
         else 
             $route = "";
+    
+        // remove html special chars from description
+        $route["description"] = htmlspecialchars_decode($route["description"]);
         
         // send route as JSON
         echo json_encode($route);

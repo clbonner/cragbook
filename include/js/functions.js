@@ -156,6 +156,30 @@ function getAreas() {
     });
 }
 
+// gets JDON data for a route and display route info
+function getRouteInfo(routeid) {
+    var url = "include/route_json.php?routeid=" + routeid;
+    var div = '<div id="routeinfowindow" class="w3-card-4 w3-white w3-border w3-padding w3-display-middle"><i class=\"fa fa-circle-o-notch fa-spin fa-5x \"></i></div>';
+    
+    $("#routeinfo").html(div);
+    
+    $.getJSON(url, function (data, status, xhr) {
+        var route = data;
+        
+        div = '<div>';
+        div += '<h5>' + route.name + '</h5>';
+        div += '<p>' + route.description + '</p>';
+        div += '<p><b>First Ascent: </b>' + route.firstascent + '</p>';
+        div += '<p><b>Grade: </b>' + route.grade + '</p>';
+        div += '<p><b>Length: </b>' + route.length + '</p>';
+        div += '<p><b>Crag Sector: </b>' + route.sector + '</p>';
+        div += '<div class="w3-margin w3-center"><button class="w3-btn w3-round w3-red" onclick="$(\'#routeinfowindow\').hide()">Close</button></div>';
+        div += '</div>';
+        
+        $("#routeinfowindow").html(div);
+    });
+}
+
 // show map on area page with drop pins for crags in the area
 function viewCragMap(location) {
     var i, contentString;

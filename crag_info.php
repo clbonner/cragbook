@@ -70,20 +70,18 @@ elseif (isset($_GET["filter"])) {
         $table .= "<th>Stars</th>";
         $table .= "<th>Length</th>";
         $table .= "<th>Sector</th>";
-        $table .= "<th style=\"width:50%\">Description</th>";
         $table .= "</tr>";
         
         // show editing options if user logged in
         if (isset($_SESSION["userid"])) {
             foreach ($routes as $route) {
-                $table .= "<tr>";
+                $table .= "<tr class=\"w3-hover-grey\">";
                 $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."\"><i class=\"fa fa-times w3-btn w3-red w3-round w3-small w3-margin-right\"></i></a>";
                 $table .= "<a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
                 $table .= "<td>" .$route["stars"] ."</td>";
                 $table .= "<td>" .$route["length"] ."m</td>";
                 $table .= "<td>" .$route["sector"] ."</td>";
-                $table .= "<td>" .htmlspecialchars_decode($route["description"]) ."</td>";
                 $table .= "</tr>";
             }
         }
@@ -91,13 +89,12 @@ elseif (isset($_GET["filter"])) {
         // not logged in
         else {
             foreach ($routes as $route) {
-                $table .= "<tr>";
+                $table .= "<tr class=\"w3-hover-grey\" onclick=\"getRouteInfo(" .$route["routeid"] .")\">";
                 $table .= "<td>" .$route["name"] ."</td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
                 $table .= "<td>" .$route["stars"] ."</td>";
                 $table .= "<td>" .$route["length"] ."m</td>";
                 $table .= "<td>" .$route["sector"] ."</td>";
-                $table .= "<td>" .htmlspecialchars_decode($route["description"]) ."</td>";
                 $table .= "</tr>";
             }
         }

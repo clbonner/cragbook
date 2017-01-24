@@ -168,7 +168,7 @@ function getRouteInfo(routeid) {
     $.getJSON(url, function (data, status, xhr) {
         var route = data;
         
-        div = '<h5>' + route.name + '</h5>';
+        div = '<h5>' + route.name + ' ' + route.stars + '</h5>';
         div += '<p>' + route.description + '</p>';
         div += '<p><b>First Ascent: </b>' + route.firstascent + '</p>';
         div += '<p><b>Grade: </b>' + route.grade + '</p>';

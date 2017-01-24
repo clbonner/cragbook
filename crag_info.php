@@ -65,22 +65,25 @@ elseif (isset($_GET["filter"])) {
         // build table
         $table = "<table class=\"w3-table-all w3-tiny w3-margin-bottom\">";
         $table .= "<tr class=\"w3-blue\">";
+        $table .= "<th>Info</th>";
         $table .= "<th>Name</th>";
         $table .= "<th>Grade</th>";
-        $table .= "<th>Stars</th>";
-        $table .= "<th>Length</th>";
+        $table .= "<th class=\"w3-hide-small\">Stars</th>";
+        $table .= "<th class=\"w3-hide-small\">Length</th>";
         $table .= "<th>Sector</th>";
         $table .= "</tr>";
         
         // show editing options if user logged in
         if (isset($_SESSION["userid"])) {
             foreach ($routes as $route) {
-                $table .= "<tr class=\"w3-hover-grey\">";
+                $table .= "<tr>";
                 $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."\"><i class=\"fa fa-times w3-btn w3-red w3-round w3-small w3-margin-right\"></i></a>";
-                $table .= "<a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
+                $table .= "<button class=\"w3-margin-right\" onclick=\"getRouteInfo(" .$route["routeid"] .")\">";
+                $table .= "<i class=\"fa fa-info\"></i></button></td>";
+                $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
-                $table .= "<td>" .$route["stars"] ."</td>";
-                $table .= "<td>" .$route["length"] ."m</td>";
+                $table .= "<td class=\"w3-hide-small\">" .$route["stars"] ."</td>";
+                $table .= "<td class=\"w3-hide-small\">" .$route["length"] ."m</td>";
                 $table .= "<td>" .$route["sector"] ."</td>";
                 $table .= "</tr>";
             }
@@ -89,11 +92,13 @@ elseif (isset($_GET["filter"])) {
         // not logged in
         else {
             foreach ($routes as $route) {
-                $table .= "<tr class=\"w3-hover-grey\" onclick=\"getRouteInfo(" .$route["routeid"] .")\">";
+                $table .= "<tr>";
+                $table .= "<td><button class=\"w3-margin-right\" onclick=\"getRouteInfo(" .$route["routeid"] .")\">";
+                $table .= "<i class=\"fa fa-info\"></i></button></td>";
                 $table .= "<td>" .$route["name"] ."</td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
-                $table .= "<td>" .$route["stars"] ."</td>";
-                $table .= "<td>" .$route["length"] ."m</td>";
+                $table .= "<td class=\"w3-hide-small\">" .$route["stars"] ."</td>";
+                $table .= "<td class=\"w3-hide-small\">" .$route["length"] ."m</td>";
                 $table .= "<td>" .$route["sector"] ."</td>";
                 $table .= "</tr>";
             }

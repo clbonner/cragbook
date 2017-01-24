@@ -86,17 +86,20 @@ elseif (isset($_GET["filter"])) {
             // build table    
             $table = "<table class=\"w3-table-all w3-tiny w3-margin-bottom\">";
             $table .= "<tr class=\"w3-blue\">";
+            $table .= "<th>Info</th>";
             $table .= "<th>Name</th>";
             $table .= "<th>Grade</th>";
-            $table .= "<th>Stars</th>";
+            $table .= "<th class=\"w3-hide-small\">Stars</th>";
             $table .= "<th style=\"width:50%\">Crag</th>";
             $table .= "</tr>";
             
             foreach ($routes as $route) {
-                $table .= "<tr class=\"w3-hover-grey\" onclick=\"getRouteInfo(" .$route["routeid"] .")\">";
+                $table .= "<tr>";
+                $table .= "<td><button class=\"w3-margin-right\" onclick=\"getRouteInfo(" .$route["routeid"] .")\">";
+                $table .= "<i class=\"fa fa-info\"></i></button></td>";
                 $table .= "<td>" .$route["name"] ."</td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
-                $table .= "<td>" .$route["stars"] ."</td>";
+                $table .= "<td class=\"w3-hide-small\">" .$route["stars"] ."</td>";
                 $table .= "<td>";
                 
                 foreach($crags as $crag) {

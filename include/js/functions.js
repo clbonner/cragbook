@@ -159,22 +159,22 @@ function getAreas() {
 // gets JDON data for a route and display route info
 function getRouteInfo(routeid) {
     var url = "include/route_json.php?routeid=" + routeid;
-    var div = '<div id="routeinfowindow" class="w3-card-4 w3-white w3-border w3-padding w3-display-middle" style="width: 50%"><i class="fa fa-circle-o-notch fa-spin fa-5x "></i></div>';
+    var div = '<div id="routeinfowindow" class="w3-card-4 w3-white w3-padding w3-center w3-display-middle" style="width: 90%">';
+    div += '<i class="fa fa-circle-o-notch fa-spin fa-5x"></i></div>';
     
     $("#routeinfo").html(div);
+    $("#routeinfo").show();
     
     $.getJSON(url, function (data, status, xhr) {
         var route = data;
         
-        div = '<div>';
-        div += '<h5>' + route.name + '</h5>';
+        div = '<h5>' + route.name + '</h5>';
         div += '<p>' + route.description + '</p>';
         div += '<p><b>First Ascent: </b>' + route.firstascent + '</p>';
         div += '<p><b>Grade: </b>' + route.grade + '</p>';
         div += '<p><b>Length: </b>' + route.length + 'm</p>';
         div += '<p><b>Crag Sector: </b>' + route.sector + '</p>';
-        div += '<div class="w3-center"><button class="w3-btn w3-round w3-red" onclick="$(\'#routeinfowindow\').hide()">Close</button></div>';
-        div += '</div>';
+        div += '<div class="w3-center"><button class="w3-btn w3-round w3-red" onclick="$(\'#routeinfo\').hide()">Close</button></div>';
         
         $("#routeinfowindow").html(div);
     });

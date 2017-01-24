@@ -44,6 +44,6 @@ $(document).ready( function () {
             <button class="w3-btn w3-white w3-hover-red w3-round" style="box-shadow: none" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'vgrade')">V grade</button>
         </div>
         <div id="routes" class="w3-center w3-margin-bottom"><p onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'all')">Click to show routes...</p></div>
-        <div id="routeinfo"></div>
+        <div id="routeinfo" class="w3-modal"></div>
     </div>
 </div>

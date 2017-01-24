@@ -1,6 +1,6 @@
 <script>
 $(document).ready( function () {
-    getCrag(<?= $_GET["cragid"] ?>);
+    getCragInfo(<?= $_GET["cragid"] ?>);
     getCragRoutes(<?= $_GET["cragid"] ?>, 'all');
     
     $(document).ajaxSuccess(function(event, xhr, settings) {

@@ -138,8 +138,8 @@ function getCrags(id) {
     });
 }
 
-// get JSON data on a crag
-function getCrag(id) {
+// get JSON data for crag info
+function getCragInfo(id) {
     var url = "include/crag_json.php?cragid=" + id;
     
     $.getJSON(url, function (data, status, xhr) {
@@ -418,7 +418,7 @@ function viewCragInfo() {
     view += '<h6>' + crags[0].description + '</h6>';
     view += '<p><b>Access: </b>' + crags[0].access + '</p>';
     view += '<p><b>Policy on fixed gear: </b>' + crags[0].policy + '</p>';
-    view += '<p><b>Approach: </b>' + crags[0].approach + '</p>';
+    view += '<p><b>Approach </b>' + crags[0].approach + '</p>';
     view += '</div>';
     
     // show crag info

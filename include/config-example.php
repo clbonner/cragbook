@@ -11,9 +11,6 @@
 // site title
 $sitetitle = "Cragbook";
 
-// the folder where your Cragbook installation resides (slash at the end)
-$siteroot = "/path/to/install/";
-
 // the root web URL for your Cragbook installation (no tailing slash)
 $siteurl = "http://example.com/cragbook";
 

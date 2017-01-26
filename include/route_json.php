@@ -9,7 +9,7 @@
  * route order for a crag, then submit it back to update the database.
  */
  
-require_once("../include/config.php");
+require_once(__DIR__ ."/config.php");
 $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {

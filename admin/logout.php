@@ -8,10 +8,10 @@
  * Controller to logout current user.
  */
  
-require_once("../include/config.php");
+require_once(__DIR__ ."/../include/config.php");
 
 unset($_SESSION["userid"]);
 unset($_SESSION["username"]);
-require(SITEROOT ."index.php");
+require(__DIR__ ."/../index.php");
 
 ?>

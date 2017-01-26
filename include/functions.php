@@ -11,8 +11,6 @@
 // macros
 
 define("SITEURL", $GLOBALS["siteurl"]);
-define("SITEROOT", $GLOBALS["siteroot"]);
-
 
 // grade lists for ordering and filtering routes by grade
 
@@ -192,12 +190,12 @@ $vGradeFilter = "AND grade REGEXP \"^V[0-9]+\" ";
 
 // outputs a page to the browser with header and footer
 function view($filename, $data = []) {
-    require(SITEROOT ."include/config.php");
+    require(__DIR__ ."/config.php");
     
-    if (file_exists(SITEROOT ."views/{$filename}")) {
-        require(SITEROOT ."views/header.php");
-        require(SITEROOT ."views/{$filename}");
-        require(SITEROOT ."views/footer.php");
+    if (file_exists(__DIR__ ."/../views/{$filename}")) {
+        require(__DIR__ ."/../views/header.php");
+        require(__DIR__ ."/../views/{$filename}");
+        require(__DIR__ ."/../views/footer.php");
         return;
     }
     
@@ -219,7 +217,7 @@ function info($string) {
 
 // connect the user to the database
 function db_connect() {
-    require(SITEROOT ."include/config.php");
+    require(__DIR__ ."/config.php");
     
     $db = new mysqli($host, $dbuser, $dbpass, $dbname, $dbport);
     

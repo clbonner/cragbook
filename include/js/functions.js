@@ -21,19 +21,19 @@ function showRouteOrder() {
     routes.sort(function(a, b){return a.orderid - b.orderid});
     
     // build table of routes
-    table = '<table class="w3-table-all w3-small w3-margin-bottom">';
-    table += '<tr class="w3-blue"><th>Name</th><th>Order</th><th>Grade</th><th>Sector</th></tr>';
+    table = '<table>';
+    table += '<tr><th>Name</th><th>Order</th><th>Grade</th><th>Sector</th></tr>';
     for (x in routes) {
         table += '<tr><td id=\"route\">' + routes[x].name + '</td>';
-        table += '<td><i id=' + routes[x].routeid + ' class=\"fa fa-arrow-up w3-btn w3-round w3-red w3-hover-red w3-small w3-margin-right\" onclick=\"routeUp($(this).parents())\"></i>';
-        table += '<i id=' + routes[x].routeid + ' class=\"fa fa-arrow-down w3-btn w3-round w3-red w3-hover-red w3-small \" onclick=\"routeDown($(this).parents())\"></i></td>';
+        table += '<td><i id=' + routes[x].routeid + ' class=\"fa fa-arrow-up btn-edit\" onclick=\"routeUp($(this).parents())\"></i>';
+        table += '<i id=' + routes[x].routeid + ' class=\"fa fa-arrow-down btn-edit\" onclick=\"routeDown($(this).parents())\"></i></td>';
         table += '<td>' + routes[x].grade + '</td><td>' + routes[x].sector + '</td></tr>';
     }
     table += "</table>";
     
     // add the buttons
-    buttons = '<input class="w3-btn w3-round w3-green" style="margin-right:4px" type="button" onclick="updateRouteOrder()" value="Save">';
-    buttons += '<input class="w3-btn w3-round w3-red" type="button" onclick="window.location.assign(\'' + returnurl + '\')" value="Cancel">';
+    buttons = '<br><button class="btn-save margin-5" onclick="updateRouteOrder()">Save</button>';
+    buttons += '<button class="btn-cancel margin-5" onclick="window.location.assign(\'' + returnurl + '\')">Cancel</button>';
     
     // display table and buttons
     $("#routes").html(table);
@@ -62,7 +62,7 @@ function getRouteOrder(crag) {
 function updateRouteOrder() {
     var url = "../include/route_json.php";
     
-    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x w3-display-middle\"></i>");
+    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x middle\"></i>");
     $("#buttons").hide();
     
     $.getJSON(url, JSON.stringify(routes), function (data, status, xhr){
@@ -104,7 +104,7 @@ function routeUp(dom) {
 function getAreaRoutes(areaid, filter) {
     var url = "crags.php?areaid=" + areaid + "&filter=" + filter;
     
-    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x \"></i>");
+    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x\"></i>");
     
     $.get(url, function (data) {
         $('#routes').html(data);
@@ -115,7 +115,7 @@ function getAreaRoutes(areaid, filter) {
 function getCragRoutes(cragid, filter) {
     var url = "crag_info.php?cragid=" + cragid + "&filter=" + filter;
     
-    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x \"></i>");
+    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x\"></i>");
     
     $.get(url, function (data) {
         $('#routes').html(data);
@@ -159,7 +159,7 @@ function getAreas() {
 // gets JDON data for a route and display route info
 function getRouteInfo(routeid) {
     var url = "include/route_json.php?routeid=" + routeid;
-    var div = '<div id="routeinfowindow" class="w3-card-4 w3-white w3-padding w3-center w3-display-middle" style="width: 90%">';
+    var div = '<div id="routeinfowindow">';
     div += '<i class="fa fa-circle-o-notch fa-spin fa-5x"></i></div>';
     
     $("#routeinfo").html(div);
@@ -168,13 +168,13 @@ function getRouteInfo(routeid) {
     $.getJSON(url, function (data, status, xhr) {
         var route = data;
         
-        div = '<h5>' + route.name + ' ' + route.stars + '</h5>';
+        div = '<h3>' + route.name + ' ' + route.stars + '</h3>';
         div += '<p>' + route.description + '</p>';
         div += '<p><b>First Ascent: </b>' + route.firstascent + '</p>';
         div += '<p><b>Grade: </b>' + route.grade + '</p>';
         div += '<p><b>Length: </b>' + route.length + 'm</p>';
         div += '<p><b>Crag Sector: </b>' + route.sector + '</p>';
-        div += '<div class="w3-center"><button class="w3-btn w3-round w3-red" onclick="$(\'#routeinfo\').hide()">Close</button></div>';
+        div += '<button class="btn-edit margin-15" onclick="$(\'#routeinfo\').hide()">Close</button>';
         
         $("#routeinfowindow").html(div);
     });
@@ -208,7 +208,7 @@ function viewCragMap(location) {
     }
     
     // set and get map canvas
-    $('#view').html('<div id="map" class="w3-card-2 w3-margin-top" style="height: ' + height + 'px; width: 100%"></div>');
+    $('#view').html('<div id="map" class="panel" style="height: ' + height + 'px; width: 100%"></div>');
     var canvas = $("#map").get(0);
     
     // create map
@@ -236,8 +236,8 @@ function viewCragMap(location) {
             });
             
             // set marker info window content
-            contentString = '<div class="w3-container"><a href="crag_info.php?cragid=' + crags[i].cragid + '"><b><h6>' + crags[i].name + '</h6></b></a></div>';
-            contentString += '<div class="w3-container w3-small">' + crags[i].description + '</div>';
+            contentString = '<div><a href="crag_info.php?cragid=' + crags[i].cragid + '"><b><h3>' + crags[i].name + '</h3></b></a></div>';
+            contentString += '<div>' + crags[i].description + '</div>';
             
             marker.info = contentString;
             
@@ -255,7 +255,7 @@ function viewAreaMap() {
     var i, contentString;
     
     // set and get map canvas
-    $('#view').html('<div id="map" class="w3-card-2 w3-margin-top" style="height: 500px; width: 100%"></div>');
+    $('#view').html('<div id="map" class="panel" style="height: 500px; width: 100%"></div>');
     var canvas = $("#map").get(0);
     
     // create map
@@ -284,8 +284,8 @@ function viewAreaMap() {
             });
             
             // set marker info window content
-            contentString = '<div class="w3-container"><a href="crags.php?areaid=' + areas[i].areaid + '"><b><h6>' + areas[i].name + '</h6></b></a></div>';
-            contentString += '<div class="w3-container w3-small">' + areas[i].description + '</div>';
+            contentString = '<div><a href="crags.php?areaid=' + areas[i].areaid + '"><b><h3>' + areas[i].name + '</h3></b></a></div>';
+            contentString += '<div>' + areas[i].description + '</div>';
             
             marker.info = contentString;
             
@@ -395,17 +395,17 @@ function viewCragList() {
     if (crags.length != 0) {
         
         // build list of crags
-        view = '<div id="list" class="w3-margin-top w3-margin-bottom">';
+        view = '<div id="list">';
         
         for (i in crags) {
-            view += '<a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="crag_info.php?cragid=' + crags[i].cragid + '">';
+            view += '<a class="btn" href="crag_info.php?cragid=' + crags[i].cragid + '">';
             view += crags[i].name + '</a>';
         }
         
         view += '</div>';
     }
     else
-        view = "<div class=\"w3-center w3-margin-top w3-margin-bottom\">No crags</div>";
+        view = "<div style=\"text-align: center\">No crags</div>";
     
     // show list of crags
     $('#view').html(view);
@@ -418,17 +418,17 @@ function viewAreaList() {
     if (areas.length != 0) {
         
         // build list of crags
-        view = '<div id="list" class="w3-margin-top w3-margin-bottom">';
+        view = '<div id="list">';
         
         for (i in areas) {
-            view += '<a class="w3-btn w3-round w3-white w3-hover-red" style="box-shadow: none" href="crags.php?areaid=' + areas[i].areaid + '">';
+            view += '<a class="btn" href="crags.php?areaid=' + areas[i].areaid + '">';
             view += areas[i].name + '</a>';
         }
         
         view += '</div>';
     }
     else
-        view = "<div class=\"w3-center w3-margin-top w3-margin-bottom\">No areas</div>";
+        view = "<div>No areas</div>";
     
     // show list of crags
     $('#view').html(view);
@@ -439,8 +439,8 @@ function viewCragInfo() {
     var view;
     
     // build crag info
-    view = '<div id="info" class="w3-margin-top w3-margin-bottom">';
-    view += '<h6>' + crags[0].description + '</h6>';
+    view = '<div id="craginfo">';
+    view += '<p>' + crags[0].description + '</p>';
     view += '<p><b>Access: </b>' + crags[0].access + '</p>';
     view += '<p><b>Policy on fixed gear: </b>' + crags[0].policy + '</p>';
     view += '<p><b>Approach </b>' + crags[0].approach + '</p>';

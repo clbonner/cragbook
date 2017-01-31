@@ -31,6 +31,9 @@ $dbuser = "";
 // database user password
 $dbpass = "";
 
+// key for google maps api
+$googlemaps_apikey = "";
+
 //================= End of configuration section ===================//
 
 session_start();

@@ -63,13 +63,13 @@ elseif (isset($_GET["filter"])) {
             array_push($routes, $row);
     
         // build table
-        $table = "<table class=\"w3-table-all w3-tiny w3-margin-bottom\">";
-        $table .= "<tr class=\"w3-blue\">";
+        $table = "<table>";
+        $table .= "<tr>";
         $table .= "<th></th>";
         $table .= "<th>Name</th>";
         $table .= "<th>Grade</th>";
-        $table .= "<th class=\"w3-hide-small\">Stars</th>";
-        $table .= "<th class=\"w3-hide-small\">Length</th>";
+        $table .= "<th>Stars</th>";
+        $table .= "<th>Length</th>";
         $table .= "<th>Sector</th>";
         $table .= "</tr>";
         
@@ -77,13 +77,13 @@ elseif (isset($_GET["filter"])) {
         if (isset($_SESSION["userid"])) {
             foreach ($routes as $route) {
                 $table .= "<tr>";
-                $table .= "<td><div class=\"w3-btn-bar w3-small\"><a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."\">";
-                $table .= "<i class=\"fa fa-trash-o w3-btn w3-red w3-round w3-small w3-margin-right\"></i></a>";
-                $table .= "<i class=\"fa fa-info w3-btn w3-round w3-hover-red\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></div></td>";
+                $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."\">";
+                $table .= "<i class=\"fa fa-trash-o btn-edit margin-side-5\"></i></a>";
+                $table .= "<i class=\"fa fa-info btn margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></td>";
                 $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
-                $table .= "<td class=\"w3-hide-small\">" .$route["stars"] ."</td>";
-                $table .= "<td class=\"w3-hide-small\">" .$route["length"] ."m</td>";
+                $table .= "<td>" .$route["stars"] ."</td>";
+                $table .= "<td>" .$route["length"] ."m</td>";
                 $table .= "<td>" .$route["sector"] ."</td>";
                 $table .= "</tr>";
             }
@@ -93,12 +93,12 @@ elseif (isset($_GET["filter"])) {
         else {
             foreach ($routes as $route) {
                 $table .= "<tr>";
-                $table .= "<td><div class=\"w3-btn-bar w3-small\">";
-                $table .= "<i class=\"fa fa-info w3-btn w3-round w3-hover-red\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></div></td>";
+                $table .= "<td>";
+                $table .= "<i class=\"fa fa-info btn margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></td>";
                 $table .= "<td>" .$route["name"] ."</td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
-                $table .= "<td class=\"w3-hide-small\">" .$route["stars"] ."</td>";
-                $table .= "<td class=\"w3-hide-small\">" .$route["length"] ."m</td>";
+                $table .= "<td>" .$route["stars"] ."</td>";
+                $table .= "<td>" .$route["length"] ."m</td>";
                 $table .= "<td>" .$route["sector"] ."</td>";
                 $table .= "</tr>";
             }
@@ -107,7 +107,7 @@ elseif (isset($_GET["filter"])) {
         $table .= "</table>";
     }
     else
-        $table = "No routes";
+        $table = "<p>No routes</p>";
     
     // send table
     echo $table;

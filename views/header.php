@@ -16,7 +16,9 @@
 </head>
 <body>
     <header>
-        <?= $sitetitle ?>
+        <div id="sitetitle">
+            <?= $sitetitle ?>
+        </div>
     </header>
     <div id="menu">
         <div class="left">

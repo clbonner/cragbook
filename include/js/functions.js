@@ -405,7 +405,7 @@ function viewCragList() {
         view += '</div>';
     }
     else
-        view = "<div style=\"text-align: center\">No crags</div>";
+        view = '<div id="nocrags">No crags</div>';
     
     // show list of crags
     $('#view').html(view);
@@ -428,7 +428,7 @@ function viewAreaList() {
         view += '</div>';
     }
     else
-        view = "<div>No areas</div>";
+        view = '<div id="noareas">No areas</div>';
     
     // show list of crags
     $('#view').html(view);

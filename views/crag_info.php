@@ -11,7 +11,7 @@ $(document).ready( function () {
 </script>
 
 <div id="backlink">
-    <a style="text-decoration: none" href="<?= SITEURL ?>/crags.php?areaid=<?= $data["area"]["areaid"] ?>"><i class="fa fa-angle-left"></i> <?= $data["area"]["name"] ?> </a>
+    <a href="<?= SITEURL ?>/crags.php?areaid=<?= $data["area"]["areaid"] ?>"><i class="fa fa-angle-left"></i> <?= $data["area"]["name"] ?> </a>
 </div>
 <div class="content panel">
     <?php if (isset($_SESSION["userid"])): ?>

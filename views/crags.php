@@ -17,7 +17,7 @@ $(document).ready( function () {
             </div>
         <?php endif ?>
         <div class="title"><?= $data["area"]["name"] ?></div>
-        <?= htmlspecialchars_decode($data["area"]["description"]) ?>
+        <div class="heading"><?= htmlspecialchars_decode($data["area"]["description"]) ?></div>
     </div>
     <div class="content panel">
         <?php if(isset($_SESSION["userid"])): ?>

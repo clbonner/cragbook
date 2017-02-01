@@ -440,7 +440,7 @@ function viewCragInfo() {
     
     // build crag info
     view = '<div id="craginfo">';
-    view += '<p>' + crags[0].description + '</p>';
+    view += '<div class="heading">' + crags[0].description + '</div>';
     view += '<p><b>Access: </b>' + crags[0].access + '</p>';
     view += '<p><b>Policy on fixed gear: </b>' + crags[0].policy + '</p>';
     view += '<p><b>Approach </b>' + crags[0].approach + '</p>';

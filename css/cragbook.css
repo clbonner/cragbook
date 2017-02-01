@@ -17,13 +17,18 @@ header {
     width: 100%;
     color: white;
     font-size: 25px;
-    background-color: #2196F3;
+    background-color: #0099ff;
     margin: 0px;
     left: 15px;
 }
 
 footer {
     margin-top: 15px;
+}
+
+p {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 h1, h2 {
@@ -49,13 +54,13 @@ table, td {
 
 th {
     color: #fff;
-    background-color: #2196F3;
+    background-color: #0099ff;
     text-align: center;
     padding: 5px;
 }
 
 tr:nth-child(odd) {
-    background-color: #d9d9d9;
+    background-color: #f2f2f2;
 }
 
 label {
@@ -86,7 +91,7 @@ a {
     height: 26px;
     width: 100%;
     overflow: hidden;
-    background-color: #d9d9d9;
+    background-color: #999999;
     color:#000;
     font-size: 14px;
     margin: 0px;
@@ -102,8 +107,7 @@ a {
 }
 
 .heading {
-    font-size: 20px;
-    padding-bottom: 5px;
+    font-size: 15px;
 }
 
 /* icons for choosing between list view and map view */
@@ -123,7 +127,7 @@ a {
 #routes {
     border: 1px solid;
     border-collapse: collapse;
-    border-color: #d9d9d9;
+    border-color: #e6e6e6;
     text-align: center;
     overflow-x: auto;
 }
@@ -161,14 +165,15 @@ a {
 
 /* default map view */
 #map {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     height: 300px;
 }
 
 /* areas/crags list */
 #list {
     margin-top: 5px;
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     text-align: left;
 }
 
@@ -210,19 +215,19 @@ a {
 }
 
 .btn-border {
-    border:none;
-    display:inline-block;
-    outline:0;
-    padding:5px 15px;
-    vertical-align:middle;
-    overflow:hidden;
-    text-decoration:none;
-    background-color:inherit;
+    border: none;
+    display: inline-block;
+    outline: 0;
+    padding: 5px 15px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    background-color: inherit;
     color: #000;
-    text-align:center;
-    cursor:pointer;
-    white-space:nowrap;
-    border-radius:4px;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 4px;
     font-size: inherit;
     border-collapse: collapse;
     border: 1px solid;
@@ -230,8 +235,9 @@ a {
 }
 
 .btn-border:hover {
-    color: #000;
-    background-color: #999999;
+    color: #fff;
+    border-color: #f44336;
+    background-color: #f44336;
 }
 
 /* admin user buttons */
@@ -317,7 +323,7 @@ a {
 
 /* adds drop shadow and border to elements */
 .panel {
-    border-color: #e6e6e6;
+    border-color: #999999;
     border-style: solid;
     border-width: 1px;
     background-color: #fff;

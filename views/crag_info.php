@@ -22,8 +22,8 @@ $(document).ready( function () {
     <?php endif ?>
     <div class="title"><?= $data["crag"]["name"] ?></div>
     <div id="viewpicker">
-        <i id="listview" class="fa fa-info btn" onclick="viewCragInfo()"></i>
-        <i id="mapview" class="fa fa-map-marker btn" onclick="viewCragMap('crag')"></i>
+        <i id="listview" class="fa fa-info btn-border" onclick="viewCragInfo()"></i>
+        <i id="mapview" class="fa fa-map-marker btn-border" onclick="viewCragMap('crag')"></i>
     </div>
     <div id="view"></div>
 </div>
@@ -44,6 +44,6 @@ $(document).ready( function () {
         <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'font')">Font</button>
         <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'vgrade')">V grade</button>
     </div>
-    <div id="routes" style="overflow-x: auto;"></div>
+    <div id="routes"></div>
     <div id="routeinfo" class="modal"></div>
 </div>

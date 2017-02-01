@@ -125,6 +125,7 @@ a {
     border-collapse: collapse;
     border-color: #d9d9d9;
     text-align: center;
+    overflow-x: auto;
 }
 
 /* modal content for route info window */
@@ -204,8 +205,33 @@ a {
 }
 
 .btn:hover {
-    color:#fff;
-    background-color:#f44336
+    color: #fff;
+    background-color: #f44336;
+}
+
+.btn-border {
+    border:none;
+    display:inline-block;
+    outline:0;
+    padding:5px 15px;
+    vertical-align:middle;
+    overflow:hidden;
+    text-decoration:none;
+    background-color:inherit;
+    color: #000;
+    text-align:center;
+    cursor:pointer;
+    white-space:nowrap;
+    border-radius:4px;
+    font-size: inherit;
+    border-collapse: collapse;
+    border: 1px solid;
+    border-color: #999999;
+}
+
+.btn-border:hover {
+    color: #000;
+    background-color: #999999;
 }
 
 /* admin user buttons */

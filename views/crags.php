@@ -27,8 +27,8 @@ $(document).ready( function () {
         <?php endif ?>
         <div class="heading">Crags</div>
         <div id="viewpicker">
-            <i id="listview" class="fa fa-list btn" onclick="viewCragList()"></i>
-            <i id="mapview" class="fa fa-map-marker btn" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></i>
+            <i id="listview" class="fa fa-list btn-border" onclick="viewCragList()"></i>
+            <i id="mapview" class="fa fa-map-marker btn-border" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></i>
         </div>
         <div id="view"></div>
     </div>

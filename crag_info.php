@@ -79,7 +79,9 @@ elseif (isset($_GET["filter"])) {
                 $table .= "<tr>";
                 $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."\">";
                 $table .= "<i class=\"fa fa-trash-o btn-edit margin-side-5\"></i></a>";
-                $table .= "<i class=\"fa fa-info btn margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></td>";
+                $table .= "<a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">";
+                $table .= "<i class=\"fa fa-edit btn-edit margin-side-5\"></i></a>";
+                $table .= "<i class=\"fa fa-info btn-border margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></td>";
                 $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
                 $table .= "<td>" .$route["stars"] ."</td>";
@@ -94,7 +96,7 @@ elseif (isset($_GET["filter"])) {
             foreach ($routes as $route) {
                 $table .= "<tr>";
                 $table .= "<td>";
-                $table .= "<i class=\"fa fa-info btn margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></td>";
+                $table .= "<i class=\"fa fa-info btn-border margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></td>";
                 $table .= "<td>" .$route["name"] ."</td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
                 $table .= "<td>" .$route["stars"] ."</td>";

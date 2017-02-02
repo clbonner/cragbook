@@ -77,11 +77,10 @@ elseif (isset($_GET["filter"])) {
         if (isset($_SESSION["userid"])) {
             foreach ($routes as $route) {
                 $table .= "<tr>";
-                $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">";
-                $table .= "<i class=\"fa fa-edit btn-edit margin-side-5\"></i></a>";
-                $table .= "<a href=\"" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."\">";
-                $table .= "<i class=\"fa fa-trash-o btn-edit margin-side-5\"></i></a>";
-                $table .= "<i class=\"fa fa-info btn-border margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></td>";
+                $table .= "<td>";
+                $table .= "<button class=\"fa fa-edit btn-edit\" onclick=\"window.location.assign('" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."')\"></button>";
+                $table .= "<button class=\"fa fa-trash-o btn-edit\" onclick=\"window.location.assign('" .SITEURL ."/admin/route.php?action=delete&routeid=" .$route["routeid"] ."')\"></button>";
+                $table .= "<button class=\"fa fa-info btn-border\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></button></td>";
                 $table .= "<td><a href=\"" .SITEURL ."/admin/route.php?action=edit&routeid=" .$route["routeid"] ."\">" .$route["name"] ."</a></td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
                 $table .= "<td>" .$route["stars"] ."</td>";
@@ -96,7 +95,7 @@ elseif (isset($_GET["filter"])) {
             foreach ($routes as $route) {
                 $table .= "<tr>";
                 $table .= "<td>";
-                $table .= "<i class=\"fa fa-info btn-border margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></i></td>";
+                $table .= "<button class=\"fa fa-info btn-border margin-side-5\" onclick=\"getRouteInfo(" .$route["routeid"] .")\"></button></td>";
                 $table .= "<td>" .$route["name"] ."</td>";
                 $table .= "<td>" .$route["grade"] ."</td>";
                 $table .= "<td>" .$route["stars"] ."</td>";

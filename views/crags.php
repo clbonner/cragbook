@@ -12,8 +12,8 @@ $(document).ready( function () {
     <div class="content panel">
         <?php if(isset($_SESSION["userid"])): ?>
             <div class="right">
-                <a class="btn-edit" href="<?= SITEURL ?>/admin/area.php?action=edit&areaid=<?= $_GET["areaid"] ?>">Edit <?= $data["area"]["name"] ?></a>
-                <a class="btn-edit" href="<?= SITEURL ?>/admin/area.php?action=delete&areaid=<?= $_GET["areaid"] ?>">Delete <?= $data["area"]["name"] ?></a>
+                <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=edit&areaid=<?= $_GET["areaid"] ?>')">Edit <?= $data["area"]["name"] ?></button>
+                <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=delete&areaid=<?= $_GET["areaid"] ?>')">Delete <?= $data["area"]["name"] ?></button>
             </div>
         <?php endif ?>
         <div class="title"><?= $data["area"]["name"] ?></div>
@@ -22,13 +22,13 @@ $(document).ready( function () {
     <div class="content panel">
         <?php if(isset($_SESSION["userid"])): ?>
             <div class="right">
-                <a class="btn-edit" href="<?= SITEURL ?>/admin/crag.php?action=add&areaid=<?= $_GET["areaid"] ?>">Add Crag</a>
+                <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=add&areaid=<?= $_GET["areaid"] ?>')">Add Crag</button>
             </div>
         <?php endif ?>
         <div class="heading">Crags</div>
         <div id="viewpicker">
-            <i id="listview" class="fa fa-list btn-border" onclick="viewCragList()"></i>
-            <i id="mapview" class="fa fa-map-marker btn-border" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></i>
+            <button id="listview" class="fa fa-list btn-border" onclick="viewCragList()"></button>
+            <button id="mapview" class="fa fa-map-marker btn-border" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></button>
         </div>
         <div id="view"></div>
     </div>

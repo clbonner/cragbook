@@ -1,5 +1,5 @@
 <form class="content" action="<?= SITEURL ?>/admin/prefs.php" method="post">
-    <h4>User Preferences</h4>
+    <div class="heading">User Preferences</div><br>
     <label><b>Username</b></label>
     <input type="text" name="username" value="<?= $data["user"]["username"] ?>" required>
     <label><b>Display Name</b></label>

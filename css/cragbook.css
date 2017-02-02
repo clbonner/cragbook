@@ -7,8 +7,16 @@
  */
 
 
-body {
+html {
     font-family: "Arial", sans-serif;
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
     margin: auto;
 }
 
@@ -70,8 +78,8 @@ label {
 }
 
 input {
-    width: 100%;
     display: block;
+    width: 100%;
     margin-bottom: 10px;
     padding: 5px;
 }
@@ -79,6 +87,10 @@ input {
 a {
     color: #000;
     text-decoration: none;
+}
+
+button {
+    margin-right: 2px;
 }
 
 /* main title in header section */
@@ -127,7 +139,7 @@ a {
 #routes {
     border: 1px solid;
     border-collapse: collapse;
-    border-color: #e6e6e6;
+    border-color: #999999;
     text-align: center;
     overflow-x: auto;
 }
@@ -215,7 +227,6 @@ a {
 }
 
 .btn-border {
-    border: none;
     display: inline-block;
     outline: 0;
     padding: 5px 15px;
@@ -308,10 +319,12 @@ a {
 /* for positioning elements */
 .left {
     float: left;
+    margin: 0px;
 }
 
 .right {
     float: right;
+    margin: 0px;
 }
 
 /* main content area for page */

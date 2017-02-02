@@ -16,22 +16,22 @@ $(document).ready( function () {
 <div class="content panel">
     <?php if (isset($_SESSION["userid"])): ?>
         <div class="right">
-            <a class="btn-edit" href="<?= SITEURL ?>/admin/crag.php?action=edit&cragid=<?= $_GET["cragid"] ?>">Edit <?= $data["crag"]["name"] ?></a>
-            <a class="btn-edit" href="<?= SITEURL ?>/admin/crag.php?action=delete&cragid=<?= $_GET["cragid"] ?>">Delete <?= $data["crag"]["name"] ?></a>
+            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=edit&cragid=<?= $_GET["cragid"] ?>')">Edit <?= $data["crag"]["name"] ?></button>
+            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=delete&cragid=<?= $_GET["cragid"] ?>')">Delete <?= $data["crag"]["name"] ?></button>
         </div>
     <?php endif ?>
     <div class="title"><?= $data["crag"]["name"] ?></div>
     <div id="viewpicker">
-        <i id="listview" class="fa fa-info btn-border" onclick="viewCragInfo()"></i>
-        <i id="mapview" class="fa fa-map-marker btn-border" onclick="viewCragMap('crag')"></i>
+        <button id="listview" class="fa fa-info btn-border" onclick="viewCragInfo()"></button>
+        <button id="mapview" class="fa fa-map-marker btn-border" onclick="viewCragMap('crag')"></button>
     </div>
     <div id="view"></div>
 </div>
 <div class="content panel">
     <?php if (isset($_SESSION["userid"])): ?>
         <div class="right">
-            <a class="btn-edit" href="<?= SITEURL ?>/admin/route.php?action=add&cragid=<?= $_GET["cragid"] ?>">Add Route</a>
-            <a class="btn-edit" href="<?= SITEURL ?>/admin/route_sort.php?cragid=<?= $_GET["cragid"] ?>">Sort</a>
+            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/route.php?action=add&cragid=<?= $_GET["cragid"] ?>')">Add Route</button>
+            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/route_sort.php?cragid=<?= $_GET["cragid"] ?>')">Sort</button>
         </div>
     <?php endif ?>
     <div class="heading">Routes</div>

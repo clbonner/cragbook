@@ -25,15 +25,15 @@ function showRouteOrder() {
     table += '<tr><th>Name</th><th>Order</th><th>Grade</th><th>Sector</th></tr>';
     for (x in routes) {
         table += '<tr><td id=\"route\">' + routes[x].name + '</td>';
-        table += '<td><i id=' + routes[x].routeid + ' class=\"fa fa-arrow-up btn-edit\" onclick=\"routeUp($(this).parents())\"></i>';
-        table += '<i id=' + routes[x].routeid + ' class=\"fa fa-arrow-down btn-edit\" onclick=\"routeDown($(this).parents())\"></i></td>';
+        table += '<td><button id=' + routes[x].routeid + ' class=\"fa fa-arrow-up btn-edit\" onclick=\"routeUp($(this).parents())\"></button>';
+        table += '<button id=' + routes[x].routeid + ' class=\"fa fa-arrow-down btn-edit\" onclick=\"routeDown($(this).parents())\"></button></td>';
         table += '<td>' + routes[x].grade + '</td><td>' + routes[x].sector + '</td></tr>';
     }
     table += "</table>";
     
     // add the buttons
-    buttons = '<br><button class="btn-save margin-5" onclick="updateRouteOrder()">Save</button>';
-    buttons += '<button class="btn-cancel margin-5" onclick="window.location.assign(\'' + returnurl + '\')">Cancel</button>';
+    buttons = '<br><button class="btn-save" onclick="updateRouteOrder()">Save</button>';
+    buttons += '<button class="btn-cancel" onclick="window.location.assign(\'' + returnurl + '\')">Cancel</button>';
     
     // display table and buttons
     $("#routes").html(table);

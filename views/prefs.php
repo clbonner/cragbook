@@ -1,15 +1,16 @@
 <form class="content" action="<?= SITEURL ?>/admin/prefs.php" method="post">
     <div class="heading">User Preferences</div><br>
-    <label><b>Username</b></label>
+    <label>Username</label>
     <input type="text" name="username" value="<?= $data["user"]["username"] ?>" required>
-    <label><b>Display Name</b></label>
+    <label>Display Name</label>
     <input type="text" name="displayname" value="<?= $data["user"]["displayname"] ?>" required>    
-    <h6>Change Password</h6>
-    <label><b>Old password</b></label>
+    <br>
+    <div class="heading">Change Password</div>
+    <label>Old password</label>
     <input type="password" autocomplete="off" name="oldpass">    
-    <label><b>New password</b></label>
+    <label>New password</label>
     <input type="password" autocomplete="off" name="newpass">
-    <label><b>Confirm new password</b></label>
+    <label>Confirm new password</label>
     <input type="password" autocomplete="off" name="confirmpass">
     <div>
         <button class="btn-save" type="submit">Save</button>

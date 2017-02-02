@@ -1,5 +1,5 @@
 <form class="content" action="<?= SITEURL ?>/admin/home.php" method="post">
-    <label><b>Home page text</b></label>
+    <label>Home page text</label>
     <textarea name="text" rows=10><?= $data["site"]["home_text"] ?></textarea><br>
     <div>
         <button class="btn-save" type="submit">Save</button>

@@ -101,7 +101,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
             ."\",grade=\"" .$grade ."\",stars=\"" .$stars ."\",length=\"" .$length 
             ."\",sector=\"" .$sector ."\",firstascent=\"" .$fascent ."\" WHERE routeid = " .$_SESSION["id"] .";";
     }
-    echo $sql;
     if (!$result = $db->query($sql))
         error("Error in admin/route.php: " .$db->error);
     

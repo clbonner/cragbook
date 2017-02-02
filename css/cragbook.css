@@ -104,7 +104,7 @@ button {
     width: 100%;
     overflow: hidden;
     background-color: #999999;
-    color:#000;
+    color: #000;
     font-size: 14px;
     margin: 0px;
 }
@@ -154,9 +154,8 @@ button {
     left: 5%;
     right: 5%;
     text-align: center;
-    border-color: #d9d9d9;
-    border-style: solid;
-    border-width: 1px;
+    border: 1px solid;
+    border-color: #999999;
     background-color: #fff;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
 }

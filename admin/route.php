@@ -94,13 +94,14 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     // add/update database
     if ($_SESSION["action"] == "add") {
         $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent) VALUES (" .$_SESSION["id"] .",\"" .$name 
-            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector .",\"" .$fascent ."\");";
+            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\",\"" .$fascent ."\");";
     }
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE routes SET name=\"" .$name. "\",description=\"" .$description 
             ."\",grade=\"" .$grade ."\",stars=\"" .$stars ."\",length=\"" .$length 
             ."\",sector=\"" .$sector ."\",firstascent=\"" .$fascent ."\" WHERE routeid = " .$_SESSION["id"] .";";
     }
+    echo $sql;
     if (!$result = $db->query($sql))
         error("Error in admin/route.php: " .$db->error);
     

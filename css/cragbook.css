@@ -73,14 +73,16 @@ tr:nth-child(odd) {
 label {
     display: block;
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    padding: 5px;
     font-size: 10px;
 }
 
 input {
     display: block;
     width: 100%;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     padding: 5px;
 }
 
@@ -175,7 +177,6 @@ button {
 
 /* default map view */
 #map {
-    margin-bottom: 5px;
     height: 300px;
 }
 

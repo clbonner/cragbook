@@ -11,7 +11,7 @@ $(document).ready( function () {
 <div class="content panel">
     <?php if(isset($_SESSION["userid"])): ?>
         <div class="right">
-            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=add')">Add Area</button>
+            <button class="btn-edit fa fa-plus" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=add')"></button>
         </div>
     <?php endif ?>
     <div class="heading">Climbing Areas</div>

@@ -12,8 +12,8 @@ $(document).ready( function () {
     <div class="content panel">
         <?php if(isset($_SESSION["userid"])): ?>
             <div class="right">
-                <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=edit&areaid=<?= $_GET["areaid"] ?>')">Edit <?= $data["area"]["name"] ?></button>
-                <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=delete&areaid=<?= $_GET["areaid"] ?>')">Delete <?= $data["area"]["name"] ?></button>
+                <button class="btn-edit fa fa-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=edit&areaid=<?= $_GET["areaid"] ?>')"></button>
+                <button class="btn-edit fa fa-trash" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=delete&areaid=<?= $_GET["areaid"] ?>')"></button>
             </div>
         <?php endif ?>
         <div class="title"><?= $data["area"]["name"] ?></div>
@@ -22,7 +22,7 @@ $(document).ready( function () {
     <div class="content panel">
         <?php if(isset($_SESSION["userid"])): ?>
             <div class="right">
-                <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=add&areaid=<?= $_GET["areaid"] ?>')">Add Crag</button>
+                <button class="btn-edit fa fa-plus" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=add&areaid=<?= $_GET["areaid"] ?>')"></button>
             </div>
         <?php endif ?>
         <div class="heading">Crags</div>

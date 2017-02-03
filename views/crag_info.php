@@ -16,8 +16,8 @@ $(document).ready( function () {
 <div class="content panel">
     <?php if (isset($_SESSION["userid"])): ?>
         <div class="right">
-            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=edit&cragid=<?= $_GET["cragid"] ?>')">Edit <?= $data["crag"]["name"] ?></button>
-            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=delete&cragid=<?= $_GET["cragid"] ?>')">Delete <?= $data["crag"]["name"] ?></button>
+            <button class="btn-edit fa fa-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=edit&cragid=<?= $_GET["cragid"] ?>')"></button>
+            <button class="btn-edit fa fa-trash" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=delete&cragid=<?= $_GET["cragid"] ?>')"></button>
         </div>
     <?php endif ?>
     <div class="title"><?= $data["crag"]["name"] ?></div>
@@ -30,8 +30,8 @@ $(document).ready( function () {
 <div class="content panel">
     <?php if (isset($_SESSION["userid"])): ?>
         <div class="right">
-            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/route.php?action=add&cragid=<?= $_GET["cragid"] ?>')">Add Route</button>
-            <button class="btn-edit" onclick="window.location.assign('<?= SITEURL ?>/admin/route_sort.php?cragid=<?= $_GET["cragid"] ?>')">Sort</button>
+            <button class="btn-edit fa fa-plus" onclick="window.location.assign('<?= SITEURL ?>/admin/route.php?action=add&cragid=<?= $_GET["cragid"] ?>')"></button>
+            <button class="btn-edit fa fa-sort" onclick="window.location.assign('<?= SITEURL ?>/admin/route_sort.php?cragid=<?= $_GET["cragid"] ?>')"></button>
         </div>
     <?php endif ?>
     <div class="heading">Routes</div>

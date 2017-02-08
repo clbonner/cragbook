@@ -6,14 +6,13 @@
  * CSS for Cragbook.
  */
 
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 
 html {
     font-family: "Arial", sans-serif;
     box-sizing: border-box;
-}
-
-*, *:before, *:after {
-  box-sizing: inherit;
 }
 
 body {
@@ -63,7 +62,10 @@ th {
     color: #fff;
     background-color: #0099ff;
     text-align: left;
-    padding: 5px;
+    border-bottom: 1px solid;
+    border-color: #e6e6e6;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 tr:nth-child(odd) {

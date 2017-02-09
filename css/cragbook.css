@@ -20,7 +20,7 @@ body {
 }
 
 header {
-    height: 26px;
+    height: 32px;
     width: 100%;
     color: white;
     font-size: 25px;
@@ -107,7 +107,7 @@ button {
     height: 26px;
     width: 100%;
     overflow: hidden;
-    background-color: #999999;
+    background-color: #e6e6e6;
     color: #000;
     font-size: 14px;
     margin: 0px;

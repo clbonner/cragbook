@@ -5,7 +5,7 @@ Cragbook is a web application specifically for building an online climbing guide
 Built using PHP, Javascript and MySQL. Cragbook also features Google Maps integration for locating areas and crags.
 
 Installation
-============
+------------
 
 Requirements:
 

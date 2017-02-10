@@ -61,11 +61,12 @@ function getRouteOrder(crag) {
 // send route order data back to database
 function updateRouteOrder() {
     var url = "../include/route_json.php";
+    var data = "routes=" + JSON.stringify(routes);
     
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x middle\"></i>");
     $("#buttons").hide();
     
-    $.getJSON(url, JSON.stringify(routes), function (data, status, xhr){
+    $.post(url, data, function (data, status, xhr){
         window.location.assign(returnurl);
     });
 }

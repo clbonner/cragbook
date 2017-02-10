@@ -55,26 +55,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // send route as JSON
         echo json_encode($route);
     }
+}
+
+// update route order for crag
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // update route order for crag
-    else {
-        
-        login_check();
-        
-        $routes = urldecode($_SERVER["QUERY_STRING"]);
-        $routes = json_decode($routes, true);
-        
-        // update routes in database
-        foreach ($routes as $route) {
-            $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
-            if(!$db->query($sql)){
-                echo "{\"error\" : \"" .$db->error ."\"}";
-                exit;
-            }
+    login_check();
+    
+    $routes = urldecode($_POST["routes"]);
+    $routes = json_decode($routes, true);
+    
+    // update routes in database
+    foreach ($routes as $route) {
+        $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
+        if(!$db->query($sql)){
+            echo "{\"error\" : \"" .$db->error ."\"}";
+            exit;
         }
-        
-        // notify success
-        echo "{\"status\":\"SUCCESS\"}";
     }
 }
 

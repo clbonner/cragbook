@@ -22,12 +22,14 @@ function showRouteOrder() {
     
     // build table of routes
     table = '<table>';
-    table += '<tr><th>Name</th><th>Order</th><th>Grade</th><th>Sector</th></tr>';
+    table += '<tr><th>Order</th><th>Name</th><th>Grade</th><th>Sector</th></tr>';
     for (x in routes) {
-        table += '<tr><td id=\"route\">' + routes[x].name + '</td>';
-        table += '<td><button id=' + routes[x].routeid + ' class=\"fa fa-arrow-up btn-edit\" onclick=\"routeUp($(this).parents())\"></button>';
-        table += '<button id=' + routes[x].routeid + ' class=\"fa fa-arrow-down btn-edit\" onclick=\"routeDown($(this).parents())\"></button></td>';
-        table += '<td>' + routes[x].grade + '</td><td>' + routes[x].sector + '</td></tr>';
+        table += '<tr>';
+        table += '<td><button id=' + routes[x].routeid + ' class=\"fa fa-arrow-up btn-edit\" onclick=\"routeUp(this.id)\"></button>';
+        table += '<button id=' + routes[x].routeid + ' class=\"fa fa-arrow-down btn-edit\" onclick=\"routeDown(this.id)\"></button></td>';
+        table += '<td id=\"route\">' + routes[x].name + '</td>';
+        table += '<td>' + routes[x].grade + '</td><td>' + routes[x].sector + '</td>';
+        table += '</tr>';
     }
     table += "</table>";
     
@@ -61,8 +63,8 @@ function getRouteOrder(crag) {
 // send route order data back to database
 function updateRouteOrder() {
     var url = "../include/route_json.php";
-    var data = "routes=" + JSON.stringify(routes);
-    
+    var data = "routes=" + encodeURIComponent(JSON.stringify(routes));
+
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x middle\"></i>");
     $("#buttons").hide();
     
@@ -72,11 +74,11 @@ function updateRouteOrder() {
 }
 
 // moves a route down in the table
-function routeDown(dom) {
-    var x, routeName = dom[1].firstChild.innerText;
-
+function routeDown(routeid) {
+    var x;
+    
     for (x in routes) {
-        if (routeName == routes[x].name && routes[x].orderid < routes.length){
+        if (routeid == routes[x].routeid && routes[x].orderid < routes.length){
             routes[x].orderid = ++routes[x].orderid;
             routes[++x].orderid = --routes[x].orderid;
             break;
@@ -87,11 +89,11 @@ function routeDown(dom) {
 }
 
 // moves a route up in the table
-function routeUp(dom) {
-    var x, routeName = dom[1].firstChild.innerText;
-    
+function routeUp(routeid) {
+    var x;
+
     for (x in routes) {
-        if (routeName == routes[x].name && routes[x].orderid > 1){
+        if (routeid == routes[x].routeid && routes[x].orderid > 1){
             routes[x].orderid = --routes[x].orderid;
             routes[--x].orderid = ++routes[x].orderid;
             break;

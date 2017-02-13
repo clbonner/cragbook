@@ -68,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // update routes in database
     foreach ($routes as $route) {
         $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
+        echo $sql ."\n";
         if(!$db->query($sql)){
             echo "{\"error\" : \"" .$db->error ."\"}";
             exit;

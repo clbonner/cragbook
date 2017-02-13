@@ -44,15 +44,15 @@ elseif (isset($_GET["filter"])) {
         }
         elseif($_GET["filter"] == "french") {
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ";
-            $sql .= $frenchGradeFilter . $OrderByGrade . $frenchGrade . $ElseAsc;
+            $sql .= $frenchGradeFilter . "ORDER BY grade ASC";
         }
         elseif($_GET["filter"] == "font") {
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ";
-            $sql .= $fontGradeFilter . $OrderByGrade . $fontGrade . $ElseAsc;
+            $sql .= $fontGradeFilter . "ORDER BY grade ASC";
         }
         elseif($_GET["filter"] == "yds") {
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ";
-            $sql .= $ydsGradeFilter . $OrderByGrade . $ydsGrade . $ElseAsc;
+            $sql .= $ydsGradeFilter . "ORDER BY grade ASC";
         }
         elseif($_GET["filter"] == "uiaa") {
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ";
@@ -60,7 +60,7 @@ elseif (isset($_GET["filter"])) {
         }
         elseif($_GET["filter"] == "vgrade") {
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ";
-            $sql .= $vGradeFilter . $OrderByGrade . $vGrade . $ElseAsc;
+            $sql .= $vGradeFilter . "ORDER BY grade ASC";
         }
         elseif ($_GET["filter"] == "all") {
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ORDER BY name ASC;";

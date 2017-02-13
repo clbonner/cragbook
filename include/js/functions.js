@@ -47,6 +47,8 @@ function getRouteOrder(crag) {
     var url = "../include/route_json.php?cragid=" + crag;
     returnurl = '../crag_info.php?cragid=' + crag;
     
+    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
+    
     $.getJSON(url, function (data, status, xhr){
         routes = data;
         
@@ -65,7 +67,7 @@ function updateRouteOrder() {
     var url = "../include/route_json.php";
     var data = "routes=" + encodeURIComponent(JSON.stringify(routes));
 
-    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x middle\"></i>");
+    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     $("#buttons").hide();
     
     $.post(url, data, function (data, status, xhr){

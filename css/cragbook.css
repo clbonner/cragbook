@@ -195,6 +195,11 @@ button {
     text-align: center;
 }
 
+/* json error */
+#jsonerr {
+    padding: 10px;
+}
+
 /* default button used */
 .btn {
     border:none;

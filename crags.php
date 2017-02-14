@@ -23,7 +23,7 @@ elseif (isset($_GET["filter"])) {
     $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." ORDER BY name ASC;";
     
     if (!$result = $db->query($sql))
-        error("Error in crags.php: " .$db->error);
+        ajax_err("Error in crags.php: " .$db->error);
     elseif ($result->num_rows > 0) {
         
         // store crags in array
@@ -71,9 +71,7 @@ elseif (isset($_GET["filter"])) {
         }
     
         if (!$result = $db->query($sql)) {
-            $error = $db->error ."\n";
-            echo $error;
-            exit;
+            ajax_err("Error in crags.php: " .$db->error);
         }
         elseif ($result->num_rows > 0) {
             

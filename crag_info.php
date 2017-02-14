@@ -56,7 +56,7 @@ elseif (isset($_GET["filter"])) {
     
     // get routes
     if (!$result = $db->query($sql))
-        error("Error in crag_info.php: " .$db->error);
+        ajax_err("Error in crag_info.php: " .$db->error);
     elseif ($result->num_rows > 0) {
         $routes = [];
         while($row = $result->fetch_assoc())

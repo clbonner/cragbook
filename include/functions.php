@@ -108,7 +108,7 @@ function error($string) {
 
 // returns an error message to a AJAX request
 function ajax_err($string) {
-    exit("<div id=\"jsonerr\">" .$string ."</div>");
+    exit("<div id=\"ajaxerr\">" .$string ."</div>");
 }
 
 // shows an info screen to the user

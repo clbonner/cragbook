@@ -195,8 +195,8 @@ button {
     text-align: center;
 }
 
-/* json error */
-#jsonerr {
+/* ajax error */
+#ajaxerr {
     padding: 10px;
 }
 

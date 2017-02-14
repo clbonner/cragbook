@@ -20,9 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";
         
         if (!$result = $db->query($sql)) {
-            $error = $db->error ."\n";
-            echo $error;
-            exit;
+            exit("Error in route_json.php: " .$db->error);
         }
         
         $routes = [];
@@ -40,9 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $sql = "SELECT * FROM routes WHERE routeid = ". $_GET["routeid"];
         
         if (!$result = $db->query($sql)) {
-            $error = $db->error ."\n";
-            echo $error;
-            exit;
+            exit("Error in route_json.php: " .$db->error);
         }
         elseif ($result->num_rows == 1)
             $route = $result->fetch_assoc();
@@ -68,10 +64,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // update routes in database
     foreach ($routes as $route) {
         $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
-        echo $sql ."\n";
+        
         if(!$db->query($sql)){
-            echo "{\"error\" : \"" .$db->error ."\"}";
-            exit;
+            exit("Error in route_json.php: " .$db->error);
         }
     }
 }

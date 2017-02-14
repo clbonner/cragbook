@@ -15,9 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // get all areas in database   
     $sql = "SELECT * FROM areas ORDER BY name ASC;";
     if (!$result = $db->query($sql)) {
-        $error = $db->error ."\n";
-        echo $error;
-        exit;
+        exit("Error in area_json.php: " .$db->error);
     }
     
     $areas = [];

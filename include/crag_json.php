@@ -28,9 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
     
     if (!$result = $db->query($sql)) {
-        $error = $db->error ."\n";
-        echo $error;
-        exit;
+        exit("Error in crag_json.php: " .$db->error);
     }
     
     // put crag(s) in to array

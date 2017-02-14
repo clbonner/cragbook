@@ -43,7 +43,7 @@ $(document).ready( function () {
             <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'font')">Font</button>
             <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'vgrade')">V grade</button>
         </div>
-        <div id="routes"><p onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'all')">Show all routes for <?= $data["area"]["name"] ?>...</p></div>
+        <div id="routes"><p class="pointer" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'all')">Show all routes for <?= $data["area"]["name"] ?>...</p></div>
         <div id="routeinfo" class="modal"></div>
     </div>
 </div>

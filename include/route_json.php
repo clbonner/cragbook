@@ -15,6 +15,44 @@ $db = db_connect();
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     
     // send JSON data for routes at crag
+    if (isset($_GET["areaid"])) {
+        
+        $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." ORDER BY name ASC;";
+        
+        if (!$result = $db->query($sql))
+            ajax_err("Error in route_json.php: " .$db->error);
+        elseif ($result->num_rows > 0) {
+        
+            // store crags in array
+            $crags = [];
+            while($row = $result->fetch_assoc()) 
+                array_push($crags, $row);
+
+            // get cragid's for area
+            foreach($crags as $crag) {
+                $values = $values . $crag["cragid"] . ",";
+            }
+            $values[strlen($values) - 1] = " ";
+            
+            $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ORDER BY orderid;";
+                
+            if (!$result = $db->query($sql)) {
+                ajax_err("Error in route_json.php: " .$db->error);
+            }
+            
+            $routes = [];
+            while ($route = $result->fetch_assoc()) {
+                array_push($routes, $route);
+            }
+        }
+        else
+            $routes = "";
+        
+        // send routes as JSON
+        echo json_encode($routes);
+    }
+    
+    // send JSON data for routes at crag
     if (isset($_GET["cragid"])) {
         
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";

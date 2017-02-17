@@ -1,11 +1,7 @@
 <script>
 $(document).ready( function () {
     getCrags(<?= $_GET["areaid"] ?>);
-    
-    $(document).ajaxSuccess(function(event, xhr, settings) {
-        if (settings.url.includes("include/crag_json.php"))
-            viewCragList();
-    });
+    getAreaRoutes(<?= $_GET["areaid"] ?>)
 });
 </script>
 <div>
@@ -35,15 +31,15 @@ $(document).ready( function () {
     <div class="content panel">
         <div class="heading">Routes</div>
         <div id="gradefilter">
-            <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'all')">All</button>
-            <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'british')">British</button>
-            <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'french')">French</button>
-            <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'yds')">YDS</button>
-            <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'uiaa')">UIAA</button>
-            <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'font')">Font</button>
-            <button class="btn" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'vgrade')">V grade</button>
+        <button class="btn" onclick="viewAreaRoutes(routes)">All</button>
+        <button class="btn" onclick="britishFilter('area')">British</button>
+        <button class="btn" onclick="frenchFilter('area')">French</button>
+        <button class="btn" onclick="ydsFilter('area')">YDS</button>
+        <button class="btn" onclick="uiaaFilter('area')">UIAA</button>
+        <button class="btn" onclick="fontFilter('area')">Font</button>
+        <button class="btn" onclick="vGradeFilter('area')">V grade</button>
         </div>
-        <div id="routes"><p class="pointer" onclick="getAreaRoutes(<?= $_GET["areaid"] ?>, 'all')">Show all routes for <?= $data["area"]["name"] ?>...</p></div>
+        <div id="routes"></div>
         <div id="routeinfo" class="modal"></div>
     </div>
 </div>

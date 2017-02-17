@@ -1,12 +1,7 @@
 <script>
 $(document).ready( function () {
     getCragInfo(<?= $_GET["cragid"] ?>);
-    getCragRoutes(<?= $_GET["cragid"] ?>, 'all');
-    
-    $(document).ajaxSuccess(function(event, xhr, settings) {
-        if (settings.url.includes("include/crag_json.php"))
-            viewCragInfo();
-    });
+    getCragRoutes(<?= $_GET["cragid"] ?>);
 });
 </script>
 
@@ -36,13 +31,13 @@ $(document).ready( function () {
     <?php endif ?>
     <div class="heading">Routes</div>
     <div id="gradefilter">
-        <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'all')">All</button>
-        <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'british')">British</button>
-        <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'french')">French</button>
-        <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'yds')">YDS</button>
-        <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'uiaa')">UIAA</button>
-        <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'font')">Font</button>
-        <button class="btn" onclick="getCragRoutes(<?= $_GET["cragid"] ?>, 'vgrade')">V grade</button>
+        <button class="btn" onclick="viewCragRoutes(routes)">All</button>
+        <button class="btn" onclick="britishFilter('crag')">British</button>
+        <button class="btn" onclick="frenchFilter('crag')">French</button>
+        <button class="btn" onclick="ydsFilter('crag')">YDS</button>
+        <button class="btn" onclick="uiaaFilter('crag')">UIAA</button>
+        <button class="btn" onclick="fontFilter('crag')">Font</button>
+        <button class="btn" onclick="vGradeFilter('crag')">V grade</button>
     </div>
     <div id="routes"></div>
     <div id="routeinfo" class="modal"></div>

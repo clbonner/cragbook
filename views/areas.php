@@ -1,11 +1,6 @@
 <script>
 $(document).ready( function () {
     getAreas();
-    
-    $(document).ajaxSuccess(function(event, xhr, settings) {
-        if (settings.url.includes("include/area_json.php"))
-            viewAreaList();
-    });
 });
 </script>
 <div class="content panel">

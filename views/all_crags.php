@@ -1,9 +1,6 @@
 <script>
 $(document).ready( function () {
     getCrags('all');
-    $(document).ajaxSuccess(function() {
-        viewCragList();
-    });
 });
 </script>
 <div class="content panel">

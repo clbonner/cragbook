@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $values[strlen($values) - 1] = " ";
             
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ORDER BY orderid;";
-                
+            
             if (!$result = $db->query($sql)) {
                 ajax_err("Error in route_json.php: " .$db->error);
             }

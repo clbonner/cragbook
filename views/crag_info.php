@@ -1,7 +1,6 @@
 <script>
 $(document).ready( function () {
     getCragInfo(<?= $_GET["cragid"] ?>);
-    getCragRoutes(<?= $_GET["cragid"] ?>);
 });
 </script>
 
@@ -32,12 +31,9 @@ $(document).ready( function () {
     <div class="heading">Routes</div>
     <div id="gradefilter">
         <button class="btn" onclick="viewCragRoutes(routes)">All</button>
-        <button class="btn" onclick="britishFilter('crag')">British</button>
-        <button class="btn" onclick="frenchFilter('crag')">French</button>
-        <button class="btn" onclick="ydsFilter('crag')">YDS</button>
-        <button class="btn" onclick="uiaaFilter('crag')">UIAA</button>
-        <button class="btn" onclick="fontFilter('crag')">Font</button>
-        <button class="btn" onclick="vGradeFilter('crag')">V grade</button>
+        <button class="btn" onclick="trad('crag')">Trad</button>
+        <button class="btn" onclick="sport('crag')">Sport</button>
+        <button class="btn" onclick="bouldering('crag')">Bouldering</button>
     </div>
     <div id="routes"></div>
     <div id="routeinfo" class="modal"></div>

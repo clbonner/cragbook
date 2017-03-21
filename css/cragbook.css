@@ -58,14 +58,16 @@ table, td {
     text-align: left;
 }
 
+td, th {
+    padding: 5px;
+}
+
 th {
     color: #fff;
     background-color: #0099ff;
     text-align: left;
     border-bottom: 1px solid;
     border-color: #e6e6e6;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 
 tr:nth-child(odd) {
@@ -146,6 +148,10 @@ button {
     border-color: #999999;
     text-align: center;
     overflow-x: auto;
+}
+
+#route:hover {
+    
 }
 
 /* modal content for route info window */
@@ -254,6 +260,23 @@ button {
     display:inline-block;
     outline:0;
     padding:5px 15px;
+    vertical-align:middle;
+    overflow:hidden;
+    text-decoration:none;
+    color:#fff;
+    background-color:#f44336;
+    text-align:center;
+    cursor:pointer;
+    white-space:nowrap;
+    border-radius:4px;
+}
+
+.btn-small {
+    width: 20px;
+    height: 20px;
+    border:none;
+    display:inline-block;
+    padding:0px;
     vertical-align:middle;
     overflow:hidden;
     text-decoration:none;
@@ -374,6 +397,24 @@ button {
     right: 20%;
 }
 
+/* traffic light colors */
+
+.green {
+    color: green;
+}
+
+.amber {
+    color: orange;
+}
+
+.red {
+    color: red;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
 /* background for modal popup */
 .modal {
     display: none;
@@ -388,8 +429,9 @@ button {
     background-color: rgba(0,0,0,0.4);
 }
 
-.pointer {
+.pointer:hover {
     cursor: pointer;
+    background-color: #c9c9c9;
 }
 
 /* responsive section */
@@ -403,5 +445,6 @@ button {
     
     th, td {
         text-align: center;
+        padding: 2px;
     }
 }

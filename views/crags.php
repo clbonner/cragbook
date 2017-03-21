@@ -1,7 +1,6 @@
 <script>
 $(document).ready( function () {
     getCrags(<?= $_GET["areaid"] ?>);
-    getAreaRoutes(<?= $_GET["areaid"] ?>)
 });
 </script>
 <div>
@@ -32,12 +31,9 @@ $(document).ready( function () {
         <div class="heading">Routes</div>
         <div id="gradefilter">
         <button class="btn" onclick="viewAreaRoutes(routes)">All</button>
-        <button class="btn" onclick="britishFilter('area')">British</button>
-        <button class="btn" onclick="frenchFilter('area')">French</button>
-        <button class="btn" onclick="ydsFilter('area')">YDS</button>
-        <button class="btn" onclick="uiaaFilter('area')">UIAA</button>
-        <button class="btn" onclick="fontFilter('area')">Font</button>
-        <button class="btn" onclick="vGradeFilter('area')">V grade</button>
+        <button class="btn" onclick="trad('area')">Trad</button>
+        <button class="btn" onclick="sport('area')">Sport</button>
+        <button class="btn" onclick="bouldering('area')">Bouldering</button>
         </div>
         <div id="routes"></div>
         <div id="routeinfo" class="modal"></div>

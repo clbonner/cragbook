@@ -90,16 +90,21 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     $length = sec_check($_POST["length"]);
     $sector = sec_check($_POST["sector"]);
     $fascent = sec_check($_POST["fascent"]);
+    $discipline = sec_check($_POST["discipline"]);
+    $seriousness = sec_check($_POST["seriousness"]);
+    
+    if (!is_numeric($discipline)) error("Invalid entry for discipline.");
+    if (!is_numeric($seriousness)) error("Invalid entry for seriousness.");
     
     // add/update database
     if ($_SESSION["action"] == "add") {
-        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent) VALUES (" .$_SESSION["id"] .",\"" .$name 
-            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\",\"" .$fascent ."\");";
+        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent,discipline,seriousness) VALUES (" .$_SESSION["id"] .",\"" .$name 
+            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\",\"" .$fascent ."\"," .$discipline ."," .$seriousness .");";
     }
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE routes SET name=\"" .$name. "\",description=\"" .$description 
             ."\",grade=\"" .$grade ."\",stars=\"" .$stars ."\",length=\"" .$length 
-            ."\",sector=\"" .$sector ."\",firstascent=\"" .$fascent ."\" WHERE routeid = " .$_SESSION["id"] .";";
+            ."\",sector=\"" .$sector ."\",firstascent=\"" .$fascent ."\",discipline=" .$discipline .",seriousness=" .$seriousness ." WHERE routeid = " .$_SESSION["id"] .";";
     }
     if (!$result = $db->query($sql))
         error("Error in admin/route.php: " .$db->error);

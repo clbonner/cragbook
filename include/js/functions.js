@@ -158,6 +158,10 @@ function getCrags(id) {
     $.getJSON(url, function (data, status, xhr) {
         crags = data;
         viewCragList();
+        
+        if (id != 'all)') {
+            getAreaRoutes(id);
+        }
     });
 }
 
@@ -168,6 +172,8 @@ function getCragInfo(id) {
     $.getJSON(url, function (data, status, xhr) {
         crags = data;
         viewCragInfo();
+        
+        getCragRoutes(id);
     });
 }
 
@@ -184,25 +190,25 @@ function getAreas() {
 // gets JDON data for a route and display route info
 function getRouteInfo(routeid) {
     var url = "include/route_json.php?routeid=" + routeid;
-    var div = '<div id="routeinfowindow">';
-    div += '<i class="fa fa-circle-o-notch fa-spin fa-5x"></i></div>';
-    
+    var div = '<div id="routeinfowindow"></div>';
+    var x;
+
     $("#routeinfo").html(div);
-    $("#routeinfo").show();
     
-    $.getJSON(url, function (data, status, xhr) {
-        var route = data;
-        
-        div = '<h3>' + route.name + ' ' + route.stars + '</h3>';
-        div += '<p>' + route.description + '</p>';
-        div += '<p><b>First Ascent: </b>' + route.firstascent + '</p>';
-        div += '<p><b>Grade: </b>' + route.grade + '</p>';
-        div += '<p><b>Length: </b>' + route.length + 'm</p>';
-        div += '<p><b>Crag Sector: </b>' + route.sector + '</p>';
-        div += '<button class="btn-edit margin-15" onclick="$(\'#routeinfo\').hide()">Close</button>';
-        
-        $("#routeinfowindow").html(div);
-    });
+    for (x in routes) {
+        if (routes[x].routeid == routeid) {
+            div = '<h3>' + routes[x].name + ' ' + routes[x].stars + '</h3>';
+            div += '<p>' + routes[x].description + '</p>';
+            div += '<p><b>First Ascent: </b>' + routes[x].firstascent + '</p>';
+            div += '<p><b>Grade: </b>' + routes[x].grade + '</p>';
+            div += '<p><b>Length: </b>' + routes[x].length + 'm</p>';
+            div += '<p><b>Crag Sector: </b>' + routes[x].sector + '</p>';
+            div += '<button class="btn-edit margin-15" onclick="$(\'#routeinfo\').hide()">Close</button>';
+            
+            $("#routeinfowindow").html(div);
+            $("#routeinfo").show();
+        }
+    }
 }
 
 
@@ -283,22 +289,68 @@ function viewAreaRoutes(routes) {
         table += "<th></th>";
         table += "<th>Name</th>";
         table += "<th>Grade</th>";
+        table += "<th>RAD</td>";
         table += "<th>Stars</th>";
+        table += "<th>Length</th>";
+        table += "<th>First Ascent</th>";
         table += "<th>Crag</th>";
         table += "</tr>";
         
         for (x in routes) {
-            table += "<tr>";
-            table += "<td><div>";
-            table += "<button class=\"fa fa-info btn-border margin-side-5\" onclick=\"getRouteInfo(" + routes[x].routeid + ")\"></button></div></td>";
+            table += "<tr class=\"pointer\" onclick=\"getRouteInfo(" + routes[x].routeid + ")\">";
+            table += "<td>";
+            
+            switch(routes[x].discipline) {
+                case "1":
+                    table += "<i class=\"fa fa-circle-thin fa-lg\"></i></td>";
+                    break;
+                case "2":
+                    table += "<i class=\"fa fa-circle-thin fa-lg yellow\"></i></td>";
+                    break;
+                case "3":
+                    table += "<i class=\"fa fa-circle fa-lg\"></i></td>";
+                    break;
+                default:
+                    table += "</td>";
+            }
+                
             table += "<td>" + routes[x].name + "</td>";
             table += "<td>" + routes[x].grade + "</td>";
+            
+            switch(routes[x].seriousness) {
+                case "1":
+                    table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"><i class=\"fa fa-smile-o green\"></i></td>";
+                    break;
+                case "2":
+                    table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"><i class=\"fa fa-meh-o amber\"></i></td>";
+                    break;
+                case "3":
+                    table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"><i class=\"fa fa-frown-o red\"></i></td>";
+                    break;
+                default:
+                    table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"></td>";
+            }
+                
             table += "<td>" + routes[x].stars + "</td>";
+            table += "<td>" + routes[x].length + "m</td>";
+                
+            table += "<td>";
+            
+            if (routes[x].firstascent.length >= 20) {
+                for (i = 0; i < 20; i++) {
+                   table += routes[x].firstascent[i];
+                }
+                table += "...</td>";
+            }
+            else {
+                table += routes[x].firstascent + "</td>";
+            }
+                
             table += "<td>";
             
             for (y in crags) {
                 if(crags[y].cragid == routes[x].cragid) {
-                    table += "<a class=\"pointer\" onclick=\"window.location.assign('crag_info.php?cragid=" + crags[y].cragid + "')\">" + crags[y].name + "</a>";
+                    table += "<a onclick=\"window.location.assign('crag_info.php?cragid=" + crags[y].cragid + "')\">" + crags[y].name + "</a>";
                     break;
                 }
             }
@@ -318,7 +370,7 @@ function viewAreaRoutes(routes) {
 
 // shows routes on crag pages
 function viewCragRoutes(routes) {
-    var table, x;
+    var table, x, i;
     
     if (routes.length > 0) {
         table = "<table>";
@@ -326,38 +378,132 @@ function viewCragRoutes(routes) {
         table += "<th></th>";
         table += "<th>Name</th>";
         table += "<th>Grade</th>";
+        table += "<th>RAD</th>";
         table += "<th>Stars</th>";
         table += "<th>Length</th>";
+        table += "<th>First Ascent</th>";
         table += "<th>Sector</th>";
-        table += "</tr>";
         
         // show editing options if user logged in
-        if (auth == true) {
+        if (auth === true) {
+            
+            table += "<th></th></tr>";
+            
             for (x  in routes) {
-                table += "<tr>";
+                table += "<tr class=\"pointer\">";
+                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">";
+                
+                switch(routes[x].discipline) {
+                    case "1":
+                        table += "<i class=\"fa fa-circle-thin fa-lg\"></i></td>";
+                        break;
+                    case "2":
+                        table += "<i class=\"fa fa-circle-thin fa-lg yellow\"></i></td>";
+                        break;
+                    case "3":
+                        table += "<i class=\"fa fa-circle fa-lg\"></i></td>";
+                        break;
+                    default:
+                        table += "</td>";
+                }
+                    
+                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].name + "</td>";
+                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].grade + "</td>";
+                
+                switch(routes[x].seriousness) {
+                    case "1":
+                        table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"><i class=\"fa fa-smile-o green\"></i></td>";
+                        break;
+                    case "2":
+                        table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"><i class=\"fa fa-meh-o amber\"></i></td>";
+                        break;
+                    case "3":
+                        table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"><i class=\"fa fa-frown-o red\"></i></td>";
+                        break;
+                    default:
+                        table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"></td>";
+                }
+                
+                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].stars + "</td>";
+                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].length + "m</td>";
+                
+                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">";
+                
+                if (routes[x].firstascent.length >= 20) {
+                    for (i = 0; i < 20; i++) {
+                       table += routes[x].firstascent[i];
+                    }
+                    table += "...</td>";
+                }
+                else {
+                    table += routes[x].firstascent + "</td>";
+                }
+                
+                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].sector + "</td>";
+                
                 table += "<td>";
-                table += "<button class=\"fa fa-edit btn-edit\" onclick=\"window.location.assign('admin/route.php?action=edit&routeid=" + routes[x].routeid + "')\"></button>";
-                table += "<button class=\"fa fa-trash-o btn-edit\" onclick=\"window.location.assign('admin/route.php?action=delete&routeid=" + routes[x].routeid + "')\"></button>";
-                table += "<button class=\"fa fa-info btn-border\" onclick=\"getRouteInfo(" + routes[x].routeid + ")\"></button></td>";
-                table += "<td><a href=\"admin/route.php?action=edit&routeid=" + routes[x].routeid + "\">" + routes[x].name + "</a></td>";
-                table += "<td>" + routes[x].grade + "</td>";
-                table += "<td>" + routes[x].stars + "</td>";
-                table += "<td>" + routes[x].length + "m</td>";
-                table += "<td>" + routes[x].sector + "</td>";
+                table += "<i class=\"fa fa-edit fa-lg\" onclick=\"window.location.assign('admin/route.php?action=edit&routeid=" + routes[x].routeid + "')\"></i>&nbsp&nbsp&nbsp&nbsp";
+                table += "<i class=\"fa fa-trash-o fa-lg\" onclick=\"window.location.assign('admin/route.php?action=delete&routeid=" + routes[x].routeid + "')\"></i>";
+                table += "</td>";
                 table += "</tr>";
             }
         }
         
         // not logged in
         else {
+            
+            table += "</tr>";
+            
             for (x in routes) {
-                table += "<tr>";
+                table += "<tr class=\"pointer\" onclick=\"getRouteInfo(" + routes[x].routeid + ")\">";
                 table += "<td>";
-                table += "<button class=\"fa fa-info btn-border margin-side-5\" onclick=\"getRouteInfo(" + routes[x].routeid + ")\"></button></td>";
+                
+                switch(routes[x].discipline) {
+                    case "1":
+                        table += "<i class=\"fa fa-circle-thin fa-lg\"></i></td>";
+                        break;
+                    case "2":
+                        table += "<i class=\"fa fa-circle-thin fa-lg yellow\"></i></td>";
+                        break;
+                    case "3":
+                        table += "<i class=\"fa fa-circle fa-lg\"></i></td>";
+                        break;
+                    default:
+                        table += "</td>";
+                }
+                
                 table += "<td>" + routes[x].name + "</td>";
                 table += "<td>" + routes[x].grade + "</td>";
+                
+                switch(routes[x].seriousness) {
+                    case "1":
+                        table += "<td><i class=\"fa fa-smile-o green\"></i></td>";
+                        break;
+                    case "2":
+                        table += "<td><i class=\"fa fa-meh-o amber\"></i></td>";
+                        break;
+                    case "3":
+                        table += "<td><i class=\"fa fa-frown-o red\"></i></td>";
+                        break;
+                    default:
+                        table += "<td></td>";
+                }
+                
                 table += "<td>" + routes[x].stars + "</td>";
                 table += "<td>" + routes[x].length + "m</td>";
+                
+                table += "<td>";
+                
+                if (routes[x].firstascent.length >= 20) {
+                    for (i = 0; i < 20; i++) {
+                       table += routes[x].firstascent[i];
+                    }
+                    table += "...</td>";
+                }
+                else {
+                    table += routes[x].firstascent + "</td>";
+                }
+                
                 table += "<td>" + routes[x].sector + "</td>";
                 table += "</tr>";
             }
@@ -372,22 +518,22 @@ function viewCragRoutes(routes) {
     $('#routes').html(table);
 }
 
-// filters and sorts routes for british grading
-function britishFilter(page) {
-    var x, britishRoutes = [];
+// filters and sorts routes for british trad grading
+function trad(page) {
+    var x, tradRoutes = [];
     
     for (x in routes) {
-        if (/^E$/.test(routes[x].grade)) britishRoutes.push(routes[x]);
-        else if (/^M/.test(routes[x].grade)) britishRoutes.push(routes[x]);
-        else if (/^D/.test(routes[x].grade)) britishRoutes.push(routes[x]);
-        else if (/^VD/.test(routes[x].grade)) britishRoutes.push(routes[x]);
-        else if (/^S/.test(routes[x].grade)) britishRoutes.push(routes[x]);
-        else if (/^VS/.test(routes[x].grade)) britishRoutes.push(routes[x]);
-        else if (/^HVS/.test(routes[x].grade)) britishRoutes.push(routes[x]);
-        else if (/^E[0-9]/.test(routes[x].grade)) britishRoutes.push(routes[x]);
+        if (/^E$/.test(routes[x].grade)) tradRoutes.push(routes[x]);
+        else if (/^M/.test(routes[x].grade)) tradRoutes.push(routes[x]);
+        else if (/^D/.test(routes[x].grade)) tradRoutes.push(routes[x]);
+        else if (/^VD/.test(routes[x].grade)) tradRoutes.push(routes[x]);
+        else if (/^S/.test(routes[x].grade)) tradRoutes.push(routes[x]);
+        else if (/^VS/.test(routes[x].grade)) tradRoutes.push(routes[x]);
+        else if (/^HVS/.test(routes[x].grade)) tradRoutes.push(routes[x]);
+        else if (/^E[0-9]/.test(routes[x].grade)) tradRoutes.push(routes[x]);
     }
     
-    britishRoutes.sort(function (a, b) {
+    tradRoutes.sort(function (a, b) {
         
         var gradeA = a.grade.split(" ");
         var gradeB = b.grade.split(" ");
@@ -407,8 +553,8 @@ function britishFilter(page) {
         }
     });
     
-    if (page == 'crag') viewCragRoutes(britishRoutes);
-    else if (page == 'area') viewAreaRoutes(britishRoutes);
+    if (page == 'crag') viewCragRoutes(tradRoutes);
+    else if (page == 'area') viewAreaRoutes(tradRoutes);
 }
 
 // helper function for sorting british grades
@@ -433,159 +579,55 @@ function britishGrade(grade) {
     return grade;
 }
 
-// filters and sorts routes for UIAA grading
-function uiaaFilter (page) {
-    var x, uiaaRoutes = [];
-    
-    for (x in routes) {
-        if (/^I/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^II/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^III/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^IV/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^V$/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^V[+-]/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^VI/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^VII/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^VIII/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^IX/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^X/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^XI/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^XII/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-        else if (/^XIII/.test(routes[x].grade)) uiaaRoutes.push(routes[x]);
-    }
-    
-    uiaaRoutes.sort(function (a, b) {
-        console.log(a.grade,b.grade);
-        a = uiaaGrade(a.grade);
-        b = uiaaGrade(b.grade);
-        console.log(a,b);
-        if (a < b) return -1;
-        else if (a > b) return 1;
-        else return 0;
-    });
-    
-    if (page == 'crag') viewCragRoutes(uiaaRoutes);
-    else if (page == 'area') viewAreaRoutes(uiaaRoutes);
-}
 
-// helper function for sorting UIAA grades
-function uiaaGrade(grade) {
-    if (/^I-/.test(grade)) grade = 0;
-    else if (/^I$/.test(grade)) grade = 1;
-    else if (/^I[+]/.test(grade)) grade = 2;
-    else if (/^II-/.test(grade)) grade = 3;
-    else if (/^II$/.test(grade)) grade = 4;
-    else if (/^II[+]/.test(grade)) grade = 5;
-    else if (/^III-/.test(grade)) grade = 6;
-    else if (/^III$/.test(grade)) grade = 7;
-    else if (/^III[+]/.test(grade)) grade = 8;
-    else if (/^IV-/.test(grade)) grade = 9;
-    else if (/^IV$/.test(grade)) grade = 10;
-    else if (/^IV[+]/.test(grade)) grade = 11;
-    else if (/^V-/.test(grade)) grade = 12;
-    else if (/^V$/.test(grade)) grade = 13;
-    else if (/^V[+]/.test(grade)) grade = 14;
-    else if (/^VI-/.test(grade)) grade = 15;
-    else if (/^VI$/.test(grade)) grade = 16;
-    else if (/^VI[+]/.test(grade)) grade = 17;
-    else if (/^VII-/.test(grade)) grade = 18;
-    else if (/^VII$/.test(grade)) grade = 19;
-    else if (/^VII[+]/.test(grade)) grade = 20;
-    else if (/^VIII-/.test(grade)) grade = 21;
-    else if (/^VIII$/.test(grade)) grade = 22;
-    else if (/^VIII[+]/.test(grade)) grade = 23;
-    else if (/^IX-/.test(grade)) grade = 24;
-    else if (/^IX$/.test(grade)) grade = 25;
-    else if (/^IX[+]/.test(grade)) grade = 26;
-    else if (/^X-/.test(grade)) grade = 27;
-    else if (/^X$/.test(grade)) grade = 28;
-    else if (/^X[+]/.test(grade)) grade = 29;
-    else if (/^XI-/.test(grade)) grade = 30;
-    else if (/^XI$/.test(grade)) grade = 31;
-    else if (/^XI[+]/.test(grade)) grade = 32;
-    
-    return grade;
-}
+
 
 // filters and sorts routes for french grading
-function frenchFilter(page) {
-    var x, frenchRoutes = [];
+function sport(page) {
+    var x, sportRoutes = [];
     
     for (x in routes) {
         if (/^F/.test(routes[x].grade)) {
-            frenchRoutes.push(routes[x]);
+            sportRoutes.push(routes[x]);
         }
     }
     
-    frenchRoutes.sort(function (a, b) {
+    sportRoutes.sort(function (a, b) {
         if (a.grade < b.grade) return -1;
         else if (a.grade > b.grade) return 1;
         else return 0;
     })
     
-    if (page == 'crag') viewCragRoutes(frenchRoutes);
-    else if (page == 'area') viewAreaRoutes(frenchRoutes);
-}
-
-// filters and sorts routes for YDS grading
-function ydsFilter(page) {
-    var x, ydsRoutes = [];
-    
-    for (x in routes) {
-        if (/^5./.test(routes[x].grade)) {
-            ydsRoutes.push(routes[x]);
-        }
-    }
-    
-    ydsRoutes.sort(function (a, b) {
-        if (a.grade < b.grade) return -1;
-        else if (a.grade > b.grade) return 1;
-        else return 0;
-    })
-    
-    if (page == 'crag') viewCragRoutes(ydsRoutes);
-    else if (page == 'area') viewAreaRoutes(ydsRoutes);
+    if (page == 'crag') viewCragRoutes(sportRoutes);
+    else if (page == 'area') viewAreaRoutes(sportRoutes);
 }
 
 // filters and sorts routes for font grading
-function fontFilter(page) {
-    var x, fontRoutes = [];
+function bouldering(page) {
+    var x, boulderProblems = [];
     
     for (x in routes) {
         if (/^f/.test(routes[x].grade)) {
-            fontRoutes.push(routes[x]);
+            boulderProblems.push(routes[x]);
         }
     }
-    
-    fontRoutes.sort(function (a, b) {
-        if (a.grade < b.grade) return -1;
-        else if (a.grade > b.grade) return 1;
-        else return 0;
-    })
-    
-    if (page == 'crag') viewCragRoutes(fontRoutes);
-    else if (page == 'area') viewAreaRoutes(fontRoutes);
-}
-
-// filters and sorts routes for V grading
-function vGradeFilter(page) {
-    var x, vGradeRoutes = [];
     
     for (x in routes) {
         if (/^V[0-9]/.test(routes[x].grade)) {
-            vGradeRoutes.push(routes[x]);
+            boulderProblems.push(routes[x]);
         }
     }
     
-    vGradeRoutes.sort(function (a, b) {
+    boulderProblems.sort(function (a, b) {
         if (a.grade < b.grade) return -1;
         else if (a.grade > b.grade) return 1;
         else return 0;
     })
     
-    if (page == 'crag') viewCragRoutes(vGradeRoutes);
-    else if (page == 'area') viewAreaRoutes(vGradeRoutes);
+    if (page == 'crag') viewCragRoutes(boulderProblems);
+    else if (page == 'area') viewAreaRoutes(boulderProblems);
 }
+
 
 /* Google Maps Functions */
 /* --------------------- */

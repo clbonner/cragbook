@@ -11,7 +11,7 @@
     <script src="<?= SITEURL ?>/include/js/functions.js"></script>
     <script>
         tinymce.init({ 
-            selector:'textarea',
+            selector:'#home',
             toolbar: 'formatselect | fontsizeselect bold italic | alignleft aligncenter alignright'
         });
     </script>

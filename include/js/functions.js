@@ -102,7 +102,7 @@ function routeUp(routeid) {
 
 // gets routes from route_update.php as JSON and stores in routes
 function getRouteOrder(crag) {
-    var url = "../include/route_json.php?cragid=" + crag;
+    var i = 1, x, url = "../include/route_json.php?cragid=" + crag;
     returnurl = '../crag_info.php?cragid=' + crag;
     
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
@@ -111,8 +111,7 @@ function getRouteOrder(crag) {
         routes = data;
         
         // assign orderid to each route
-        var i = 1;
-        for (var x in routes) {
+        for (x in routes) {
             routes[x].orderid = i++;
         }
         

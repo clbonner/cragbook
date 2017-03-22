@@ -99,6 +99,10 @@ button {
     margin-right: 2px;
 }
 
+textarea {
+    width: 100%;
+}
+
 /* main title in header section */
 #sitetitle {
     padding-left: 5px;

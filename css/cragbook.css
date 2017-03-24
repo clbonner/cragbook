@@ -47,18 +47,20 @@ h1, h2 {
 
 table {
     width: 100%;
-    overflow-x: auto;
     border-collapse: collapse;
     background-color: #fff;
 }
 
-table, td {
+td {
     border-bottom: 1px solid;
     border-color: #e6e6e6;
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 td, th {
+    width: 200px;
     padding: 5px;
 }
 
@@ -340,6 +342,28 @@ textarea {
     border-radius:4px;
 }
 
+.btn-public {
+    border:none;
+    display:inline-block;
+    outline:0;
+    padding:5px 15px;
+    vertical-align:middle;
+    overflow:hidden;
+    text-decoration:none;
+    color:#fff;
+    background-color: #2eb82e;
+    text-align:center;
+    cursor:pointer;
+    white-space:nowrap;
+    border-radius:4px;
+}
+
+.btn-public:hover {
+    color: #fff;
+    border-color: #f44336;
+    background-color: #f44336;
+}
+
 /* for positioning elements */
 .left {
     float: left;
@@ -389,6 +413,11 @@ textarea {
     margin-right: 5px;
 }
 
+.inline {
+    display: inline;
+    width: auto;
+}
+
 /* centering content */
 .center {
     text-align: center;
@@ -419,6 +448,13 @@ textarea {
     background-color: yellow;
 }
 
+.firstascent {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 250px;
+}
+
 /* background for modal popup */
 .modal {
     display: none;
@@ -445,10 +481,5 @@ textarea {
     #list, .list {
         padding: 5px;
         text-align: center;
-    }
-    
-    th, td {
-        text-align: center;
-        padding: 2px;
     }
 }

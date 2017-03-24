@@ -106,13 +106,15 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     $name = sec_check($_POST["name"]);
     $description = sec_check($_POST["description"]);
     $location = $_POST["location"];
+    if ($_POST["public"] == "on") $public = 1;
+    else $public = 0;
     
     // add/update area details
     if ($_SESSION["action"] == "add")
-        $sql = "INSERT INTO areas (name,description,location) VALUES (\"" .$name ."\",\"" .$description ."\",\"" .$location ."\");";
+        $sql = "INSERT INTO areas (name,description,location,public) VALUES (\"" .$name ."\",\"" .$description ."\",\"" .$location ."\"," .$public .");";
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE areas SET name=\"" .$name ."\",description=\"" .$description 
-            ."\",location=\"" .$location ."\" WHERE areaid=" .$_SESSION["id"] .";";
+            ."\",location=\"" .$location ."\",public=" .$public ." WHERE areaid=" .$_SESSION["id"] .";";
     }
     if (!$result = $db->query($sql))
         error("Error in admin/area.php: " .$db->error);

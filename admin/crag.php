@@ -97,18 +97,20 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     $policy = sec_check($_POST["policy"]);
     $location = sec_check($_POST["location"]);
     $approach = sec_check($_POST["approach"]);
+    if ($_POST["public"] == "on") $public = 1;
+    else $public = 0;
     
     // add new crag
     if ($_SESSION["action"] == "add") {
-        $sql = "INSERT INTO crags (areaid,name,description,access,policy,location,approach) VALUES (\"" .$_SESSION["id"] ."\",\"" .$name 
-            ."\",\"" .$description ."\",\"" .$access ."\",\"" .$policy ."\",\"" .$location ."\",\"" .$approach ."\");";
+        $sql = "INSERT INTO crags (areaid,name,description,access,policy,location,approach,public) VALUES (\"" .$_SESSION["id"] ."\",\"" .$name 
+            ."\",\"" .$description ."\",\"" .$access ."\",\"" .$policy ."\",\"" .$location ."\",\"" .$approach ."\"," .$public .");";
     }
 
     // update crag details
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE crags SET name=\"" .$name. "\",description=\"" .$description 
             ."\",access=\"" .$access ."\",policy=\"" .$policy ."\",location=\"" .$location 
-            ."\",approach=\"" .$approach ."\" WHERE cragid = " .$_SESSION["id"] .";";
+            ."\",approach=\"" .$approach ."\",public=" .$public ." WHERE cragid = " .$_SESSION["id"] .";";
     }
     
     if (!$result = $db->query($sql))

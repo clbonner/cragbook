@@ -225,8 +225,14 @@ function viewCragList() {
         view = '<div id="list">';
         
         for (i in crags) {
-            view += '<a class="btn" href="crag_info.php?cragid=' + crags[i].cragid + '">';
-            view += crags[i].name + '</a>';
+            if (crags[i].public == 1) {
+                view += '<a class="btn-public" href="crag_info.php?cragid=' + crags[i].cragid + '">';
+                view += crags[i].name + '</a>';
+            }
+            else {
+                view += '<a class="btn" href="crag_info.php?cragid=' + crags[i].cragid + '">';
+                view += crags[i].name + '</a>';
+            }
         }
         
         view += '</div>';
@@ -248,8 +254,14 @@ function viewAreaList() {
         view = '<div id="list">';
         
         for (i in areas) {
-            view += '<a class="btn" href="crags.php?areaid=' + areas[i].areaid + '">';
-            view += areas[i].name + '</a>';
+            if (areas[i].public == 1) {
+                view += '<a class="btn-public" href="crags.php?areaid=' + areas[i].areaid + '">';
+                view += areas[i].name + '</a>';
+            }
+            else {
+                view += '<a class="btn" href="crags.php?areaid=' + areas[i].areaid + '">';
+                view += areas[i].name + '</a>';
+            }
         }
         
         view += '</div>';
@@ -270,7 +282,7 @@ function viewCragInfo() {
     view += '<div class="heading">' + crags[0].description + '</div>';
     view += '<p><b>Access: </b>' + crags[0].access + '</p>';
     view += '<p><b>Policy on fixed gear: </b>' + crags[0].policy + '</p>';
-    view += '<p><b>Approach </b>' + crags[0].approach + '</p>';
+    view += '<p><b>Approach: </b>' + crags[0].approach + '</p>';
     view += '</div>';
     
     // show crag info
@@ -288,11 +300,11 @@ function viewAreaRoutes(routes) {
         table += "<th></th>";
         table += "<th>Name</th>";
         table += "<th>Grade</th>";
-        table += "<th>RAD</td>";
+        table += "<th></td>";
         table += "<th>Stars</th>";
         table += "<th>Length</th>";
-        table += "<th>First Ascent</th>";
         table += "<th>Crag</th>";
+        table += "<th>First Ascent</th>";
         table += "</tr>";
         
         for (x in routes) {
@@ -333,17 +345,7 @@ function viewAreaRoutes(routes) {
             table += "<td>" + routes[x].stars + "</td>";
             table += "<td>" + routes[x].length + "m</td>";
                 
-            table += "<td>";
             
-            if (routes[x].firstascent.length >= 20) {
-                for (i = 0; i < 20; i++) {
-                   table += routes[x].firstascent[i];
-                }
-                table += "...</td>";
-            }
-            else {
-                table += routes[x].firstascent + "</td>";
-            }
                 
             table += "<td>";
             
@@ -353,8 +355,8 @@ function viewAreaRoutes(routes) {
                     break;
                 }
             }
-            
             table += "</td>";
+            table += "<td><div class=\"firstascent\">" + routes[x].firstascent + "</div></td>";
             table += "</tr>";
         }
         
@@ -377,7 +379,7 @@ function viewCragRoutes(routes) {
         table += "<th></th>";
         table += "<th>Name</th>";
         table += "<th>Grade</th>";
-        table += "<th>RAD</th>";
+        table += "<th></th>";
         table += "<th>Stars</th>";
         table += "<th>Length</th>";
         table += "<th>First Ascent</th>";
@@ -425,23 +427,12 @@ function viewCragRoutes(routes) {
                 
                 table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].stars + "</td>";
                 table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].length + "m</td>";
-                
-                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">";
-                
-                if (routes[x].firstascent.length >= 20) {
-                    for (i = 0; i < 20; i++) {
-                       table += routes[x].firstascent[i];
-                    }
-                    table += "...</td>";
-                }
-                else {
-                    table += routes[x].firstascent + "</td>";
-                }
-                
+                table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"><div class=\"firstascent\">" + routes[x].firstascent + "</div></td>";
                 table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].sector + "</td>";
                 
+                
                 table += "<td>";
-                table += "<i class=\"fa fa-edit fa-lg\" onclick=\"window.location.assign('admin/route.php?action=edit&routeid=" + routes[x].routeid + "')\"></i>&nbsp&nbsp&nbsp&nbsp";
+                table += "<i class=\"fa fa-edit fa-lg\" onclick=\"window.location.assign('admin/route.php?action=edit&routeid=" + routes[x].routeid + "')\"></i>&nbsp";
                 table += "<i class=\"fa fa-trash-o fa-lg\" onclick=\"window.location.assign('admin/route.php?action=delete&routeid=" + routes[x].routeid + "')\"></i>";
                 table += "</td>";
                 table += "</tr>";
@@ -490,19 +481,7 @@ function viewCragRoutes(routes) {
                 
                 table += "<td>" + routes[x].stars + "</td>";
                 table += "<td>" + routes[x].length + "m</td>";
-                
-                table += "<td>";
-                
-                if (routes[x].firstascent.length >= 20) {
-                    for (i = 0; i < 20; i++) {
-                       table += routes[x].firstascent[i];
-                    }
-                    table += "...</td>";
-                }
-                else {
-                    table += routes[x].firstascent + "</td>";
-                }
-                
+                table += "<td><div class=\"firstascent\">" + routes[x].firstascent + "</div></td>";
                 table += "<td>" + routes[x].sector + "</td>";
                 table += "</tr>";
             }

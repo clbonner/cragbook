@@ -13,7 +13,11 @@ $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // get all areas in database   
-    $sql = "SELECT * FROM areas ORDER BY name ASC;";
+    if (isset($_SESSION["userid"]))
+        $sql = "SELECT * FROM areas ORDER BY name ASC;";
+    else
+        $sql = "SELECT * FROM areas WHERE public=1 ORDER BY name ASC;";
+    
     if (!$result = $db->query($sql)) {
         exit("Error in area_json.php: " .$db->error);
     }

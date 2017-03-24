@@ -214,6 +214,7 @@ textarea {
 
 /* default button used */
 .btn {
+    margin: 5px;
     border:none;
     display:inline-block;
     outline:0;
@@ -343,6 +344,7 @@ textarea {
 }
 
 .btn-public {
+    margin: 5px;
     border:none;
     display:inline-block;
     outline:0;

@@ -34,7 +34,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
     
     set_data("edit", $_GET["areaid"]);
     
-    $button = "Update";
+    $button = "Save";
     $returnurl = SITEURL ."/crags.php?areaid=" .$_GET["areaid"];
     
     view("area_form.php", ["button" => $button, "area" => $area, "returnurl" => $returnurl]);

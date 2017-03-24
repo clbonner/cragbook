@@ -88,27 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // send routes as JSON
         echo json_encode($routes);
     }
-    
-    // get individual route
-    elseif (isset($_GET["routeid"])) {
-        
-        $sql = "SELECT * FROM routes WHERE routeid = ". $_GET["routeid"];
-        
-        if (!$result = $db->query($sql)) {
-            exit("Error in route_json.php: " .$db->error);
-        }
-        elseif ($result->num_rows == 1) {
-            $route = $result->fetch_assoc();
-        }
-        else 
-            $route = "";
-        
-
-        $route["description"] = htmlspecialchars_decode($route["description"]);
-        
-        // send route as JSON
-        echo json_encode($route);
-    }
 }
 
 // update route order for crag

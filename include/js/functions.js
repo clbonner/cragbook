@@ -13,14 +13,11 @@ const defaultCenter = {lat: 53.815474, lng: -4.632684};
 // info window for markers
 var infowindow = new google.maps.InfoWindow();
 
-// check authentication
-auth_check();
-
 // returns true if a user is logged in
 function auth_check() {
     var url = "include/auth_json.php";
     
-    $.getJSON(url, function (data, status, xhr) {
+    $.getJSON("include/auth_json.php", function (data, status, xhr) {
         auth = data;
     });
 }
@@ -153,14 +150,16 @@ function getCrags(id) {
     // get crags in area
     else
         var url = "include/crag_json.php?areaid=" + id;
-    
-    $.getJSON(url, function (data, status, xhr) {
-        crags = data;
-        viewCragList();
-        
-        if (id != 'all)') {
-            getAreaRoutes(id);
-        }
+    $.getJSON("include/auth_json.php", function (data, status, xhr) {
+        auth = data;
+        $.getJSON(url, function (data, status, xhr) {
+            crags = data;
+            viewCragList();
+            
+            if (id != 'all)') {
+                getAreaRoutes(id);
+            }
+        });
     });
 }
 
@@ -168,11 +167,13 @@ function getCrags(id) {
 function getCragInfo(id) {
     var url = "include/crag_json.php?cragid=" + id;
     
-    $.getJSON(url, function (data, status, xhr) {
-        crags = data;
-        viewCragInfo();
-        
-        getCragRoutes(id);
+    $.getJSON("include/auth_json.php", function (data, status, xhr) {
+        auth = data;
+        $.getJSON(url, function (data, status, xhr) {
+            crags = data;
+            viewCragInfo();
+            getCragRoutes(id);
+        });
     });
 }
 
@@ -180,9 +181,12 @@ function getCragInfo(id) {
 function getAreas() {
     var url = "include/area_json.php";
     
-    $.getJSON(url, function (data, status, xhr) {
-        areas = data;
-        viewAreaList();
+    $.getJSON("include/auth_json.php", function (data, status, xhr) {
+        auth = data;
+        $.getJSON(url, function (data, status, xhr) {
+            areas = data;
+            viewAreaList();
+        });
     });
 }
 
@@ -225,7 +229,7 @@ function viewCragList() {
         view = '<div id="list">';
         
         for (i in crags) {
-            if (crags[i].public == 1) {
+            if (crags[i].public == 1 && auth == true) {
                 view += '<a class="btn-public" href="crag_info.php?cragid=' + crags[i].cragid + '">';
                 view += crags[i].name + '</a>';
             }
@@ -254,7 +258,7 @@ function viewAreaList() {
         view = '<div id="list">';
         
         for (i in areas) {
-            if (areas[i].public == 1) {
+            if (areas[i].public == 1 && auth == true) {
                 view += '<a class="btn-public" href="crags.php?areaid=' + areas[i].areaid + '">';
                 view += areas[i].name + '</a>';
             }
@@ -308,8 +312,8 @@ function viewAreaRoutes(routes) {
         table += "</tr>";
         
         for (x in routes) {
-            table += "<tr class=\"pointer\" onclick=\"getRouteInfo(" + routes[x].routeid + ")\">";
-            table += "<td>";
+            table += "<tr class=\"pointer\">";
+            table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">";
             
             switch(routes[x].discipline) {
                 case "1":
@@ -325,8 +329,8 @@ function viewAreaRoutes(routes) {
                     table += "</td>";
             }
                 
-            table += "<td>" + routes[x].name + "</td>";
-            table += "<td>" + routes[x].grade + "</td>";
+            table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].name + "</td>";
+            table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].grade + "</td>";
             
             switch(routes[x].seriousness) {
                 case "1":
@@ -342,11 +346,8 @@ function viewAreaRoutes(routes) {
                     table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"></td>";
             }
                 
-            table += "<td>" + routes[x].stars + "</td>";
-            table += "<td>" + routes[x].length + "m</td>";
-                
-            
-                
+            table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].stars + "</td>";
+            table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\">" + routes[x].length + "m</td>";
             table += "<td>";
             
             for (y in crags) {
@@ -356,7 +357,7 @@ function viewAreaRoutes(routes) {
                 }
             }
             table += "</td>";
-            table += "<td><div class=\"firstascent\">" + routes[x].firstascent + "</div></td>";
+            table += "<td onclick=\"getRouteInfo(" + routes[x].routeid + ")\"><div class=\"firstascent\">" + routes[x].firstascent + "</div></td>";
             table += "</tr>";
         }
         

@@ -18,7 +18,7 @@ $(document).ready( function () {
     <div id="map" class="panel"></div>
     <input id="latlng" type="text" name="location" value="<?= $data["crag"]["location"] ?>" readonly>
     <div class="margin-bottom-5">
-        <input type="checkbox" name="public" class="inline" <?php if ($data["route"]["public"] == true) echo "checked" ?>>
+        <input type="checkbox" name="public" class="inline" <?php if ($data["crag"]["public"] == true) echo "checked" ?>>
         <label class="inline">Publicly viewable</label>
     </div>
     <div>

@@ -13,15 +13,6 @@ const defaultCenter = {lat: 53.815474, lng: -4.632684};
 // info window for markers
 var infowindow = new google.maps.InfoWindow();
 
-// returns true if a user is logged in
-function auth_check() {
-    var url = "include/auth_json.php";
-    
-    $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        auth = data;
-    });
-}
-
 // sorts routes by orderid and updates DOM element
 function showRouteOrder() {
     var x, table, buttons;

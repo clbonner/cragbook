@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
 {
     set_data("add", NULL);
     $button = "Add";
-    $returnurl = SITEURL ."/areas.php";
+    $returnurl = SITEURL ."/all_areas.php";
     
     view("area_form.php", ["button" => $button, "returnurl" => $returnurl]);
 }
@@ -35,7 +35,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
     set_data("edit", $_GET["areaid"]);
     
     $button = "Save";
-    $returnurl = SITEURL ."/crags.php?areaid=" .$_GET["areaid"];
+    $returnurl = SITEURL ."/area.php?areaid=" .$_GET["areaid"];
     
     view("area_form.php", ["button" => $button, "area" => $area, "returnurl" => $returnurl]);
 }
@@ -53,7 +53,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
     
     $message = "Are you sure you want to delete <b>" .$area["name"] ."</b> and all associated crags and routes?";
     $controller = "area.php";
-    $returnurl = SITEURL ."/crags.php?areaid=" .$_GET["areaid"];
+    $returnurl = SITEURL ."/area.php?areaid=" .$_GET["areaid"];
     
     view("delete_form.php", ["message" => $message, "controller" => $controller, "returnurl" => $returnurl]);
 }
@@ -95,7 +95,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
         error("Error in admin/area.php: " .$db->error);
     
     // return to area page
-    header("Location: " .SITEURL ."/areas.php");
+    header("Location: " .SITEURL ."/all_areas.php");
 
     clear_data();
 }
@@ -127,7 +127,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
         $area = $result->fetch_assoc();
 
     // return to area page
-    header("Location: " .SITEURL ."/crags.php?areaid=" .$area["areaid"]);
+    header("Location: " .SITEURL ."/area.php?areaid=" .$area["areaid"]);
     
     clear_data();
 }

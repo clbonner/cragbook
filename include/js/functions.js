@@ -7,11 +7,28 @@
  */
 
 // global variables
-var routes, crags, areas, returnurl, map, marker, auth;
+var routes, crags, areas, returnurl, map, marker, auth, btn;
 const defaultCenter = {lat: 53.815474, lng: -4.632684};
+var area = { name : "", description : "", routes : [] };
+var crag = { name : "", description : "", access : "", policy : "", approach : "", routes : [] };
 
 // info window for markers
 var infowindow = new google.maps.InfoWindow();
+
+// filters dynamic content for safe viewing
+function safeStr(str) {
+    str = str.replace(/\</g,"");
+    str = str.replace(/\>/g,"");
+    str = str.replace(/\"/g,"");
+    str = str.replace(/\'/g,"");
+    str = str.replace(/\%/g,"");
+    str = str.replace(/\;/g,"");
+    str = str.replace(/\(/g,"");
+    str = str.replace(/\)/g,"");
+    str = str.replace(/\&/g,"");
+    str = str.replace(/\+/g,"");
+    return str;
+}
 
 // sorts routes by orderid and updates DOM element
 function showRouteOrder() {
@@ -91,7 +108,7 @@ function routeUp(routeid) {
 // gets routes from route_update.php as JSON and stores in routes
 function getRouteOrder(crag) {
     var i = 1, x, url = "../include/route_json.php?cragid=" + crag;
-    returnurl = '../crag_info.php?cragid=' + crag;
+    returnurl = '../crag.php?cragid=' + crag;
     
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     
@@ -132,17 +149,19 @@ function getCragRoutes(cragid) {
 }
 
 // get JSON data on crags for area
-function getCrags(id) {
+function getArea(id) {
+    var url;
     
     // get all crags
     if (id == 'all')
-        var url = "include/crag_json.php";
-    
-    // get crags in area
+        url = "include/crag_json.php";
     else
-        var url = "include/crag_json.php?areaid=" + id;
+        url = "include/crag_json.php?areaid=" + id;
+
+    // get crags in area
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
         auth = data;
+        
         $.getJSON(url, function (data, status, xhr) {
             crags = data;
             viewCragList();
@@ -151,17 +170,28 @@ function getCrags(id) {
                 getAreaRoutes(id);
             }
         });
+        
+        // get area info
+        $.getJSON("include/area_json.php?areaid=" + id, function (data, status, xhr) {
+            areas = data;
+            
+            $("#name").text(areas.name);
+            $("#description").text(areas.description);
+        });
     });
 }
 
 // get JSON data for crag info
-function getCragInfo(id) {
+function getCrag(id) {
     var url = "include/crag_json.php?cragid=" + id;
     
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
         auth = data;
         $.getJSON(url, function (data, status, xhr) {
             crags = data;
+            
+            $("#name").text(crags[0].name);
+            
             viewCragInfo();
             getCragRoutes(id);
         });
@@ -169,7 +199,7 @@ function getCragInfo(id) {
 }
 
 // get JSON data on areas
-function getAreas() {
+function getAllAreas() {
     var url = "include/area_json.php";
     
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
@@ -181,13 +211,26 @@ function getAreas() {
     });
 }
 
+// get JSON data for crag info
+function getAllCrags() {
+    var url = "include/crag_json.php";
+    
+    $.getJSON("include/auth_json.php", function (data, status, xhr) {
+        auth = data;
+        $.getJSON(url, function (data, status, xhr) {
+            crags = data;
+            viewCragList();
+        });
+    });
+}
+
 // gets JDON data for a route and display route info
 function getRouteInfo(routeid) {
     var url = "include/route_json.php?routeid=" + routeid;
     var div = '<div id="routeinfowindow"></div>';
     var x;
 
-    $("#routeinfo").html(div);
+    $("#modal").html(div);
     
     for (x in routes) {
         if (routes[x].routeid == routeid) {
@@ -197,10 +240,10 @@ function getRouteInfo(routeid) {
             div += '<p><b>Grade: </b>' + routes[x].grade + '</p>';
             div += '<p><b>Length: </b>' + routes[x].length + 'm</p>';
             div += '<p><b>Crag Sector: </b>' + routes[x].sector + '</p>';
-            div += '<button class="btn-edit margin-15" onclick="$(\'#routeinfo\').hide()">Close</button>';
+            div += '<button class="btn-edit margin-15" onclick="$(\'#modal\').hide()">Close</button>';
             
             $("#routeinfowindow").html(div);
-            $("#routeinfo").show();
+            $("#modal").show();
         }
     }
 }
@@ -214,6 +257,10 @@ function getRouteInfo(routeid) {
 function viewCragList() {
     var i, view;
     
+    $(btn).removeClass("btn-border");
+    $("#listview").addClass("btn-border");
+    btn = "#listview";
+    
     if (crags.length != 0) {
         
         // build list of crags
@@ -221,11 +268,11 @@ function viewCragList() {
         
         for (i in crags) {
             if (crags[i].public == 1 && auth == true) {
-                view += '<a class="btn-public" href="crag_info.php?cragid=' + crags[i].cragid + '">';
+                view += '<a class="btn-public" href="crag.php?cragid=' + crags[i].cragid + '">';
                 view += crags[i].name + '</a>';
             }
             else {
-                view += '<a class="btn" href="crag_info.php?cragid=' + crags[i].cragid + '">';
+                view += '<a class="btn" href="crag.php?cragid=' + crags[i].cragid + '">';
                 view += crags[i].name + '</a>';
             }
         }
@@ -243,6 +290,10 @@ function viewCragList() {
 function viewAreaList() {
     var i, view;
     
+    $(btn).removeClass("btn-border");
+    $("#listview").addClass("btn-border");
+    btn = "#listview";
+    
     if (areas.length != 0) {
         
         // build list of crags
@@ -250,11 +301,11 @@ function viewAreaList() {
         
         for (i in areas) {
             if (areas[i].public == 1 && auth == true) {
-                view += '<a class="btn-public" href="crags.php?areaid=' + areas[i].areaid + '">';
+                view += '<a class="btn-public" href="area.php?areaid=' + areas[i].areaid + '">';
                 view += areas[i].name + '</a>';
             }
             else {
-                view += '<a class="btn" href="crags.php?areaid=' + areas[i].areaid + '">';
+                view += '<a class="btn" href="area.php?areaid=' + areas[i].areaid + '">';
                 view += areas[i].name + '</a>';
             }
         }
@@ -271,6 +322,10 @@ function viewAreaList() {
 // display list of areas for climbing areas page
 function viewCragInfo() {
     var view;
+    
+    $(btn).removeClass("btn-border");
+    $("#infoview").addClass("btn-border");
+    btn = "#infoview";
     
     // build crag info
     view = '<div id="craginfo">';
@@ -343,7 +398,7 @@ function viewAreaRoutes(routes) {
             
             for (y in crags) {
                 if(crags[y].cragid == routes[x].cragid) {
-                    table += "<a onclick=\"window.location.assign('crag_info.php?cragid=" + crags[y].cragid + "')\">" + crags[y].name + "</a>";
+                    table += "<a onclick=\"window.location.assign('crag.php?cragid=" + crags[y].cragid + "')\">" + crags[y].name + "</a>";
                     break;
                 }
             }
@@ -606,6 +661,10 @@ function bouldering(page) {
 function viewCragMap(location) {
     var i, contentString;
     
+    $(btn).removeClass("btn-border");
+    $("#mapview").addClass("btn-border");
+    btn = "#mapview";
+    
     // set map options for all crags
     if (location == 'all') {
         var latlng = new google.maps.LatLng(defaultCenter);
@@ -658,7 +717,7 @@ function viewCragMap(location) {
             });
             
             // set marker info window content
-            contentString = '<div><a href="crag_info.php?cragid=' + crags[i].cragid + '"><b><h3>' + crags[i].name + '</h3></b></a></div>';
+            contentString = '<div><a href="crag.php?cragid=' + crags[i].cragid + '"><b><h3>' + crags[i].name + '</h3></b></a></div>';
             contentString += '<div>' + crags[i].description + '</div>';
             
             marker.info = contentString;
@@ -675,6 +734,10 @@ function viewCragMap(location) {
 // shows map for areas in the climbing areas page
 function viewAreaMap() {
     var i, contentString;
+    
+    $(btn).removeClass("btn-border");
+    $("#mapview").addClass("btn-border");
+    btn = "#mapview";
     
     // set and get map canvas
     $('#view').html('<div id="map" class="panel" style="height: 500px; width: 100%"></div>');
@@ -706,7 +769,7 @@ function viewAreaMap() {
             });
             
             // set marker info window content
-            contentString = '<div><a href="crags.php?areaid=' + areas[i].areaid + '"><b><h3>' + areas[i].name + '</h3></b></a></div>';
+            contentString = '<div><a href="area.php?areaid=' + areas[i].areaid + '"><b><h3>' + areas[i].name + '</h3></b></a></div>';
             contentString += '<div>' + areas[i].description + '</div>';
             
             marker.info = contentString;
@@ -808,4 +871,17 @@ function setCragMap(location) {
         // set lat and lng values for location
         $("#latlng").val(location.latLng.lat() + ',' + location.latLng.lng());
     });
+}
+
+
+function viewCragPhotos() {
+    $(btn).removeClass("btn-border");
+    $("#photoview").addClass("btn-border");
+    btn = "#photoview";
+}
+
+function printRoutes() {
+    $(btn).removeClass("btn-border");
+    $("#printview").addClass("btn-border");
+    btn = "#printview";
 }

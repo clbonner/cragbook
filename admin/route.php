@@ -16,7 +16,7 @@ $db = db_connect();
 // show new route form
 if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add") {
     set_data("add", $_GET["cragid"]);
-    $returnurl = SITEURL ."/crag_info.php?cragid=" .$_GET["cragid"];
+    $returnurl = SITEURL ."/crag.php?cragid=" .$_GET["cragid"];
     
     view("route_form.php", ["button" => "Add", "returnurl" => $returnurl]);
 }
@@ -30,7 +30,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit") {
         $route = $result->fetch_assoc();
     
     set_data("edit", $_GET["routeid"]);
-    $returnurl = SITEURL ."/crag_info.php?cragid=" .$route["cragid"];
+    $returnurl = SITEURL ."/crag.php?cragid=" .$route["cragid"];
 
     view("route_form.php", ["button" => "Save", "route" => $route, "returnurl" => $returnurl]);
 }
@@ -46,7 +46,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete") {
     set_data("delete", $_GET["routeid"]);
     
     $message = "Are you sure you want to delete the route <b>" .$route["name"] ."</b>?";
-    $returnurl = SITEURL ."/crag_info.php?cragid=" .$route["cragid"];
+    $returnurl = SITEURL ."/crag.php?cragid=" .$route["cragid"];
     $controller = "route.php";
     
     view("delete_form.php", ["message" => $message, "returnurl" => $returnurl,
@@ -75,7 +75,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
         error("Error in admin/route.php: " .$db->error);
     
     // return to crag page
-    header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"]);
+    header("Location: " .SITEURL ."/crag.php?cragid=" .$crag["cragid"]);
     
     clear_data();
 }
@@ -133,7 +133,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
         $crag = $result->fetch_assoc();
     
     // return to crag page
-    header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"]);
+    header("Location: " .SITEURL ."/crag.php?cragid=" .$crag["cragid"]);
 
     clear_data();
 }

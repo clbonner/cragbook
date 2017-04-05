@@ -27,17 +27,17 @@
     </header>
     <div id="menu">
         <div class="left">
-            <a class="btn left" href="<?= SITEURL ?>/index.php"><i class="fa fa-home menu-icon"></i></a>
-            <a class="btn left" href="<?= SITEURL ?>/areas.php">Areas</a>
-            <a class="btn left" href="<?= SITEURL ?>/crags.php">Crags</a>
-            <a class="btn left" href="<?= SITEURL ?>/search.php"><i class="fa fa-search menu-icon"></i></a>
+            <a class="btn-menu left" href="<?= SITEURL ?>/index.php"><i class="fa fa-home menu-icon"></i></a>
+            <a class="btn-menu left" href="<?= SITEURL ?>/all_areas.php">Areas</a>
+            <a class="btn-menu left" href="<?= SITEURL ?>/all_crags.php">Crags</a>
+            <a class="btn-menu left" href="<?= SITEURL ?>/search.php"><i class="fa fa-search menu-icon"></i></a>
         </div>
         <div class="right">
             <?php if(!isset($_SESSION["userid"])): ?>
-                <a class="btn left" href="<?= SITEURL ?>/admin/login.php"><i class="fa fa-sign-in menu-icon"></i></a>
+                <a class="btn-menu left" href="<?= SITEURL ?>/admin/login.php"><i class="fa fa-sign-in menu-icon"></i></a>
             <?php else: ?>
-                <a class="btn left" href="<?= SITEURL ?>/admin/prefs.php"><i class="fa fa-cog menu-icon"></i></a>
-                <a class="btn left" href="<?= SITEURL ?>/admin/logout.php"><i class="fa fa-sign-out menu-icon"></i></a>
+                <a class="btn-menu left" href="<?= SITEURL ?>/admin/prefs.php"><i class="fa fa-cog menu-icon"></i></a>
+                <a class="btn-menu left" href="<?= SITEURL ?>/admin/logout.php"><i class="fa fa-sign-out menu-icon"></i></a>
             <?php endif ?>
         </div>
     </div>

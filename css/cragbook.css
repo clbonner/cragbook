@@ -215,10 +215,9 @@ textarea {
 /* default button used */
 .btn {
     margin: 5px;
-    border:none;
-    display:inline-block;
-    outline:0;
+    border:none;    
     padding:5px 15px;
+    display:inline-block;
     vertical-align:middle;
     overflow:hidden;
     text-decoration:none;
@@ -236,10 +235,32 @@ textarea {
     background-color: #f44336;
 }
 
+.btn-picker {
+    height: 25px;
+    width: 40px;
+    margin: 5px;
+    border:none;
+    outline: 0;
+    display:inline-block;
+    vertical-align:middle;
+    overflow:hidden;
+    text-decoration:none;
+    background-color:inherit;
+    color: #000;
+    text-align:center;
+    cursor:pointer;
+    white-space:nowrap;
+    border-radius:4px;
+    font-size: inherit;
+}
+
+.btn-picker:hover {
+    color: #fff;
+    background-color: #f44336;
+}
+
 .btn-border {
     display: inline-block;
-    outline: 0;
-    padding: 5px 15px;
     vertical-align: middle;
     overflow: hidden;
     text-decoration: none;
@@ -256,6 +277,27 @@ textarea {
 }
 
 .btn-border:hover {
+    color: #fff;
+    border-color: #f44336;
+    background-color: #f44336;
+}
+
+.btn-menu {
+    display: inline-block;
+    padding: 5px 15px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    background-color: inherit;
+    color: #000;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 4px;
+    font-size: inherit;
+}
+
+.btn-menu:hover {
     color: #fff;
     border-color: #f44336;
     background-color: #f44336;
@@ -364,6 +406,11 @@ textarea {
     color: #fff;
     border-color: #f44336;
     background-color: #f44336;
+}
+
+.lrg-icon {
+    width: 200px;
+    height: 200px;
 }
 
 /* for positioning elements */

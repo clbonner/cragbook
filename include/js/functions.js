@@ -7,7 +7,7 @@
  */
 
 // global variables
-var allRoutes, currentRoutes, crag, area, cragList, areaList, returnurl, map, marker, auth, btn;
+var allRoutes, crag, area, cragList, areaList, returnurl, map, marker, auth, btn;
 const defaultCenter = {lat: 53.815474, lng: -4.632684};
 
 // info window for markers
@@ -143,10 +143,10 @@ function getArea(id) {
     else
         url = "include/crag_json.php?areaid=" + id;
 
-    // get crags in area
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
         auth = data;
         
+        // get crags in area
         $.getJSON(url, function (data, status, xhr) {
             cragList = data;
             viewCragList();
@@ -158,10 +158,10 @@ function getArea(id) {
         
         // get area info
         $.getJSON("include/area_json.php?areaid=" + id, function (data, status, xhr) {
-            areaList = data;
+            area = data;
             
-            $("#name").text(areaList.name);
-            $("#description").text(areaList.description);
+            $("#name").text(area.name);
+            $("#description").text(area.description);
         });
     });
 }
@@ -331,80 +331,80 @@ function viewAreaRoutes(routes) {
     
     // build table
     if (routes.length > 0) {
-        row = $("<tr></tr>");
-        row.append("<th></th>");
-        row.append("<th>Name</th>");
-        row.append("<th>Grade</th>");
-        row.append("<th></td>");
-        row.append("<th>Stars</th>");
-        row.append("<th>Length</th>");
-        row.append("<th>Crag</th>");
-        row.append("<th>First Ascent</th>");
+        row = $("<tr>");
+        row.append($("<th>"));
+        row.append($("<th>").text("Name"));
+        row.append($("<th>").text("Grade"));
+        row.append($("<th>"));
+        row.append($("<th>").text("Stars"));
+        row.append($("<th>").text("Length"));
+        row.append($("<th>").text("Crag"));
+        row.append($("<th>").text("First Ascent"));
         table.append(row);
         
         for (x in routes) {
-            row = $("<tr></tr>").addClass("pointer").attr("id", routes[x].routeid);
-            data= $("<td></td>").click( { "id" : routes[x].routeid }, getRouteInfo);
+            row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+            data= $("<td>").click( { "id" : routes[x].routeid }, getRouteInfo);
             
             switch(routes[x].discipline) {
                 case "1":
-                    data.append($("<i></i>").addClass("fa fa-circle-thin fa-lg"));
+                    data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
                     break;
                 case "2":
-                    data.append($("<i></i>").addClass("fa fa-circle-thin fa-lg yellow"));
+                    data.append($("<i>").addClass("fa fa-circle-thin fa-lg yellow"));
                     break;
                 case "3":
-                    data.append($("<i></i>").addClass("fa fa-circle fa-lg"));
+                    data.append($("<i>").addClass("fa fa-circle fa-lg"));
             }
             row.append(data);
             
-            data = $("<td></td>").click({ id : routes[x].routeid }, getRouteInfo);
+            data = $("<td>").click({ id : routes[x].routeid }, getRouteInfo);
             data.text(routes[x].name);
             row.append(data);
             
-            data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
             data.text(routes[x].grade);
             row.append(data);
             
-            data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
             switch(routes[x].seriousness) {
                 case "1":
-                    data.append($("<i></i>").addClass("fa fa-smile-o green"));
+                    data.append($("<i>").addClass("fa fa-smile-o green"));
                     break;
                 case "2":
-                    data.append($("<i></i>").addClass("fa fa-meh-o amber"));
+                    data.append($("<i>").addClass("fa fa-meh-o amber"));
                     break;
                 case "3":
-                    data.append($("<i></i>").addClass("fa fa-frown-o red"));
+                    data.append($("<i>").addClass("fa fa-frown-o red"));
             }
             row.append(data);
             
-            data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
             data.text(routes[x].stars);
             row.append(data);
             
-            data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
             data.text(routes[x].length + "m");
             row.append(data);
 
-            data = $("<td></td>");
+            data = $("<td>");
             for (y in cragList) {
                 if(cragList[y].cragid == routes[x].cragid) {
-                    data.append($("<a></a>").attr("href", "crag.php?cragid=" + cragList[y].cragid).text(cragList[y].name));
+                    data.append($("<a>").attr("href", "crag.php?cragid=" + cragList[y].cragid).text(cragList[y].name));
                     break;
                 }
             }
             row.append(data);
             
-            data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-            data.append($("<div></div>").addClass("firstascent").text(routes[x].firstascent));
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data.append($("<div>").addClass("firstascent").text(routes[x].firstascent));
             row.append(data);
             
             table.append(row);
         }
     }
     else
-        table.append($("<p></p>").text("No routes"));
+        table.append($("<p>").text("No routes"));
     
     // show table
     $('#routes').html(table);
@@ -417,149 +417,89 @@ function viewCragRoutes(routes) {
     
     // build table
     if (routes.length > 0) {
-        row = $("<tr></tr>");
-        row.append("<th></th>");
-        row.append("<th>Name</th>");
-        row.append("<th>Grade</th>");
-        row.append("<th></td>");
-        row.append("<th>Stars</th>");
-        row.append("<th>Length</th>");
-        row.append("<th>First Ascent</th>");
-        row.append("<th>Sector</th>");
+        row = $("<tr>");
+        row.append($("<th>"));
+        row.append($("<th>").text("Name"));
+        row.append($("<th>").text("Grade"));
+        row.append($("<th>"));
+        row.append($("<th>").text("Stars"));
+        row.append($("<th>").text("Length"));
+        row.append($("<th>").text("First Ascent"));
+        row.append($("<th>").text("Sector"));
         
         
         // show editing options if user logged in
-        if (auth === true) {
-            
-            row.append("<th></th>");
-            table.append(row);
-            
-            for (x in routes) {
-                row = $("<tr></tr>").addClass("pointer").attr("id", routes[x].routeid);
-                data = $("<td></td>").click( { "id" : routes[x].routeid }, getRouteInfo);
-                
-                switch(routes[x].discipline) {
-                    case "1":
-                        data.append($("<i></i>").addClass("fa fa-circle-thin fa-lg"));
-                        break;
-                    case "2":
-                        data.append($("<i></i>").addClass("fa fa-circle-thin fa-lg yellow"));
-                        break;
-                    case "3":
-                        data.append($("<i></i>").addClass("fa fa-circle fa-lg"));
-                }
-                row.append(data);
-                
-                data = $("<td></td>").click({ id : routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].name);
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].grade);
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                switch(routes[x].seriousness) {
-                    case "1":
-                        data.append($("<i></i>").addClass("fa fa-smile-o green"));
-                        break;
-                    case "2":
-                        data.append($("<i></i>").addClass("fa fa-meh-o amber"));
-                        break;
-                    case "3":
-                        data.append($("<i></i>").addClass("fa fa-frown-o red"));
-                }
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].stars);
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].length + "m");
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.append($("<div></div>").addClass("firstascent").text(routes[x].firstascent));
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].sector);
-                row.append(data);
-                
-                data = $("<td></td>");
-                data.append($("<a></a>").addClass("fa fa-edit fa-lg").attr("href", "admin/route.php?action=edit&routeid=" + routes[x].routeid))
-                data.append(" ");
-                data.append($("<a></a>").addClass("fa fa-trash-o fa-lg").attr("href", "admin/route.php?action=delete&routeid=" + routes[x].routeid))
-                row.append(data);
-                
-                table.append(row);
-            }
-        }
+        if (auth === true)
+            row.append($("<th>"));
         
-        // user not logged in
-        else {
-            table.append(row);
+        table.append(row);
             
-            for (x in routes) {
-                row = $("<tr></tr>").addClass("pointer").attr("id", routes[x].routeid);
-                data = $("<td></td>").click( { "id" : routes[x].routeid }, getRouteInfo);
-                
-                switch(routes[x].discipline) {
-                    case "1":
-                        data.append($("<i></i>").addClass("fa fa-circle-thin fa-lg"));
-                        break;
-                    case "2":
-                        data.append($("<i></i>").addClass("fa fa-circle-thin fa-lg yellow"));
-                        break;
-                    case "3":
-                        data.append($("<i></i>").addClass("fa fa-circle fa-lg"));
-                }
-                row.append(data);
-                
-                data = $("<td></td>").click({ id : routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].name);
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].grade);
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                switch(routes[x].seriousness) {
-                    case "1":
-                        data.append($("<i></i>").addClass("fa fa-smile-o green"));
-                        break;
-                    case "2":
-                        data.append($("<i></i>").addClass("fa fa-meh-o amber"));
-                        break;
-                    case "3":
-                        data.append($("<i></i>").addClass("fa fa-frown-o red"));
-                }
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].stars);
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].length + "m");
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.append($("<div></div>").addClass("firstascent").text(routes[x].firstascent));
-                row.append(data);
-                
-                data = $("<td></td>").click( { id: routes[x].routeid }, getRouteInfo);
-                data.text(routes[x].sector);
-                row.append(data);
-                
-                table.append(row);
+        for (x in routes) {
+            row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+            data = $("<td>").click( { "id" : routes[x].routeid }, getRouteInfo);
+            
+            switch(routes[x].discipline) {
+                case "1":
+                    data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
+                    break;
+                case "2":
+                    data.append($("<i>").addClass("fa fa-circle-thin fa-lg yellow"));
+                    break;
+                case "3":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg"));
             }
+            row.append(data);
+            
+            data = $("<td>").click({ id : routes[x].routeid }, getRouteInfo);
+            data.text(routes[x].name);
+            row.append(data);
+            
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data.text(routes[x].grade);
+            row.append(data);
+            
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
+            switch(routes[x].seriousness) {
+                case "1":
+                    data.append($("<i>").addClass("fa fa-smile-o green"));
+                    break;
+                case "2":
+                    data.append($("<i>").addClass("fa fa-meh-o amber"));
+                    break;
+                case "3":
+                    data.append($("<i>").addClass("fa fa-frown-o red"));
+            }
+            row.append(data);
+            
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data.text(routes[x].stars);
+            row.append(data);
+            
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data.text(routes[x].length + "m");
+            row.append(data);
+            
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data.append($("<div>").addClass("firstascent").text(routes[x].firstascent));
+            row.append(data);
+            
+            data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);
+            data.text(routes[x].sector);
+            row.append(data);
+            
+            if (auth === true) {
+                data = $("<td>");
+                data.append($("<a>").addClass("fa fa-edit fa-lg").attr("href", "admin/route.php?action=edit&routeid=" + routes[x].routeid))
+                data.append(" ");
+                data.append($("<a>").addClass("fa fa-trash-o fa-lg").attr("href", "admin/route.php?action=delete&routeid=" + routes[x].routeid))
+                row.append(data);
+            }
+            
+            table.append(row);
         }
     }
     else
-        table.append($("<p></p>").text("No routes"));
+        table.append($("<p>").text("No routes"));
     
     $('#routes').html(table);
 }
@@ -623,12 +563,11 @@ function britishGrade(grade) {
     else if (/^E6/.test(grade)) grade = 13;
     else if (/^E7/.test(grade)) grade = 14;
     else if (/^E8/.test(grade)) grade = 15;
-    
+    else if (/^E9/.test(grade)) grade = 16;
+    else if (/^E10/.test(grade)) grade = 17;
+    else if (/^E11/.test(grade)) grade = 18;
     return grade;
 }
-
-
-
 
 // filters and sorts routes for french grading
 function sport(page) {
@@ -701,7 +640,8 @@ function viewCragMap(location) {
     
     // set map options for single crag
     else if (location == 'crag') {
-        location = cragList[0].location.split(",");
+        cragList = [crag];
+        location = crag.location.split(",");
         var latlng = new google.maps.LatLng(location[0], location[1]);
         var zoom = 15;
         var height = 300;
@@ -709,7 +649,7 @@ function viewCragMap(location) {
     
     // set map options for area
     else {
-        location = location.split(",");
+        location = area.location.split(",");
         var latlng = new google.maps.LatLng(location[0], location[1]);
         var zoom = 10;
         var height = 300;
@@ -913,6 +853,7 @@ function printRoutes(page) {
     printWindow = window.open();
     
     head = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
+    head += '<title>Print</title>';
     head += '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>';
     head += '<script src="https://maps.googleapis.com/maps/api/js?key=<?= $googlemaps_apikey ?>"></script>';
     head += '<script src="include/js/functions.js"></script>';
@@ -920,25 +861,136 @@ function printRoutes(page) {
     head += '<link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">';
     head += '</head><body>';
 
-    
-    div = "<h6>Great Western Rock</h6>";
+    div = $("<h6>").text("Great Western Rock");
     
     if (page == 'area') {
-        div += "<p><h2>" + area.name + "</h2></p>";
-        div += "<p><h2>" + area.description + "</h2></p>";
-        div += "<p><h4>Routes</h4></p>";
-    }
-    else if (page == 'crag') {
-        div += "<p><h2>" + crag.name + "</h2></p>";
-        div += "<p><h4>" + crag.description + "</h4></p>";
-        div += "<p>" + $("#view").html() + "</p><p><h4>Routes</h4></p>";
+        div.append($("<p>").append($("<h2>").text(area.name)));
+        div.append($("<p>").append($("<h4>").text(area.description)));
+        div.append($("<p>").append($("<h4>").text("Routes")));
     }
     
+    else if (page == 'crag') {
+        div.append($("<p>").append($("<h2>").text(crag.name)));
+        div.append($("<p>").append($("<h4>").text(crag.description)));
+        div.append($("<p>").append($("#view").html()));
+        div.append($("<p>").append($("<h4>").text("Routes")));
+    }
+    
+    else if (page == 'search') {
+        div.append($("<p>").append($("<h2>").text("Search Results")));
+        div.append($("<p>").append($("#searchoptions").html()));
+    }
     printWindow.document.write(head);
-    printWindow.document.write(div);    
+    printWindow.document.write(div.html());
 
     printWindow.document.write($("#routes").html());
-    printWindow.document.write("</body></html>");    
+    printWindow.document.write("</body><script>window.print();</script></html>");
+}
 
-    printWindow.print();
+function getSearch() {
+    var data, search, div, url = "include/search_json.php";
+    
+    var area = $("#area").val();
+    var crag = $("#crag").val();
+    var route = $("#route").val();
+    var grade = $("#grade").val();
+    
+    // input validation
+    if (area !== "" && !area.match(/^[0-9a-zA-Z ]+$/)) {
+        $("#error").html($("<div>").addClass("red")
+            .text("Invalid input for area. Must only contain letters or numbers."));
+        return;
+    }
+    if (crag !== "" && !crag.match(/^[0-9a-zA-Z ]+$/)) {
+        $("#error").html($("<div>").addClass("red")
+            .text("Invalid input for crag. Must only contain letters or numbers."));
+        return;
+    }
+    if (route !== "" && !route.match(/^[0-9a-zA-Z ]+$/)) {
+        $("#error").html($("<div>").addClass("red")
+            .text("Invalid input for route. Must only contain letters or numbers."));
+        return;
+    }
+    if (grade !== "" && !grade.match(/^[0-9a-zA-Z \+\-]+$/)) {
+        $("#error").html($("<div>").addClass("red")
+            .text("Invalid input for grade. Must only contain letters, numbers and +/-."));
+        return;
+    }
+    if (area == "" && crag == "" && route == "" && grade == "") {
+        $("#error").html($("<div>").addClass("red")
+            .text("Please enter at least one search item."));
+        return;
+    }
+    
+    // get search results
+    div = $("<div>");
+    div.append($("<i>").addClass("fa fa-search btn btn-border").click(showSearchForm));
+    div.append($("<i>").addClass("fa fa-print btn btn-border").attr("onclick", "printRoutes('search')"));
+    $("#searchform").html(div);
+    
+    div = $("<div>").addClass("center");
+    div.append($("<i>").addClass("fa fa-circle-o-notch fa-spin fa-5x"));
+    $("#searchresults").html(div);
+
+    search = { "area" : area, "crag" : crag, "route" : route, "grade" : grade };
+    data = "search=" + encodeURIComponent(JSON.stringify(search));
+    
+    $.post(url, data, function (data, status, xhr) {
+        allRoutes = JSON.parse(data);
+        $.getJSON("include/crag_json.php", function (data) {
+            cragList = data;
+            showSearchResults(search);
+        });
+    });
+}
+
+function showSearchForm() {
+    var div = $("<div>");
+    div.append($("<div>").addClass("heading").text("Search for routes"));
+    div.append($("<input>").attr("type", "text").attr("id", "area").attr("placeholder", "Area..."));
+    div.append($("<input>").attr("type", "text").attr("id", "crag").attr("placeholder", "Crag..."));
+    div.append($("<input>").attr("type", "text").attr("id", "route").attr("placeholder", "Route..."));
+    div.append($("<input>").attr("type", "text").attr("id", "grade").attr("placeholder", "Grade..."));
+    div.append($("<button>").addClass("btn-edit").click(getSearch).text("Search"));
+    div.append($("<div>").attr("id", "error"));
+    
+    $("#searchform").addClass("panel").html(div);
+}
+
+function showSearchResults(search) {
+    var div = $("<div>");
+    
+    if (search.area == "") search.area = "None";
+    if (search.crag == "") search.crag = "None";
+    if (search.route == "") search.route = "None";
+    if (search.grade == "") search.grade = "None";
+
+    div.append($("<div>").addClass("heading").text("Search Results")
+        .append($("<p>").attr("id", "searchoptions").text("Area: " + search.area + " / Crag: " + 
+        search.crag + " / Route: " + search.route + " / Grade: " + search.grade)));
+
+    div.append(gradefilter('area'));
+    
+    div.append($("<div>").addClass("panel").attr("id", "routes"));
+    div.append($("<div>").addClass("modal").attr("id", "modal"));
+    
+    $("#searchresults").addClass("panel").html(div);
+    
+    viewAreaRoutes(allRoutes);
+}
+
+function gradefilter(page) {
+    var div, all, trad, sport, bouldering;
+    
+    div = ($("<div>").attr("id", "gradefilter"));
+    all = $("<button>").addClass("btn").attr("onclick", "viewAreaRoutes(allRoutes)").text("All");
+    trad = $("<button>").addClass("btn").attr("onclick", "trad('" + page + "')").html('<i class="fa fa-circle-o"></i> Trad');
+    sport = $("<button>").addClass("btn").attr("onclick", "sport('" + page + "')").html('<i class="fa fa-circle-o yellow"></i> Sport');
+    bouldering = $("<button>").addClass("btn").attr("onclick", "bouldering('" + page + "')").html('<i class="fa fa-circle"></i> Bouldering');
+
+    div.append(all);
+    div.append(trad);
+    div.append(sport);
+    div.append(bouldering);
+    return div;
 }

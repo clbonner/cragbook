@@ -78,9 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
         
         if (!isset($_SESSION["userid"])) {
-            for ($i = 0; $i < sizeof($routes); $i++) {
-                if ($routes[$i]["private"] == 1) {
-                    $routes[$i]["description"] = "";
+            foreach ($routes as $key => $value) {
+                if ($routes[$key]["private"] == 1) {
+                    $routes[$key]["description"] = "";
                 }
             }
         }

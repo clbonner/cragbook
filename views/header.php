@@ -16,6 +16,7 @@
         });
     </script>
     
+    <link rel="icon" href="cragbook.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?= SITEURL ?>/css/cragbook.css">
     <link rel="stylesheet" href="<?= SITEURL ?>/css/font-awesome/css/font-awesome.min.css">
 </head>

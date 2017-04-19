@@ -30,12 +30,7 @@ $(document).ready( function () {
         </div>
     <?php endif ?>
     <div class="heading">Routes</div>
-    <div id="gradefilter">
-        <button class="btn" onclick="viewCragRoutes(allRoutes)">All</button>
-        <button class="btn" onclick="trad('crag')"><i class="fa fa-circle-o"></i>&nbspTrad</button>
-        <button class="btn" onclick="sport('crag')"><i class="fa fa-circle-o yellow"></i>&nbspSport</button>
-        <button class="btn" onclick="bouldering('crag')"><i class="fa fa-circle"></i>&nbspBouldering</button>
-    </div>
+    <div id="gradefilter"></div>
     <div id="routes"></div>
     <div id="modal" class="modal"></div>
 </div>

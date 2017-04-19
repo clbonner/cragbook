@@ -408,6 +408,7 @@ function viewAreaRoutes(routes) {
     
     // show table
     $('#routes').html(table);
+    $('#gradefilter').html(gradeFilter('area'));
 }
 
 // shows routes on crag pages
@@ -502,6 +503,7 @@ function viewCragRoutes(routes) {
         table.append($("<p>").text("No routes"));
     
     $('#routes').html(table);
+    $('#gradefilter').html(gradeFilter('crag'));
 }
 
 // filters and sorts routes for british trad grading
@@ -969,7 +971,7 @@ function showSearchResults(search) {
         .append($("<p>").attr("id", "searchoptions").text("Area: " + search.area + " / Crag: " + 
         search.crag + " / Route: " + search.route + " / Grade: " + search.grade)));
 
-    div.append(gradefilter('area'));
+    div.append(gradeFilter('area'));
     
     div.append($("<div>").addClass("panel").attr("id", "routes"));
     div.append($("<div>").addClass("modal").attr("id", "modal"));
@@ -979,15 +981,21 @@ function showSearchResults(search) {
     viewAreaRoutes(allRoutes);
 }
 
-function gradefilter(page) {
+function gradeFilter(page) {
     var div, all, trad, sport, bouldering;
     
-    div = ($("<div>").attr("id", "gradefilter"));
-    all = $("<button>").addClass("btn").attr("onclick", "viewAreaRoutes(allRoutes)").text("All");
+    div = ($("<div>"));
     trad = $("<button>").addClass("btn").attr("onclick", "trad('" + page + "')").html('<i class="fa fa-circle-o"></i> Trad');
     sport = $("<button>").addClass("btn").attr("onclick", "sport('" + page + "')").html('<i class="fa fa-circle-o yellow"></i> Sport');
     bouldering = $("<button>").addClass("btn").attr("onclick", "bouldering('" + page + "')").html('<i class="fa fa-circle"></i> Bouldering');
-
+    
+    if (page == 'area')
+        page = 'Area';
+    else
+        page = 'Crag';
+        
+    all = $("<button>").addClass("btn").attr("onclick", "view" + page + "Routes(allRoutes)").text("All");
+    
     div.append(all);
     div.append(trad);
     div.append(sport);

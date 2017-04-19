@@ -30,12 +30,7 @@ $(document).ready( function () {
     </div>
     <div class="content panel">
         <div class="heading">Routes</div>
-        <div id="gradefilter">
-        <button class="btn" onclick="viewAreaRoutes(allRoutes)">All</button>
-        <button class="btn" onclick="trad('area')">Trad</button>
-        <button class="btn" onclick="sport('area')">Sport</button>
-        <button class="btn" onclick="bouldering('area')">Bouldering</button>
-        </div>
+        <div id="gradefilter"></div>
         <div id="routes"></div>
         <div id="modal" class="modal"></div>
     </div>

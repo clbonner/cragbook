@@ -115,6 +115,16 @@ function getAreaRoutes(areaid) {
     
     $.getJSON(url, function (data, status, xhr){
         allRoutes = data;
+        
+        // assign crag name for each route
+        for (x in allRoutes) {
+            for (y in cragList) {
+                if(cragList[y].cragid == allRoutes[x].cragid) {
+                    allRoutes[x].cragName = cragList[y].name;
+                }
+            }
+        }
+        
         viewAreaRoutes(allRoutes);
     });
 }
@@ -135,13 +145,7 @@ function getCragRoutes(cragid) {
 
 // get JSON data on crags for area
 function getArea(id) {
-    var url;
-    
-    // get all crags
-    if (id == 'all')
-        url = "include/crag_json.php";
-    else
-        url = "include/crag_json.php?areaid=" + id;
+    var url = "include/crag_json.php?areaid=" + id;
 
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
         auth = data;
@@ -388,12 +392,7 @@ function viewAreaRoutes(routes) {
             row.append(data);
 
             data = $("<td>");
-            for (y in cragList) {
-                if(cragList[y].cragid == routes[x].cragid) {
-                    data.append($("<a>").attr("href", "crag.php?cragid=" + cragList[y].cragid).text(cragList[y].name));
-                    break;
-                }
-            }
+            data.append($("<a>").attr("href", "crag.php?cragid=" + routes[x].cragid).text(routes[x].cragName));
             row.append(data);
             
             data = $("<td>").click( { id: routes[x].routeid }, getRouteInfo);

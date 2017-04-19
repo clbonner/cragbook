@@ -625,6 +625,7 @@ function britishGrade(grade) {
     else if (/^E9/.test(grade)) grade = 16;
     else if (/^E10/.test(grade)) grade = 17;
     else if (/^E11/.test(grade)) grade = 18;
+    else grade = -1;
     return grade;
 }
 
@@ -637,12 +638,6 @@ function sport(page) {
             sportRoutes.push(allRoutes[x]);
         }
     }
-    
-    sportRoutes.sort(function (a, b) {
-        if (a.grade < b.grade) return -1;
-        else if (a.grade > b.grade) return 1;
-        else return 0;
-    })
     
     if (page == 'crag') viewCragRoutes(sportRoutes);
     else if (page == 'area') viewAreaRoutes(sportRoutes);
@@ -663,14 +658,6 @@ function bouldering(page) {
             boulderProblems.push(allRoutes[x]);
         }
     }
-    
-    boulderProblems.sort(function (a, b) {
-        if (a.grade < b.grade) return -1;
-        else if (a.grade > b.grade) return 1;
-        else return 0;
-    })
-    
-    currentRoutes = boulderProblems;
     
     if (page == 'crag') viewCragRoutes(boulderProblems);
     else if (page == 'area') viewAreaRoutes(boulderProblems);
@@ -726,8 +713,9 @@ function viewCragMap(location) {
     
     // add markers
     for (i in cragList) {
-        if (cragList[i].location === "");
+        if (cragList[i].location === "") {
             // skip
+        }
         else {
             // get crag location
             var location = cragList[i].location.split(",");
@@ -777,8 +765,9 @@ function viewAreaMap() {
     
     // add markers
     for (i in areaList) {
-        if (areaList[i].location === "");
+        if (areaList[i].location === "") {
             // skip
+        }
         else {
             
             // get area location
@@ -1006,7 +995,9 @@ function getSearch() {
                 }
             }
             
-            routes = allRoutes.slice();
+            if (allRoutes !== 0) routes = allRoutes.slice();
+            else routes = 0;
+            
             showSearchResults(search);
         });
     });
@@ -1037,7 +1028,7 @@ function showSearchResults(search) {
         .append($("<p>").attr("id", "searchoptions").text("Area: " + search.area + " / Crag: " + 
         search.crag + " / Route: " + search.route + " / Grade: " + search.grade)));
 
-    div.append(gradeFilter('area'));
+    div.append($("<div>").attr("id", "gradefilter").html(gradeFilter('area')));
     
     div.append($("<div>").addClass("panel").attr("id", "routes"));
     div.append($("<div>").addClass("modal").attr("id", "modal"));

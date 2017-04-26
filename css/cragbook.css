@@ -185,7 +185,7 @@ textarea {
 #backlink {
     padding: 15px;
     padding-bottom: 0px;
-    font-size: 10px;
+    font-size: 12px;
     color: #000;
     text-decoration: none;
 }
@@ -497,7 +497,7 @@ textarea {
 }
 
 .yellow {
-    background-color: yellow;
+    color: #ffff1a;
 }
 
 .firstascent {

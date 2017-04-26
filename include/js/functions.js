@@ -10,6 +10,10 @@
 var allRoutes, routes, crag, area, cragList, areaList, returnurl, map, marker, auth, btn;
 const defaultCenter = {lat: 53.815474, lng: -4.632684};
 
+// cragbook namespace
+var cragbook = {
+    defaultCenter : {lat: 53.815474, lng: -4.632684}
+};
 
 // info window for markers
 var infowindow = new google.maps.InfoWindow();
@@ -357,7 +361,7 @@ function viewAreaRoutes(areaRoutes) {
                     data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
                     break;
                 case "2":
-                    data.append($("<i>").addClass("fa fa-circle-thin fa-lg yellow"));
+                    data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
                     break;
                 case "3":
                     data.append($("<i>").addClass("fa fa-circle fa-lg"));
@@ -445,7 +449,7 @@ function viewCragRoutes(cragRoutes) {
                     data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
                     break;
                 case "2":
-                    data.append($("<i>").addClass("fa fa-circle-thin fa-lg yellow"));
+                    data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
                     break;
                 case "3":
                     data.append($("<i>").addClass("fa fa-circle fa-lg"));
@@ -507,6 +511,13 @@ function viewCragRoutes(cragRoutes) {
     $('#gradefilter').html(gradeFilter('crag'));
 }
 
+function viewAllRoutes(page) {
+    routes = allRoutes.slice();
+    
+    if (page == 'area') viewAreaRoutes(routes);
+    else if (page == 'crag') viewCragRoutes(routes);
+}
+
 // sort routes depending on column
 function sortRoutes(page, sort) {
     switch (sort) {
@@ -519,19 +530,66 @@ function sortRoutes(page, sort) {
                 return 0;
             });
             break;
+        
         case 'grade':
-            routes.sort(function(a, b) {
-                if (a.grade < b.grade) return -1;
-                if (a.grade > b.grade) return 1;
-                return 0;
+            var tradRoutes, sportRoutes, boulderProblems, x;
+            
+            tradRoutes = getTradRoutes(routes);
+            sportRoutes = getSportRoutes(routes);
+            boulderProblems = getBoulderProblems(routes);
+            
+            tradRoutes.sort(function (a, b) {
+                var gradeA = a.grade.split(" ");
+                var gradeB = b.grade.split(" ");
+                
+                if (gradeA[0] == gradeB[0]) {
+                    if (gradeA[1] < gradeB[1]) return -1;
+                    else if (gradeA[1] > gradeB[1]) return 1;
+                    else return 0;
+                } 
+                else {
+                    a = britishGrade(a.grade);
+                    b = britishGrade(b.grade);
+                    
+                    if (a < b) return -1;
+                    else if (a > b) return 1;
+                    else return 0;
+                }
             });
+            
+            sportRoutes.sort(function(a, b) { 
+                if (a.grade < b.grade) return -1;
+                else if (a.grade > b.grade) return 1;
+                else return 0;
+            });
+            
+            boulderProblems.sort(function(a, b) {
+                if (a.grade < b.grade) return -1;
+                else if (a.grade > b.grade) return 1;
+                else return 0;
+            });
+            
+            routes = [];
+            
+            for (x in tradRoutes)
+                routes.push(tradRoutes[x]);
+                
+            for (x in sportRoutes)
+                routes.push(sportRoutes[x]);
+                
+            for (x in boulderProblems)
+                routes.push(boulderProblems[x]);
+            
             break;
+            
         case 'stars':
             routes.sort(function(a, b) { return b.stars.length - a.stars.length });
             break;        
+        
         case 'length':
             routes.sort(function(a, b) { return a.length - b.length });
             break;
+        
         case 'firstascent':
             routes.sort(function(a, b) {
                 var x = a.firstascent.toLowerCase();
@@ -541,6 +599,7 @@ function sortRoutes(page, sort) {
                 return 0;
             });
             break;
+        
         case 'sector':
             routes.sort(function(a, b) {
                 var x = a.sector.toLowerCase();
@@ -550,6 +609,7 @@ function sortRoutes(page, sort) {
                 return 0;
             });
             break;
+        
         case 'crag':
             routes.sort(function(a, b) {
                 var x = a.cragName.toLowerCase();
@@ -565,43 +625,72 @@ function sortRoutes(page, sort) {
     else if (page == 'crag') viewCragRoutes(routes);
 }
 
-// filters and sorts routes for british trad grading
-function trad(page) {
+// extracts trad routes from a given arrary of routes
+function getTradRoutes(routes) {
     var x, tradRoutes = [];
     
-    for (x in allRoutes) {
-        if (/^E$/.test(allRoutes[x].grade)) tradRoutes.push(allRoutes[x]);
-        else if (/^M/.test(allRoutes[x].grade)) tradRoutes.push(allRoutes[x]);
-        else if (/^D/.test(allRoutes[x].grade)) tradRoutes.push(allRoutes[x]);
-        else if (/^VD/.test(allRoutes[x].grade)) tradRoutes.push(allRoutes[x]);
-        else if (/^S/.test(allRoutes[x].grade)) tradRoutes.push(allRoutes[x]);
-        else if (/^VS/.test(allRoutes[x].grade)) tradRoutes.push(allRoutes[x]);
-        else if (/^HVS/.test(allRoutes[x].grade)) tradRoutes.push(allRoutes[x]);
-        else if (/^E[0-9]/.test(allRoutes[x].grade)) tradRoutes.push(allRoutes[x]);
+    for (x in routes) {
+        if (/^[EMDS]|HD|VD|VS|MVS|HVS|XS|HXS [0-9][abc]/.test(routes[x].grade)) 
+            tradRoutes.push(routes[x]);
     }
     
-    tradRoutes.sort(function (a, b) {
-        
-        var gradeA = a.grade.split(" ");
-        var gradeB = b.grade.split(" ");
-        
-        if (gradeA[0] == gradeB[0]) {
-            if (gradeA[1] < gradeB[1]) return -1;
-            else if (gradeA[1] > gradeB[1]) return 1;
-            else return 0;
-        } 
-        else {
-            a = britishGrade(a.grade);
-            b = britishGrade(b.grade);
-            
-            if (a < b) return -1;
-            else if (a > b) return 1;
-            else return 0;
-        }
-    });
+    return tradRoutes;
+}
+
+// extracts sport routes from a given arrary of routes
+function getSportRoutes(routes) {
+    var x, sportRoutes = [];
     
-    if (page == 'crag') viewCragRoutes(tradRoutes);
-    else if (page == 'area') viewAreaRoutes(tradRoutes);
+    for (x in routes) {
+        if (/^F[0-9][abc\-\+]*[\-\+]*/.test(routes[x].grade)) {
+            sportRoutes.push(routes[x]);
+        }
+    }
+    
+    return sportRoutes;
+}
+
+// extracts boulder problems from a given arrary of routes
+function getBoulderProblems (routes) {
+    var x, boulderProblems = [];
+    
+    for (x in routes) {
+        if (/^f[0-9][abc\-\+]*[\-\+]*/.test(routes[x].grade)) {
+            boulderProblems.push(routes[x]);
+        }
+    }
+    
+    for (x in routes) {
+        if (/^V[0-9B]/.test(routes[x].grade)) {
+            boulderProblems.push(routes[x]);
+        }
+    }
+    
+    return boulderProblems;
+}
+
+// filters routes for british trad grading
+function trad(page) {
+    routes = getTradRoutes(allRoutes);
+    
+    if (page == 'crag') viewCragRoutes(routes);
+    else if (page == 'area') viewAreaRoutes(routes);
+}
+
+// filters routes for french grading
+function sport(page) {
+    routes = getSportRoutes(allRoutes);
+    
+    if (page == 'crag') viewCragRoutes(routes);
+    else if (page == 'area') viewAreaRoutes(routes);
+}
+
+// filters routes for font grading
+function bouldering(page) {
+    routes = getBoulderProblems(allRoutes);
+    
+    if (page == 'crag') viewCragRoutes(routes);
+    else if (page == 'area') viewAreaRoutes(routes);
 }
 
 // helper function for sorting british grades
@@ -622,45 +711,8 @@ function britishGrade(grade) {
     else if (/^E6/.test(grade)) grade = 13;
     else if (/^E7/.test(grade)) grade = 14;
     else if (/^E8/.test(grade)) grade = 15;
-    else if (/^E9/.test(grade)) grade = 16;
-    else if (/^E10/.test(grade)) grade = 17;
-    else if (/^E11/.test(grade)) grade = 18;
-    else grade = -1;
+    
     return grade;
-}
-
-// filters and sorts routes for french grading
-function sport(page) {
-    var x, sportRoutes = [];
-    
-    for (x in allRoutes) {
-        if (/^F/.test(allRoutes[x].grade)) {
-            sportRoutes.push(allRoutes[x]);
-        }
-    }
-    
-    if (page == 'crag') viewCragRoutes(sportRoutes);
-    else if (page == 'area') viewAreaRoutes(sportRoutes);
-}
-
-// filters and sorts routes for font grading
-function bouldering(page) {
-    var x, boulderProblems = [];
-    
-    for (x in allRoutes) {
-        if (/^f/.test(allRoutes[x].grade)) {
-            boulderProblems.push(allRoutes[x]);
-        }
-    }
-    
-    for (x in allRoutes) {
-        if (/^V[0-9]/.test(allRoutes[x].grade)) {
-            boulderProblems.push(allRoutes[x]);
-        }
-    }
-    
-    if (page == 'crag') viewCragRoutes(boulderProblems);
-    else if (page == 'area') viewAreaRoutes(boulderProblems);
 }
 
 
@@ -1042,16 +1094,10 @@ function gradeFilter(page) {
     var div, all, trad, sport, bouldering;
     
     div = ($("<div>"));
+    all = $("<button>").addClass("btn").attr("onclick", "viewAllRoutes('" + page +"')").text("All");
     trad = $("<button>").addClass("btn").attr("onclick", "trad('" + page + "')").html('<i class="fa fa-circle-o"></i> Trad');
-    sport = $("<button>").addClass("btn").attr("onclick", "sport('" + page + "')").html('<i class="fa fa-circle-o yellow"></i> Sport');
+    sport = $("<button>").addClass("btn").attr("onclick", "sport('" + page + "')").html('<i class="fa fa-circle yellow"></i> Sport');
     bouldering = $("<button>").addClass("btn").attr("onclick", "bouldering('" + page + "')").html('<i class="fa fa-circle"></i> Bouldering');
-    
-    if (page == 'area')
-        page = 'Area';
-    else
-        page = 'Crag';
-        
-    all = $("<button>").addClass("btn").attr("onclick", "view" + page + "Routes(allRoutes)").text("All");
     
     div.append(all);
     div.append(trad);

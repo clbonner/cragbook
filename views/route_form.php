@@ -12,11 +12,11 @@
     </select>
     <label>Grade</label>
     <input type="text" name="grade" value="<?= $data["route"]["grade"] ?>">
-    <label>Seriousness</label>
+    <label>Sport Bolting Happiness :)</label>
     <select name="seriousness">
-        <option disabled <?php if($data["route"]["seriousness"] == '0') echo("selected") ?>>Select...</option>
+        <option <?php if($data["route"]["seriousness"] == '0') echo("selected") ?>>n/a</option>
         <option value="1" <?php if($data["route"]["seriousness"] == '1') echo("selected") ?>>Safe</option>
-        <option value="2" <?php if($data["route"]["seriousness"] == '2') echo("selected") ?>>Care required</option>
+        <option value="2" <?php if($data["route"]["seriousness"] == '2') echo("selected") ?>>Caution</option>
         <option value="3" <?php if($data["route"]["seriousness"] == '3') echo("selected") ?>>Scary</option>
     </select>
     <label>Stars</label>

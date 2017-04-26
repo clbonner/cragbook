@@ -564,7 +564,9 @@ function sortRoutes(page, sort) {
             });
             
             boulderProblems.sort(function(a, b) {
-                if (a.grade < b.grade) return -1;
+                if (a.grade == "VB") return -1;
+                else if (b.grade == "VB") return 1;
+                else if (a.grade < b.grade) return -1;
                 else if (a.grade > b.grade) return 1;
                 else return 0;
             });

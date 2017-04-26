@@ -512,6 +512,12 @@ function viewCragRoutes(cragRoutes) {
 }
 
 function viewAllRoutes(page) {
+    var div;
+    
+    div = $("<div>").addClass("center");
+    div.append($("<i>").addClass("fa fa-circle-o-notch fa-spin fa-5x"));
+    $("#routes").html(div);
+    
     routes = allRoutes.slice();
     
     if (page == 'area') viewAreaRoutes(routes);
@@ -632,7 +638,7 @@ function getTradRoutes(routes) {
     var x, tradRoutes = [];
     
     for (x in routes) {
-        if (/^[EMDS]|HD|VD|VS|MVS|HVS|XS|HXS [0-9][abc]/.test(routes[x].grade)) 
+        if (routes[x].discipline == 1) 
             tradRoutes.push(routes[x]);
     }
     
@@ -644,7 +650,7 @@ function getSportRoutes(routes) {
     var x, sportRoutes = [];
     
     for (x in routes) {
-        if (/^F[0-9][abc\-\+]*[\-\+]*/.test(routes[x].grade)) {
+        if (routes[x].discipline == 2) {
             sportRoutes.push(routes[x]);
         }
     }
@@ -657,13 +663,7 @@ function getBoulderProblems (routes) {
     var x, boulderProblems = [];
     
     for (x in routes) {
-        if (/^f[0-9][abc\-\+]*[\-\+]*/.test(routes[x].grade)) {
-            boulderProblems.push(routes[x]);
-        }
-    }
-    
-    for (x in routes) {
-        if (/^V[0-9B]/.test(routes[x].grade)) {
+        if (routes[x].discipline == 3) {
             boulderProblems.push(routes[x]);
         }
     }
@@ -700,20 +700,29 @@ function britishGrade(grade) {
     if (/^E$/.test(grade)) grade = 0;
     else if (/^M/.test(grade)) grade = 1;
     else if (/^D/.test(grade)) grade = 2;
-    else if (/^VD/.test(grade)) grade = 3;
-    else if (/^S/.test(grade)) grade = 4;
-    else if (/^HS/.test(grade)) grade = 5;
-    else if (/^VS/.test(grade)) grade = 6;
-    else if (/^HVS/.test(grade)) grade = 7;
-    else if (/^E1/.test(grade)) grade = 8;
-    else if (/^E2/.test(grade)) grade = 9;
-    else if (/^E3/.test(grade)) grade = 10;
-    else if (/^E4/.test(grade)) grade = 11;
-    else if (/^E5/.test(grade)) grade = 12;
-    else if (/^E6/.test(grade)) grade = 13;
-    else if (/^E7/.test(grade)) grade = 14;
-    else if (/^E8/.test(grade)) grade = 15;
-    
+    else if (/^HD/.test(grade)) grade = 3;
+    else if (/^VD/.test(grade)) grade = 4;
+    else if (/^HVD/.test(grade)) grade = 5;
+    else if (/^MS/.test(grade)) grade = 6;
+    else if (/^S/.test(grade)) grade = 7;
+    else if (/^HS/.test(grade)) grade = 8;
+    else if (/^MVS/.test(grade)) grade = 9;
+    else if (/^VS/.test(grade)) grade = 10;
+    else if (/^HVS/.test(grade)) grade = 11;
+    else if (/^E1/.test(grade)) grade = 12;
+    else if (/^E2/.test(grade)) grade = 13;
+    else if (/^E3/.test(grade)) grade = 14;
+    else if (/^E4/.test(grade)) grade = 15;
+    else if (/^E5/.test(grade)) grade = 16;
+    else if (/^E6/.test(grade)) grade = 17;
+    else if (/^E7/.test(grade)) grade = 18;
+    else if (/^E8/.test(grade)) grade = 19;
+    else if (/^E9/.test(grade)) grade = 20;
+    else if (/^E10/.test(grade)) grade = 21;
+    else if (/^E11/.test(grade)) grade = 22;
+    else if (/^MXS/.test(grade)) grade = 23;
+    else if (/^XS/.test(grade)) grade = 24;
+    else if (/^HXS/.test(grade)) grade = 25;
     return grade;
 }
 

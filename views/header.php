@@ -6,27 +6,39 @@
     <title><?= $sitetitle ?></title>
     
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?= $googlemaps_apikey ?>"></script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script src="<?= SITEURL ?>/include/js/functions.js"></script>
-    <script>tinymce.init({ selector:'textarea' });</script>
+    <script>
+        tinymce.init({ 
+            selector:'#home',
+            toolbar: 'formatselect | fontsizeselect bold italic | alignleft aligncenter alignright'
+        });
+    </script>
     
-    <link rel="stylesheet" href="<?= SITEURL ?>/css/w3.css">
+    <link rel="icon" href="cragbook.ico" type="image/x-icon">
+    <link rel="stylesheet" href="<?= SITEURL ?>/css/cragbook.css">
     <link rel="stylesheet" href="<?= SITEURL ?>/css/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-    <div class="w3-container w3-blue">
-      <h1><?= $sitetitle ?></h1>
-    </div>
-    <div id="menu" class="w3-btn-bar w3-grey w3-border-grey">
-        <a href="<?= SITEURL ?>/index.php"><i class="fa fa-home w3-large w3-btn w3-round w3-grey w3-hover-red w3-left w3-padding"></i></a>
-        <a class="w3-btn w3-round w3-grey w3-hover-red w3-left" href="<?= SITEURL ?>/areas.php">Areas</a>
-        <a class="w3-btn w3-round w3-grey w3-hover-red w3-left" href="<?= SITEURL ?>/crags.php">Crags</a>
-        <a class="w3-btn w3-round w3-grey w3-hover-red w3-left" href="<?= SITEURL ?>/search.php">Search</a>
-        <?php if(!isset($_SESSION["userid"])): ?>
-            <a class="w3-btn w3-round w3-grey w3-border-grey w3-hover-red w3-right" href="<?= SITEURL ?>/admin/login.php">Login</a>
-        <?php else: ?>
-            <a class="w3-btn w3-round w3-grey w3-hover-red w3-right" href="<?= SITEURL ?>/admin/logout.php">Logout</a>
-            <a class="w3-btn w3-round w3-grey w3-hover-red w3-right" href="<?= SITEURL ?>/admin/prefs.php">Preferences</a>
-        <?php endif ?>
+    <header>
+        <div id="sitetitle">
+            <?= $sitetitle ?>
+        </div>
+    </header>
+    <div id="menu">
+        <div class="left">
+            <a class="btn-menu left" href="<?= SITEURL ?>/index.php"><i class="fa fa-home menu-icon"></i></a>
+            <a class="btn-menu left" href="<?= SITEURL ?>/all_areas.php">Areas</a>
+            <a class="btn-menu left" href="<?= SITEURL ?>/all_crags.php">Crags</a>
+            <a class="btn-menu left" href="<?= SITEURL ?>/search.php"><i class="fa fa-search menu-icon"></i></a>
+        </div>
+        <div class="right">
+            <?php if(!isset($_SESSION["userid"])): ?>
+                <a class="btn-menu left" href="<?= SITEURL ?>/admin/login.php"><i class="fa fa-sign-in menu-icon"></i></a>
+            <?php else: ?>
+                <a class="btn-menu left" href="<?= SITEURL ?>/admin/prefs.php"><i class="fa fa-cog menu-icon"></i></a>
+                <a class="btn-menu left" href="<?= SITEURL ?>/admin/logout.php"><i class="fa fa-sign-out menu-icon"></i></a>
+            <?php endif ?>
+        </div>
     </div>

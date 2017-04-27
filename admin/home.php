@@ -8,7 +8,7 @@
  * Controller for editing the home page title and text.
  */
 
-require_once("../include/config.php");
+require_once(__DIR__ ."/../include/config.php");
 login_check();
 
 $db = db_connect();
@@ -36,7 +36,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$result = $db->query($sql))
         error("Error in home.php: " .$db->error);
     
-    require(SITEROOT ."index.php");
+    require(__DIR__ ."/../index.php");
 }
 
 ?>

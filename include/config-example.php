@@ -8,11 +8,10 @@
  * Configuration file for CragBook including site and database info.
  */
 
+//================= Start of configuration section ===================//
+
 // site title
 $sitetitle = "Cragbook";
-
-// the folder where your Cragbook installation resides (slash at the end)
-$siteroot = "/path/to/install/";
 
 // the root web URL for your Cragbook installation (no tailing slash)
 $siteurl = "http://example.com/cragbook";
@@ -32,7 +31,12 @@ $dbuser = "";
 // database user password
 $dbpass = "";
 
+// key for google maps api
+$googlemaps_apikey = "";
+
+//================= End of configuration section ===================//
+
 session_start();
-require_once($siteroot ."include/functions.php");
+require_once(__DIR__ ."/functions.php");
 
 ?>

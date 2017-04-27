@@ -8,7 +8,7 @@
  * Controller for searching areas/crags/routes.
  */
  
-require_once("include/config.php");
+require_once(__DIR__ ."/include/config.php");
 
 // search database
 if ($_GET["search"] != NULL)

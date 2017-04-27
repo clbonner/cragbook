@@ -8,7 +8,7 @@
  * Controller for logging users in.
  */
 
-require_once("../include/config.php");
+require_once(__DIR__ ."/../include/config.php");
 
 // show login form
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -51,7 +51,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     $db->close();
     
     // show home page
-    require(SITEROOT ."index.php");
+    require(__DIR__ ."/../index.php");
 }
 
 ?>

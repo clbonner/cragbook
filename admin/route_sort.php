@@ -9,7 +9,7 @@
  * routes at a particular crag.
  */
 
-require_once("../include/config.php");
+require_once(__DIR__ ."/../include/config.php");
 login_check();
 
 $db = db_connect();
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
     else
         $crag = $result->fetch_assoc();
     
-    $returnurl = SITEURL ."/crag_info.php?cragid=" .$crag["cragid"];
+    $returnurl = SITEURL ."/crag.php?cragid=" .$crag["cragid"];
     
     view("route_sort.php", ["crag" => $crag, "returnurl" => $returnurl]);
 }

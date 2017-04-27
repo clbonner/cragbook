@@ -9,51 +9,67 @@
  * route order for a crag, then submit it back to update the database.
  */
  
-require_once("../include/config.php");
-login_check();
+require_once(__DIR__ ."/config.php");
 $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     
     // send JSON data for routes at crag
-    if (isset($_GET["cragid"])) {
+    if (isset($_GET["areaid"])) {
         
-        // check for a filter
-        if (isset($_GET["filter"])) {
-            if ($_GET["filter"] == "british") {
-                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
-                $sql .= $BritishAdjFilter . $OrderByGrade . $BritishAdj . $ElseAsc;
+        if (isset($_SESSION["userid"]))
+            $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." ORDER BY name ASC;";
+        else
+            $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." AND public=1 ORDER BY name ASC;";
+        
+        if (!$result = $db->query($sql))
+            ajax_err("Error in route_json.php: " .$db->error);
+        elseif ($result->num_rows > 0) {
+        
+            // store crags in array
+            $crags = [];
+            while($row = $result->fetch_assoc()) 
+                array_push($crags, $row);
+
+            // get cragid's for area
+            foreach($crags as $crag) {
+                $values = $values . $crag["cragid"] . ",";
             }
-            elseif ($_GET["filter"] == "french") {
-                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
-                $sql .= $frenchGradeFilter . $OrderByGrade . $frenchGrade . $ElseAsc;
+            $values[strlen($values) - 1] = " ";
+            
+            $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ORDER BY orderid;";
+            
+            if (!$result = $db->query($sql)) {
+                ajax_err("Error in route_json.php: " .$db->error);
             }
-            elseif ($_GET["filter"] == "font") {
-                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
-                $sql .= $fontGradeFilter . $OrderByGrade . $fontGrade . $ElseAsc;
+            
+            $routes = [];
+            while ($route = $result->fetch_assoc()) {
+                array_push($routes, $route);
             }
-            elseif ($_GET["filter"] == "yds") {
-                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
-                $sql .= $ydsGradeFilter . $OrderByGrade . $ydsGrade . $ElseAsc;
-            }
-            elseif ($_GET["filter"] == "uiaa") {
-                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
-                $sql .= $uiaaGradeFilter . $OrderByGrade . $uiaaGrade . $ElseAsc;
-            }
-            elseif ($_GET["filter"] == "vgrade") {
-                $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ";
-                $sql .= $vGradeFilter . $OrderByGrade . $vGrade . $ElseAsc;
+            
+            if (!isset($_SESSION["userid"])) {
+                for ($i = 0; $i < sizeof($routes); $i++) {
+                    if ($routes[$i]["private"] == 1) {
+                        $routes[$i]["description"] = "";
+                    }
+                }
             }
         }
-        
-        // default order
         else
-            $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";
+            $routes = "";
+        
+        // send routes as JSON
+        echo json_encode($routes);
+    }
+    
+    // send JSON data for routes at crag
+    if (isset($_GET["cragid"])) {
+        
+        $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";
         
         if (!$result = $db->query($sql)) {
-            $error = $db->error ."\n";
-            echo $error;
-            exit;
+            exit("Error in route_json.php: " .$db->error);
         }
         
         $routes = [];
@@ -61,27 +77,34 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             array_push($routes, $route);
         }
         
-        // send routes as JSON
-        echo json_encode($routes);
-    }
-    
-    
-    // update route order for crag
-    else {
-        $routes = urldecode($_SERVER["QUERY_STRING"]);
-        $routes = json_decode($routes, true);
-        
-        // update routes in database
-        foreach ($routes as $route) {
-            $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
-            if(!$db->query($sql)){
-                echo "{\"error\" : \"" .$db->error ."\"}";
-                exit;
+        if (!isset($_SESSION["userid"])) {
+            foreach ($routes as $key => $value) {
+                if ($routes[$key]["private"] == 1) {
+                    $routes[$key]["description"] = "";
+                }
             }
         }
         
-        // notify success
-        echo "{\"status\":\"SUCCESS\"}";
+        // send routes as JSON
+        echo json_encode($routes);
+    }
+}
+
+// update route order for crag
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    login_check();
+    
+    $routes = urldecode($_POST["routes"]);
+    $routes = json_decode($routes, true);
+    
+    // update routes in database
+    foreach ($routes as $route) {
+        $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
+        
+        if(!$db->query($sql)){
+            exit("Error in route_json.php: " .$db->error);
+        }
     }
 }
 

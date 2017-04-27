@@ -8,7 +8,7 @@
  * Controller for displaying the home page.
  */
     
-require_once("include/config.php");
+require_once(__DIR__ ."/include/config.php");
 $db = db_connect();
 
 $sql = "SELECT value FROM site WHERE setting = \"home_text\";";

@@ -1,5 +1,4 @@
-<div class="w3-margin">
-    
-</div>
+<footer>
+</footer>
 </body>
 </html>

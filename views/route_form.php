@@ -1,18 +1,38 @@
-<form class="w3-container w3-small w3-margin-top" action="<?= SITEURL ?>/admin/route.php" method="post">
-    <label class="w3-label w3-text-black"><b>Route name</b></label>
-    <input class="w3-input w3-white w3-border w3-margin-bottom" style="width: 50%" type="text" name="name" value="<?= $data["route"]["name"] ?>" required>
-    <label class="w3-label w3-text-black"><b>Route description</b></label>
-    <textarea class="w3-input w3-white w3-border" name="description" rows=5><?= $data["route"]["description"] ?></textarea><br>
-    <label class="w3-label w3-text-black"><b>Grade</b></label>
-    <input class="w3-input w3-white w3-border w3-margin-bottom" style="width: 50%" type="text" name="grade" value="<?= $data["route"]["grade"] ?>">
-    <label class="w3-label w3-text-black"><b>Stars</b></label>
-    <input class="w3-input w3-white w3-border w3-margin-bottom" style="width: 50%" type="text" name="stars" value="<?= $data["route"]["stars"] ?>">
-    <label class="w3-label w3-text-black"><b>Length in metres</b></label>
-    <input class="w3-input w3-white w3-border w3-margin-bottom" style="width: 50%" type="text" name="length" value="<?= $data["route"]["length"] ?>" required>
-    <label class="w3-label w3-text-black"><b>Crag Sector (if applicable)</b></label>
-    <input class="w3-input w3-white w3-border w3-margin-bottom" style="width: 50%" type="text" name="sector" value="<?= $data["route"]["sector"] ?>">
+<form class="content" action="<?= SITEURL ?>/admin/route.php" method="post">
+    <label>Route name</label>
+    <input type="text" name="name" value="<?= $data["route"]["name"] ?>" required>
+    <label>Route description</label>
+    <textarea name="description" rows=5><?= $data["route"]["description"] ?></textarea><br>
+    <label>Discipline</label>
+    <select name="discipline">
+        <option disabled <?php if($data["route"]["discipline"] == '0') echo("selected") ?>>Select...</option>
+        <option value="1" <?php if($data["route"]["discipline"] == '1') echo("selected") ?>>Trad</option>
+        <option value="2" <?php if($data["route"]["discipline"] == '2') echo("selected") ?>>Sport</option>
+        <option value="3" <?php if($data["route"]["discipline"] == '3') echo("selected") ?>>Bouldering</option>
+    </select>
+    <label>Grade</label>
+    <input type="text" name="grade" value="<?= $data["route"]["grade"] ?>">
+    <label>Sport Bolting Happiness :)</label>
+    <select name="seriousness">
+        <option <?php if($data["route"]["seriousness"] == '0') echo("selected") ?>>n/a</option>
+        <option value="1" <?php if($data["route"]["seriousness"] == '1') echo("selected") ?>>Safe</option>
+        <option value="2" <?php if($data["route"]["seriousness"] == '2') echo("selected") ?>>Caution</option>
+        <option value="3" <?php if($data["route"]["seriousness"] == '3') echo("selected") ?>>Scary</option>
+    </select>
+    <label>Stars</label>
+    <input type="text" name="stars" value="<?= $data["route"]["stars"] ?>">
+    <label>Length in metres</label>
+    <input type="text" name="length" value="<?= $data["route"]["length"] ?>" required>
+    <label>Crag Sector (if applicable)</label>
+    <input type="text" name="sector" value="<?= $data["route"]["sector"] ?>">
+    <label>First ascent:</label>
+    <input type="text" name="fascent" value="<?= $data["route"]["firstascent"] ?>">
+    <div class="margin-bottom-5">
+        <input type="checkbox" name="private" class="inline" <?php if ($data["route"]["private"] == true) echo "checked" ?>>
+        <label class="inline">Hide description</label>
+    </div>
     <div>
-        <input class="w3-btn w3-round w3-green" type="submit" value="<?= $data["button"] ?>">
-        <input class="w3-btn w3-round w3-red" type="button" onclick="window.location.assign('<?= $data["returnurl"] ?>')" value="Cancel">
+        <button class="btn-save" type="submit"><?= $data["button"] ?></button>
+        <button class="btn-cancel" type="button" onclick="window.location.assign('<?= $data["returnurl"] ?>')">Cancel</button>
     </div>
 </form>

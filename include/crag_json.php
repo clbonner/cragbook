@@ -8,29 +8,34 @@
  * Returns JSON data for crags in database.
  */
 
-require_once("../include/config.php");
+require_once(__DIR__ ."/config.php");
 $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET["areaid"])) {
         // get crags for area
-        $sql = "SELECT * FROM crags WHERE areaid=" .$_GET["areaid"] ." ORDER BY name ASC;";
-        
+        if (isset($_SESSION["userid"]))
+            $sql = "SELECT * FROM crags WHERE areaid=" .$_GET["areaid"] ." ORDER BY name ASC;";
+        else
+            $sql = "SELECT * FROM crags WHERE areaid=" .$_GET["areaid"] ." AND public=1 ORDER BY name ASC;";
     }
     elseif (isset($_GET["cragid"])) {
         // get a single crag
-        $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"] .";";
-        
+        if (isset($_SESSION["userid"]))
+            $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"] .";";
+        else 
+            $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"] ." AND public=1;";
     }
     else {
         // return all crags
-        $sql = "SELECT * FROM crags ORDER BY name ASC;";
+        if (isset($_SESSION["userid"]))
+            $sql = "SELECT * FROM crags ORDER BY name ASC;";
+        else
+            $sql = "SELECT * FROM crags WHERE public=1 ORDER BY name ASC;";
     }
     
     if (!$result = $db->query($sql)) {
-        $error = $db->error ."\n";
-        echo $error;
-        exit;
+        exit("Error in crag_json.php: " .$db->error);
     }
     
     // put crag(s) in to array

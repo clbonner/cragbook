@@ -8,7 +8,7 @@
  * Controller for updating user and site preferences
  */
 
-require_once("../include/config.php");
+require_once(__DIR__ ."/../include/config.php");
 login_check();
 
 $db = db_connect();

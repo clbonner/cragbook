@@ -995,7 +995,7 @@ function printRoutes(page) {
     printWindow.document.write(div.html());
 
     printWindow.document.write($("#routes").html());
-    printWindow.document.write("</body><script>window.print();</script></html>");
+    printWindow.document.write("</body><script>window.print();window.close();</script></html>");
 }
 
 function getSearch() {

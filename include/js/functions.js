@@ -220,24 +220,34 @@ function getAllCrags() {
 }
 
 // gets JDON data for a route and display route info
-function getRouteInfo(route) {
-    var url = "include/route_json.php?routeid=" + route.data.id;
-    var div = '<div id="routeinfowindow"></div>';
-    var x;
+function viewRouteInfo(route) {
+    var x, discipline, url = "include/route_json.php?routeid=" + route.data.id;
+    var div = $("<div>").attr("id", "routeinfowindow");
 
     $("#modal").html(div);
     
     for (x in routes) {
         if (routes[x].routeid == route.data.id) {
-            div = '<h3>' + routes[x].name + ' ' + routes[x].stars + '</h3>';
-            div += '<p>' + routes[x].description + '</p>';
-            div += '<p><b>First Ascent: </b>' + routes[x].firstascent + '</p>';
-            div += '<p><b>Grade: </b>' + routes[x].grade + '</p>';
-            div += '<p><b>Length: </b>' + routes[x].length + 'm</p>';
-            div += '<p><b>Crag Sector: </b>' + routes[x].sector + '</p>';
-            div += '<button class="btn-edit margin-15" onclick="$(\'#modal\').hide()">Close</button>';
+            switch (routes[x].discipline) {
+                case '1':
+                    discipline = $("<i>").addClass("fa fa-circle-thin").html("&nbsp");
+                    break;
+                case '2':
+                    discipline = $("<i>").addClass("fa fa-circle yellow").html("&nbsp");
+                    break;
+                case '3':
+                    discipline = $("<i>").addClass("fa fa-circle").html("&nbsp");
+                    break;
+            }
+        
+            $('#routeinfowindow').append($("<h3>").text(routes[x].name + ' ' + routes[x].stars).prepend(discipline));
+            $('#routeinfowindow').append($("<p>").text(routes[x].description));
+            $('#routeinfowindow').append($("<p>").text(routes[x].grade).prepend($("<b>").text("Grade: ")));
+            $('#routeinfowindow').append($("<p>").text(routes[x].length).prepend($("<b>").text("Length: ")));
+            $('#routeinfowindow').append($("<p>").text(routes[x].sector).prepend($("<b>").text("Crag Sector: ")));
+            $('#routeinfowindow').append($("<p>").text(routes[x].firstascent).prepend($("<b>").text("First Ascent: ")));
+            $('#routeinfowindow').append($("<button>").addClass("btn-edit margin-15").attr("onclick","$('#modal').hide()").text("Close"));
             
-            $("#routeinfowindow").html(div);
             $("#modal").show();
         }
     }
@@ -250,88 +260,65 @@ function getRouteInfo(route) {
 
 // display list of crags for area page
 function viewCragList() {
-    var i, view;
+    var i, div;
     
     $(btn).removeClass("btn-border");
     $("#listview").addClass("btn-border");
     btn = "#listview";
     
     if (cragList.length != 0) {
-        
-        // build list of crags
-        view = '<div id="list">';
+        div = $("<div>").attr("id", "list");
+        $('#view').html(div);
         
         for (i in cragList) {
-            if (cragList[i].public == 1 && auth == true) {
-                view += '<a class="btn-public" href="crag.php?cragid=' + cragList[i].cragid + '">';
-                view += cragList[i].name + '</a>';
-            }
-            else {
-                view += '<a class="btn" href="crag.php?cragid=' + cragList[i].cragid + '">';
-                view += cragList[i].name + '</a>';
-            }
+            if (cragList[i].public == 1 && auth == true)
+                $('#list').append($("<a>").addClass("btn-public").attr("href", "crag.php?cragid=" + cragList[i].cragid).text(cragList[i].name));
+            else
+                $('#list').append($("<a>").addClass("btn").attr("href", "crag.php?cragid=" + cragList[i].cragid).text(cragList[i].name));
         }
-        
-        view += '</div>';
     }
     else
-        view = '<div id="nocrags">No crags</div>';
-    
-    // show list of crags
-    $('#view').html(view);
+        $('#view').append("<div>").attr("id", "nocrags").text("No crags");
 }
 
 // display list of areas for climbing areas page
 function viewAreaList() {
-    var i, view;
+    var i, div;
     
     $(btn).removeClass("btn-border");
     $("#listview").addClass("btn-border");
     btn = "#listview";
     
     if (areaList.length != 0) {
-        
-        // build list of crags
-        view = '<div id="list">';
+        div = $("<div>").attr("id", "list");
+        $('#view').html(div);
         
         for (i in areaList) {
-            if (areaList[i].public == 1 && auth == true) {
-                view += '<a class="btn-public" href="area.php?areaid=' + areaList[i].areaid + '">';
-                view += areaList[i].name + '</a>';
-            }
-            else {
-                view += '<a class="btn" href="area.php?areaid=' + areaList[i].areaid + '">';
-                view += areaList[i].name + '</a>';
-            }
+            if (areaList[i].public == 1 && auth == true)
+                $('#list').append($("<a>").addClass("btn-public").attr("href", "area.php?areaid=" + areaList[i].areaid).text(areaList[i].name));
+            else
+                $('#list').append($("<a>").addClass("btn").attr("href", "area.php?areaid=" + areaList[i].areaid).text(areaList[i].name));
         }
-        
-        view += '</div>';
     }
     else
-        view = '<div id="noareas">No areas</div>';
-    
-    // show list of crags
-    $('#view').html(view);
+        $('#view').append("<div>").attr("id", "noareas").text("No areas");
 }
 
 // display list of areas for climbing areas page
 function viewCragInfo() {
-    var view;
+    var div;
     
     $(btn).removeClass("btn-border");
     $("#infoview").addClass("btn-border");
     btn = "#infoview";
     
-    // build crag info
-    view = '<div id="craginfo">';
-    view += '<div class="heading">' + crag.description + '</div>';
-    view += '<p><b>Access: </b>' + crag.access + '</p>';
-    view += '<p><b>Policy on fixed gear: </b>' + crag.policy + '</p>';
-    view += '<p><b>Approach: </b>' + crag.approach + '</p>';
-    view += '</div>';
+    div = $("<div>").attr("id", "craginfo");
+    $('#view').html(div);
     
-    // show crag info
-    $('#view').html(view);
+    $('#craginfo').append($("<p>").addClass("heading").text(crag.description));
+    $('#craginfo').append($("<p>").text(crag.access).prepend($("<b>").text("Access: ")));
+    $('#craginfo').append($("<p>").text(crag.policy).prepend($("<b>").text("Fixed gear policy: ")));
+    $('#craginfo').append($("<p>").text(crag.approach).prepend($("<b>").text("Approach: ")));
 }
 
 // shows routes on area pages
@@ -354,7 +341,7 @@ function viewAreaRoutes(areaRoutes) {
         
         for (x in areaRoutes) {
             row = $("<tr>").addClass("pointer").attr("id", areaRoutes[x].routeid);
-            data= $("<td>").click( { "id" : areaRoutes[x].routeid }, getRouteInfo);
+            data= $("<td>").click( { "id" : areaRoutes[x].routeid }, viewRouteInfo);
             
             switch(areaRoutes[x].discipline) {
                 case "1":
@@ -368,15 +355,15 @@ function viewAreaRoutes(areaRoutes) {
             }
             row.append(data);
             
-            data = $("<td>").click({ id : areaRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click({ id : areaRoutes[x].routeid }, viewRouteInfo);
             data.text(areaRoutes[x].name);
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
             data.text(areaRoutes[x].grade);
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
             switch(areaRoutes[x].seriousness) {
                 case "1":
                     data.append($("<i>").addClass("fa fa-smile-o green"));
@@ -389,11 +376,11 @@ function viewAreaRoutes(areaRoutes) {
             }
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
             data.text(areaRoutes[x].stars);
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
             data.text(areaRoutes[x].length + "m");
             row.append(data);
 
@@ -401,7 +388,7 @@ function viewAreaRoutes(areaRoutes) {
             data.append($("<a>").attr("href", "crag.php?cragid=" + areaRoutes[x].cragid).text(areaRoutes[x].cragName));
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
             data.append($("<div>").addClass("firstascent").text(areaRoutes[x].firstascent));
             row.append(data);
             
@@ -442,7 +429,7 @@ function viewCragRoutes(cragRoutes) {
             
         for (x in cragRoutes) {
             row = $("<tr>").addClass("pointer").attr("id", cragRoutes[x].routeid);
-            data = $("<td>").click( { "id" : cragRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { "id" : cragRoutes[x].routeid }, viewRouteInfo);
             
             switch(cragRoutes[x].discipline) {
                 case "1":
@@ -456,15 +443,15 @@ function viewCragRoutes(cragRoutes) {
             }
             row.append(data);
             
-            data = $("<td>").click({ id : cragRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click({ id : cragRoutes[x].routeid }, viewRouteInfo);
             data.text(cragRoutes[x].name);
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
             data.text(cragRoutes[x].grade);
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
             switch(cragRoutes[x].seriousness) {
                 case "1":
                     data.append($("<i>").addClass("fa fa-smile-o green"));
@@ -477,19 +464,19 @@ function viewCragRoutes(cragRoutes) {
             }
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
             data.text(cragRoutes[x].stars);
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
             data.text(cragRoutes[x].length + "m");
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
             data.append($("<div>").addClass("firstascent").text(cragRoutes[x].firstascent));
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, getRouteInfo);
+            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
             data.text(cragRoutes[x].sector);
             row.append(data);
             

@@ -20,6 +20,10 @@ $(document).ready( function () {
     <div class="margin-bottom-5">
         <input type="checkbox" name="public" class="inline" <?php if ($data["crag"]["public"] == true) echo "checked" ?>>
         <label class="inline">Publicly viewable</label>
+        <input type="checkbox" name="hide_descriptions" class="inline">
+        <label class="inline">Hide all descriptions for this crag</label>
+        <input type="checkbox" name="show_descriptions" class="inline">
+        <label class="inline">Show all descriptions for this crag</label>
     </div>
     <div>
         <button class="btn-save" type="submit"><?= $data["button"] ?></button>

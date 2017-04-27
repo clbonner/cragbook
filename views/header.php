@@ -7,15 +7,8 @@
     
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=<?= $googlemaps_apikey ?>"></script>
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script src="<?= SITEURL ?>/include/js/functions.js"></script>
-    <script>
-        tinymce.init({ 
-            selector:'#home',
-            toolbar: 'formatselect | fontsizeselect bold italic | alignleft aligncenter alignright'
-        });
-    </script>
-    
+
     <link rel="icon" href="cragbook.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?= SITEURL ?>/css/cragbook.css">
     <link rel="stylesheet" href="<?= SITEURL ?>/css/font-awesome/css/font-awesome.min.css">

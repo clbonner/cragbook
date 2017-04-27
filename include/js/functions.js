@@ -236,7 +236,7 @@ function getAllCrags() {
 
 // gets JDON data for a route and display route info
 function viewRouteInfo(route) {
-    var x, discipline, url = "include/route_json.php?routeid=" + route.data.id;
+    var x, discipline, seriousness, url = "include/route_json.php?routeid=" + route.data.id;
     var div = $("<div>").attr("id", "routeinfowindow");
 
     $("#modal").html(div);
@@ -254,9 +254,21 @@ function viewRouteInfo(route) {
                     discipline = $("<i>").addClass("fa fa-circle").html("&nbsp");
                     break;
             }
-        
+            
+            switch (routes[x].seriousness) {
+                case '1':
+                    seriousness = $("<i>").addClass("fa fa-smile-o green").html("&nbsp");
+                    break;
+                case '2':
+                    seriousness = $("<i>").addClass("fa fa-meh-o amber").html("&nbsp");
+                    break;
+                case '3':
+                    seriousness = $("<i>").addClass("fa fa-frown-o red").html("&nbsp");
+                    break;
+            }
+            
             $('#routeinfowindow').append($("<h3>").text(routes[x].name + ' ' + routes[x].stars).prepend(discipline));
-            $('#routeinfowindow').append($("<p>").text(routes[x].description));
+            $('#routeinfowindow').append($("<p>").text(routes[x].description).prepend(seriousness));
             $('#routeinfowindow').append($("<p>").text(routes[x].grade).prepend($("<b>").text("Grade: ")));
             $('#routeinfowindow').append($("<p>").text(routes[x].length).prepend($("<b>").text("Length: ")));
             $('#routeinfowindow').append($("<p>").text(routes[x].sector).prepend($("<b>").text("Crag Sector: ")));

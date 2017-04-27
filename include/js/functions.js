@@ -12,7 +12,8 @@ const defaultCenter = {lat: 53.815474, lng: -4.632684};
 
 // cragbook namespace
 var cragbook = {
-    defaultCenter : {lat: 53.815474, lng: -4.632684}
+    defaultCenter : {lat: 53.815474, lng: -4.632684},
+    infowindow : new google.maps.InfoWindow()
 };
 
 // info window for markers
@@ -20,31 +21,45 @@ var infowindow = new google.maps.InfoWindow();
 
 // sorts routes by orderid and updates DOM element
 function showRouteOrder() {
-    var x, table, buttons;
+    var x, table, row, data, buttons;
     
     // sort array objects by orderid
     allRoutes.sort(function(a, b){return a.orderid - b.orderid});
     
     // build table of routes
-    table = '<table>';
-    table += '<tr><th>Order</th><th>Name</th><th>Grade</th><th>Sector</th></tr>';
+    table = $("<table>");
+    row = $("<tr>")
+        .append($("<th>").text("Order"))
+        .append($("<th>").text("Name"))
+        .append($("<th>").text("Grade"))
+        .append($("<th>").text("Sector"));
+    table.append(row);
+            
     for (x in allRoutes) {
-        table += '<tr>';
-        table += '<td><button id=' + allRoutes[x].routeid + ' class=\"fa fa-arrow-up btn-edit\" onclick=\"routeUp(this.id)\"></button>';
-        table += '<button id=' + allRoutes[x].routeid + ' class=\"fa fa-arrow-down btn-edit\" onclick=\"routeDown(this.id)\"></button></td>';
-        table += '<td id=\"route\">' + allRoutes[x].name + '</td>';
-        table += '<td>' + allRoutes[x].grade + '</td><td>' + allRoutes[x].sector + '</td>';
-        table += '</tr>';
+        row = $("<tr>");
+        data = $("<td>");
+        data.append($("<button>").attr("id", allRoutes[x].routeid).addClass("fa fa-arrow-up btn-edit").attr("onclick", "routeUp(this.id)"));
+        data.append($("<button>").attr("id", allRoutes[x].routeid).addClass("fa fa-arrow-down btn-edit").attr("onclick", "routeDown(this.id)"));
+        row.append(data);
+        
+        data = $("<td>").attr("id", "route").text(allRoutes[x].name);
+        row.append(data);
+        
+        data = $("<td>").text(allRoutes[x].grade);
+        row.append(data);
+        
+        data = $("<td>").text(allRoutes[x].sector);
+        row.append(data);
+        
+        table.append(row);
     }
-    table += "</table>";
     
     // add the buttons
-    buttons = '<br><button class="btn-save" onclick="updateRouteOrder()">Save</button>';
-    buttons += '<button class="btn-cancel" onclick="window.location.assign(\'' + returnurl + '\')">Cancel</button>';
+    $('#buttons').html($("<button>").addClass("btn-save").click(updateRouteOrder).text("Save"));
+    $('#buttons').append($("<button>").addClass("btn-cancel").attr("onclick", "window.location.assign('" + returnurl + "')").text("Cancel"));
     
     // display table and buttons
     $("#routes").html(table);
-    $("#buttons").html(buttons);
 }
 
 // send route order data back to database

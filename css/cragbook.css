@@ -190,6 +190,11 @@ textarea {
     text-decoration: none;
 }
 
+#buttons {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 /* default map view */
 #map {
     height: 300px;

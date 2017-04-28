@@ -36,7 +36,7 @@ $googlemaps_apikey = "";
 
 //================= End of configuration section ===================//
 
-session_start();
+session_start([cookie_lifetime => 900]);
 require_once(__DIR__ ."/functions.php");
 
 ?>

@@ -8,7 +8,7 @@
 
 // global variables
 var allRoutes, routes, crag, area, cragList, areaList, returnurl, map, marker, auth, btn;
-const defaultCenter = {lat: 53.815474, lng: -4.632684};
+const defaultCenter = {lat: 51.4490382, lng: -2.5943542};
 
 // cragbook namespace
 var cragbook = {
@@ -755,7 +755,7 @@ function viewCragMap(location) {
     // set map options for all crags
     if (location == 'all') {
         var latlng = new google.maps.LatLng(defaultCenter);
-        var zoom = 5;
+        var zoom = 9;
         var height = 500;
     }
     
@@ -834,7 +834,7 @@ function viewAreaMap() {
     
     // create map
     map = new google.maps.Map(canvas, {
-        zoom: 5,
+        zoom: 9,
         center: defaultCenter,
         scrollwheel: false,
         mapTypeId: google.maps.MapTypeId.TERRAIN

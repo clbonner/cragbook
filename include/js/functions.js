@@ -964,7 +964,13 @@ function setCragMap(location) {
 }
 
 
-function viewCragPhotos() {
+function viewCragDownloads() {
+    $(btn).removeClass("btn-border");
+    $("#photoview").addClass("btn-border");
+    btn = "#photoview";
+}
+
+function viewAreaDownloads() {
     $(btn).removeClass("btn-border");
     $("#photoview").addClass("btn-border");
     btn = "#photoview";
@@ -1013,10 +1019,7 @@ function printRoutes(page) {
 function getSearch() {
     var data, search, div, url = "include/search_json.php";
     
-    var area = $("#area").val();
-    var crag = $("#crag").val();
-    var route = $("#route").val();
-    var grade = $("#grade").val();
+    var area = $("#area").val(), crag = $("#crag").val(), route = $("#route").val(), grade = $("#grade").val();
     
     // input validation
     if (area !== "" && !area.match(/^[0-9a-zA-Z ]+$/)) {

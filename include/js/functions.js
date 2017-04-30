@@ -270,7 +270,7 @@ function viewRouteInfo(route) {
             $('#routeinfowindow').append($("<h3>").text(routes[x].name + ' ' + routes[x].stars).prepend(discipline));
             $('#routeinfowindow').append($("<p>").text(routes[x].description).prepend(seriousness));
             $('#routeinfowindow').append($("<p>").text(routes[x].grade).prepend($("<b>").text("Grade: ")));
-            $('#routeinfowindow').append($("<p>").text(routes[x].length).prepend($("<b>").text("Length: ")));
+            $('#routeinfowindow').append($("<p>").text(routes[x].length + "m").prepend($("<b>").text("Length: ")));
             $('#routeinfowindow').append($("<p>").text(routes[x].sector).prepend($("<b>").text("Crag Sector: ")));
             $('#routeinfowindow').append($("<p>").text(routes[x].firstascent).prepend($("<b>").text("First Ascent: ")));
             $('#routeinfowindow').append($("<button>").addClass("btn-edit margin-15").attr("onclick","$('#modal').hide()").text("Close"));
@@ -772,7 +772,7 @@ function viewCragMap(location) {
     else {
         location = area.location.split(",");
         var latlng = new google.maps.LatLng(location[0], location[1]);
-        var zoom = 10;
+        var zoom = 12;
         var height = 300;
     }
     
@@ -1000,7 +1000,6 @@ function printRoutes(page) {
     
     else if (page == 'crag') {
         div.append($("<p>").append($("<h2>").text(crag.name)));
-        div.append($("<p>").append($("<h4>").text(crag.description)));
         div.append($("<p>").append($("#view").html()));
         div.append($("<p>").append($("<h4>").text("Routes")));
     }

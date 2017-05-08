@@ -20,7 +20,7 @@ var cragbook = {
 var infowindow = new google.maps.InfoWindow();
 
 // sorts routes by orderid and updates DOM element
-function showRouteOrder() {
+function viewRouteOrder() {
     var x, table, row, data, buttons;
     
     // sort array objects by orderid
@@ -38,8 +38,8 @@ function showRouteOrder() {
     for (x in allRoutes) {
         row = $("<tr>");
         data = $("<td>");
-        data.append($("<button>").attr("id", allRoutes[x].routeid).addClass("fa fa-arrow-up btn-edit").attr("onclick", "routeUp(this.id)"));
-        data.append($("<button>").attr("id", allRoutes[x].routeid).addClass("fa fa-arrow-down btn-edit").attr("onclick", "routeDown(this.id)"));
+        data.append($("<button>").attr("id", allRoutes[x].routeid).addClass("fa fa-arrow-up btn-border").attr("onclick", "routeUp(this.id)"));
+        data.append($("<button>").attr("id", allRoutes[x].routeid).addClass("fa fa-arrow-down btn-border").attr("onclick", "routeDown(this.id)"));
         row.append(data);
         
         data = $("<td>").attr("id", "route").text(allRoutes[x].name);
@@ -87,7 +87,7 @@ function routeDown(routeid) {
         }
     }
     
-    showRouteOrder();
+    viewRouteOrder();
 }
 
 // moves a route up in the table
@@ -102,7 +102,7 @@ function routeUp(routeid) {
         }
     }
     
-    showRouteOrder();
+    viewRouteOrder();
 }
 
 /* AJAX functions */
@@ -123,7 +123,7 @@ function getRouteOrder(crag) {
             allRoutes[x].orderid = i++;
         }
         
-        showRouteOrder();
+        viewRouteOrder();
     });
 }
 
@@ -271,7 +271,7 @@ function viewRouteInfo(route) {
             $('#routeinfowindow').append($("<p>").text(routes[x].description).prepend(seriousness));
             $('#routeinfowindow').append($("<p>").text(routes[x].grade).prepend($("<b>").text("Grade: ")));
             $('#routeinfowindow').append($("<p>").text(routes[x].length + "m").prepend($("<b>").text("Length: ")));
-            $('#routeinfowindow').append($("<p>").text(routes[x].sector).prepend($("<b>").text("Crag Sector: ")));
+            $('#routeinfowindow').append($("<p>").text(routes[x].sector).prepend($("<b>").text("Sector: ")));
             $('#routeinfowindow').append($("<p>").text(routes[x].firstascent).prepend($("<b>").text("First Ascent: ")));
             $('#routeinfowindow').append($("<button>").addClass("btn-edit margin-15").attr("onclick","$('#modal').hide()").text("Close"));
             

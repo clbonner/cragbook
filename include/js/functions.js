@@ -10,12 +10,6 @@
 var allRoutes, routes, crag, area, cragList, areaList, returnurl, map, marker, auth, btn;
 const defaultCenter = {lat: 51.4490382, lng: -2.5943542};
 
-// cragbook namespace
-var cragbook = {
-    defaultCenter : {lat: 53.815474, lng: -4.632684},
-    infowindow : new google.maps.InfoWindow()
-};
-
 // info window for markers
 var infowindow = new google.maps.InfoWindow();
 

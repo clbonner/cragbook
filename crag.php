@@ -12,7 +12,7 @@ require_once(__DIR__ ."/include/config.php");
 $db = db_connect();
 
 // get crag info
-$sql = "SELECT * FROM crags WHERE cragid = ". $_GET["cragid"] .";";
+$sql = "SELECT areaid FROM crags WHERE cragid = ". $_GET["cragid"] .";";
 
 if (!$result = $db->query($sql))
     error("Error in crag.php: " .$db->error);
@@ -28,7 +28,7 @@ else
     $area = $result->fetch_assoc();
 
 // show crag page
-view("crag.php", ["crag" => $crag, "area" => $area]);
+view("crag.php", ["area" => $area]);
 
 $db->close();
 

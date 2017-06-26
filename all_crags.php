@@ -9,6 +9,6 @@
  */
 
 require_once(__DIR__ ."/include/config.php");
-view("all_crags.php", ["areas" => $areas]);
+view("all_crags.php", []);
 
 ?>

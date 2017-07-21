@@ -512,6 +512,10 @@ textarea {
     width: 250px;
 }
 
+.hybrid {
+    color: blue;
+}
+
 /* background for modal popup */
 .modal {
     display: none;

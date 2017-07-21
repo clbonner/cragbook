@@ -361,7 +361,11 @@ function viewAreaRoutes(routes) {
         table.append(row);
         
         for (x in routes) {
-            row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+            if (routes[x].discipline == 4)
+                row = $("<tr>").addClass("pointer hybrid").attr("id", routes[x].routeid);
+            else
+                row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+
             data= $("<td>").click( { "id" : routes[x].routeid }, viewRouteInfo);
             
             switch(routes[x].discipline) {
@@ -373,6 +377,9 @@ function viewAreaRoutes(routes) {
                     break;
                 case "3":
                     data.append($("<i>").addClass("fa fa-circle fa-lg"));
+                    break;
+                case "4":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
             }
             row.append(data);
             
@@ -395,6 +402,9 @@ function viewAreaRoutes(routes) {
                     break;
                 case "3":
                     data.append($("<i>").addClass("fa fa-frown-o red"));
+                    break;
+                case "4":
+                    data.append($("<img>").attr("src", "css/skull.png"));
             }
             row.append(data);
             
@@ -449,7 +459,11 @@ function viewCragRoutes(routes) {
         table.append(row);
             
         for (x in routes) {
-            row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+            if (routes[x].discipline == 4)
+                row = $("<tr>").addClass("pointer hybrid").attr("id", routes[x].routeid);
+            else
+                row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+            
             data = $("<td>").click( { "id" : routes[x].routeid }, viewRouteInfo);
             
             switch(routes[x].discipline) {
@@ -461,6 +475,9 @@ function viewCragRoutes(routes) {
                     break;
                 case "3":
                     data.append($("<i>").addClass("fa fa-circle fa-lg"));
+                    break;
+                case "4":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
             }
             row.append(data);
             
@@ -482,6 +499,9 @@ function viewCragRoutes(routes) {
                     break;
                 case "3":
                     data.append($("<i>").addClass("fa fa-frown-o red"));
+                    break;
+                case "4":
+                    data.append($("<img>").attr("src", "css/skull.png"));
             }
             row.append(data);
             

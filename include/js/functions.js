@@ -982,6 +982,7 @@ function boulderProblemsFilter(page) {
     div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f6'))").text("f6"));
     div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f7'))").text("f7"));
     div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f8'))").text("f8"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f9'))").text("f9"));
     
     viewRoutes(page, Cragbook.routes.getBoulderProblems());
     

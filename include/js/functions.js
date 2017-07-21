@@ -404,7 +404,7 @@ function viewAreaRoutes(routes) {
                     data.append($("<i>").addClass("fa fa-frown-o red"));
                     break;
                 case "4":
-                    data.append($("<img>").attr("src", "css/skull.png"));
+                    data.append($("<i>").addClass("fa fa-times-circle"));
             }
             row.append(data);
             
@@ -501,7 +501,7 @@ function viewCragRoutes(routes) {
                     data.append($("<i>").addClass("fa fa-frown-o red"));
                     break;
                 case "4":
-                    data.append($("<img>").attr("src", "css/skull.png"));
+                    data.append($("<i>").addClass("fa fa-times-circle"));
             }
             row.append(data);
             

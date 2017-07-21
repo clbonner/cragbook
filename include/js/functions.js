@@ -18,7 +18,7 @@ function viewRouteOrder() {
     var x, table, row, data, buttons;
     
     // sort array objects by orderid
-    allRoutes.sort(function(a, b){return a.orderid - b.orderid});
+    Cragbook.allRoutes.sort(function(a, b){return a.orderid - b.orderid});
     
     // build table of routes
     table = $("<table>");
@@ -29,20 +29,20 @@ function viewRouteOrder() {
         .append($("<th>").text("Sector"));
     table.append(row);
             
-    for (x in allRoutes) {
+    for (x in Cragbook.allRoutes) {
         row = $("<tr>");
         data = $("<td>");
-        data.append($("<button>").attr("id", allRoutes[x].routeid).addClass("fa fa-arrow-up btn-border").attr("onclick", "routeUp(this.id)"));
-        data.append($("<button>").attr("id", allRoutes[x].routeid).addClass("fa fa-arrow-down btn-border").attr("onclick", "routeDown(this.id)"));
+        data.append($("<button>").attr("id", Cragbook.allRoutes[x].routeid).addClass("fa fa-arrow-up btn-border").attr("onclick", "routeUp(this.id)"));
+        data.append($("<button>").attr("id", Cragbook.allRoutes[x].routeid).addClass("fa fa-arrow-down btn-border").attr("onclick", "routeDown(this.id)"));
         row.append(data);
         
-        data = $("<td>").attr("id", "route").text(allRoutes[x].name);
+        data = $("<td>").attr("id", "route").text(Cragbook.allRoutes[x].name);
         row.append(data);
         
-        data = $("<td>").text(allRoutes[x].grade);
+        data = $("<td>").text(Cragbook.allRoutes[x].grade);
         row.append(data);
         
-        data = $("<td>").text(allRoutes[x].sector);
+        data = $("<td>").text(Cragbook.allRoutes[x].sector);
         row.append(data);
         
         table.append(row);
@@ -50,7 +50,7 @@ function viewRouteOrder() {
     
     // add the buttons
     $('#buttons').html($("<button>").addClass("btn-save").click(updateRouteOrder).text("Save"));
-    $('#buttons').append($("<button>").addClass("btn-cancel").attr("onclick", "window.location.assign('" + returnurl + "')").text("Cancel"));
+    $('#buttons').append($("<button>").addClass("btn-cancel").attr("onclick", "window.location.assign('" + Cragbook.returnurl + "')").text("Cancel"));
     
     // display table and buttons
     $("#routes").html(table);
@@ -59,13 +59,13 @@ function viewRouteOrder() {
 // send route order data back to database
 function updateRouteOrder() {
     var url = "../include/route_json.php";
-    var data = "routes=" + encodeURIComponent(JSON.stringify(allRoutes));
+    var data = "routes=" + encodeURIComponent(JSON.stringify(Cragbook.allRoutes));
 
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     $("#buttons").hide();
     
     $.post(url, data, function (data, status, xhr){
-        window.location.assign(returnurl);
+        window.location.assign(Cragbook.returnurl);
     });
 }
 
@@ -73,10 +73,10 @@ function updateRouteOrder() {
 function routeDown(routeid) {
     var x;
     
-    for (x in allRoutes) {
-        if (routeid == allRoutes[x].routeid && allRoutes[x].orderid < allRoutes.length){
-            allRoutes[x].orderid = ++allRoutes[x].orderid;
-            allRoutes[++x].orderid = --allRoutes[x].orderid;
+    for (x in Cragbook.allRoutes) {
+        if (routeid == Cragbook.allRoutes[x].routeid && Cragbook.allRoutes[x].orderid < Cragbook.allRoutes.length){
+            Cragbook.allRoutes[x].orderid = ++Cragbook.allRoutes[x].orderid;
+            Cragbook.allRoutes[++x].orderid = --Cragbook.allRoutes[x].orderid;
             break;
         }
     }
@@ -88,10 +88,10 @@ function routeDown(routeid) {
 function routeUp(routeid) {
     var x;
 
-    for (x in allRoutes) {
-        if (routeid == allRoutes[x].routeid && allRoutes[x].orderid > 1){
-            allRoutes[x].orderid = --allRoutes[x].orderid;
-            allRoutes[--x].orderid = ++allRoutes[x].orderid;
+    for (x in Cragbook.allRoutes) {
+        if (routeid == Cragbook.allRoutes[x].routeid && Cragbook.allRoutes[x].orderid > 1){
+            Cragbook.allRoutes[x].orderid = --Cragbook.allRoutes[x].orderid;
+            Cragbook.allRoutes[--x].orderid = ++Cragbook.allRoutes[x].orderid;
             break;
         }
     }
@@ -105,16 +105,16 @@ function routeUp(routeid) {
 // gets routes from route_update.php as JSON and stores in routes
 function getRouteOrder(crag) {
     var i = 1, x, url = "../include/route_json.php?cragid=" + crag;
-    returnurl = '../crag.php?cragid=' + crag;
+    Cragbook.returnurl = '../crag.php?cragid=' + crag;
     
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     
     $.getJSON(url, function (data, status, xhr){
-        allRoutes = data;
+        Cragbook.allRoutes = data;
         
         // assign orderid to each route
         for (x in allRoutes) {
-            allRoutes[x].orderid = i++;
+            Cragbook.allRoutes[x].orderid = i++;
         }
         
         viewRouteOrder();
@@ -128,19 +128,19 @@ function getAreaRoutes(areaid) {
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     
     $.getJSON(url, function (data, status, xhr){
-        allRoutes = data;
+        Cragbook.routes = new Cragbook.RouteList(data);
     
         // assign crag name for each route
-        for (x in allRoutes) {
-            for (y in cragList) {
-                if(cragList[y].cragid == allRoutes[x].cragid) {
-                    allRoutes[x].cragName = cragList[y].name;
+        for (x in Cragbook.routes.all) {
+            for (y in Cragbook.cragList) {
+                if(Cragbook.cragList[y].cragid == Cragbook.routes.all[x].cragid) {
+                    Cragbook.routes.all[x].cragName = Cragbook.cragList[y].name;
                 }
             }
         }
         
-        routes = allRoutes.slice();
-        viewAreaRoutes(routes);
+        $('#gradefilter').html(gradeFilter('area'));
+        viewAreaRoutes(Cragbook.routes.getAllRoutes());
     });
 }
 
@@ -151,10 +151,10 @@ function getCragRoutes(cragid) {
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     
     $.getJSON(url, function (data, status, xhr){
-        allRoutes = data;
-        routes = allRoutes.slice();
+        Cragbook.routes = new Cragbook.RouteList(data);
         
-        viewCragRoutes(routes);
+        $('#gradefilter').html(gradeFilter('crag'));
+        viewCragRoutes(Cragbook.routes.getAllRoutes());
     });
 }
 
@@ -163,11 +163,11 @@ function getArea(id) {
     var url = "include/crag_json.php?areaid=" + id;
 
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        auth = data;
+        Cragbook.auth = data;
         
         // get crags in area
         $.getJSON(url, function (data, status, xhr) {
-            cragList = data;
+            Cragbook.cragList = data;
             viewCragList();
             
             if (id != 'all)') {
@@ -177,10 +177,10 @@ function getArea(id) {
         
         // get area info
         $.getJSON("include/area_json.php?areaid=" + id, function (data, status, xhr) {
-            area = data;
+            Cragbook.area = data;
             
-            $("#name").text(area.name);
-            $("#description").text(area.description);
+            $("#name").text(Cragbook.area.name);
+            $("#description").text(Cragbook.area.description);
         });
     });
 }
@@ -190,11 +190,11 @@ function getCrag(id) {
     var url = "include/crag_json.php?cragid=" + id;
     
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        auth = data;
+        Cragbook.auth = data;
         $.getJSON(url, function (data, status, xhr) {
-            crag = data[0];
+            Cragbook.crag = data[0];
             
-            $("#name").text(crag.name);
+            $("#name").text(Cragbook.crag.name);
             
             viewCragInfo();
             getCragRoutes(id);
@@ -207,9 +207,9 @@ function getAllAreas() {
     var url = "include/area_json.php";
     
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        auth = data;
+        Cragbook.auth = data;
         $.getJSON(url, function (data, status, xhr) {
-            areaList = data;
+            Cragbook.areaList = data;
             viewAreaList();
         });
     });
@@ -220,9 +220,9 @@ function getAllCrags() {
     var url = "include/crag_json.php";
     
     $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        auth = data;
+        Cragbook.auth = data;
         $.getJSON(url, function (data, status, xhr) {
-            cragList = data;
+            Cragbook.cragList = data;
             viewCragList();
         });
     });
@@ -235,9 +235,9 @@ function viewRouteInfo(route) {
 
     $("#modal").html(div);
     
-    for (x in routes) {
-        if (routes[x].routeid == route.data.id) {
-            switch (routes[x].discipline) {
+    for (x in Cragbook.routes.view) {
+        if (Cragbook.routes.view[x].routeid == route.data.id) {
+            switch (Cragbook.routes.view[x].discipline) {
                 case '1':
                     discipline = $("<i>").addClass("fa fa-circle-thin").html("&nbsp");
                     break;
@@ -249,7 +249,7 @@ function viewRouteInfo(route) {
                     break;
             }
             
-            switch (routes[x].seriousness) {
+            switch (Cragbook.routes.view[x].seriousness) {
                 case '1':
                     seriousness = $("<i>").addClass("fa fa-smile-o green").html("&nbsp");
                     break;
@@ -261,12 +261,12 @@ function viewRouteInfo(route) {
                     break;
             }
             
-            $('#routeinfowindow').append($("<h3>").text(routes[x].name + ' ' + routes[x].stars).prepend(discipline));
-            $('#routeinfowindow').append($("<p>").text(routes[x].description).prepend(seriousness));
-            $('#routeinfowindow').append($("<p>").text(routes[x].grade).prepend($("<b>").text("Grade: ")));
-            $('#routeinfowindow').append($("<p>").text(routes[x].length + "m").prepend($("<b>").text("Length: ")));
-            $('#routeinfowindow').append($("<p>").text(routes[x].sector).prepend($("<b>").text("Sector: ")));
-            $('#routeinfowindow').append($("<p>").text(routes[x].firstascent).prepend($("<b>").text("First Ascent: ")));
+            $('#routeinfowindow').append($("<h3>").text(Cragbook.routes.view[x].name + ' ' + Cragbook.routes.view[x].stars).prepend(discipline));
+            $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].description).prepend(seriousness));
+            $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].grade).prepend($("<b>").text("Grade: ")));
+            $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].length + "m").prepend($("<b>").text("Length: ")));
+            $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].sector).prepend($("<b>").text("Sector: ")));
+            $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].firstascent).prepend($("<b>").text("First Ascent: ")));
             $('#routeinfowindow').append($("<button>").addClass("btn-edit margin-15").attr("onclick","$('#modal').hide()").text("Close"));
             
             $("#modal").show();
@@ -287,15 +287,15 @@ function viewCragList() {
     $("#listview").addClass("btn-border");
     btn = "#listview";
     
-    if (cragList.length != 0) {
+    if (Cragbook.cragList.length != 0) {
         div = $("<div>").attr("id", "list");
         $('#view').html(div);
         
-        for (i in cragList) {
-            if (cragList[i].public == 1 && auth == true)
-                $('#list').append($("<a>").addClass("btn-public").attr("href", "crag.php?cragid=" + cragList[i].cragid).text(cragList[i].name));
+        for (i in Cragbook.cragList) {
+            if (Cragbook.cragList[i].public == 1 && Cragbook.auth == true)
+                $('#list').append($("<a>").addClass("btn-public").attr("href", "crag.php?cragid=" + Cragbook.cragList[i].cragid).text(Cragbook.cragList[i].name));
             else
-                $('#list').append($("<a>").addClass("btn").attr("href", "crag.php?cragid=" + cragList[i].cragid).text(cragList[i].name));
+                $('#list').append($("<a>").addClass("btn").attr("href", "crag.php?cragid=" + Cragbook.cragList[i].cragid).text(Cragbook.cragList[i].name));
         }
     }
     else
@@ -310,15 +310,15 @@ function viewAreaList() {
     $("#listview").addClass("btn-border");
     btn = "#listview";
     
-    if (areaList.length != 0) {
+    if (Cragbook.areaList.length != 0) {
         div = $("<div>").attr("id", "list");
         $('#view').html(div);
         
-        for (i in areaList) {
-            if (areaList[i].public == 1 && auth == true)
-                $('#list').append($("<a>").addClass("btn-public").attr("href", "area.php?areaid=" + areaList[i].areaid).text(areaList[i].name));
+        for (i in Cragbook.areaList) {
+            if (Cragbook.areaList[i].public == 1 && Cragbook.auth == true)
+                $('#list').append($("<a>").addClass("btn-public").attr("href", "area.php?areaid=" + Cragbook.areaList[i].areaid).text(Cragbook.areaList[i].name));
             else
-                $('#list').append($("<a>").addClass("btn").attr("href", "area.php?areaid=" + areaList[i].areaid).text(areaList[i].name));
+                $('#list').append($("<a>").addClass("btn").attr("href", "area.php?areaid=" + Cragbook.areaList[i].areaid).text(Cragbook.areaList[i].name));
         }
     }
     else
@@ -336,35 +336,35 @@ function viewCragInfo() {
     div = $("<div>").attr("id", "craginfo");
     $('#view').html(div);
     
-    $('#craginfo').append($("<p>").addClass("heading").text(crag.description));
-    $('#craginfo').append($("<p>").text(crag.access).prepend($("<b>").text("Access: ")));
-    $('#craginfo').append($("<p>").text(crag.policy).prepend($("<b>").text("Fixed gear policy: ")));
-    $('#craginfo').append($("<p>").text(crag.approach).prepend($("<b>").text("Approach: ")));
+    $('#craginfo').append($("<p>").addClass("heading").text(Cragbook.crag.description));
+    $('#craginfo').append($("<p>").text(Cragbook.crag.access).prepend($("<b>").text("Access: ")));
+    $('#craginfo').append($("<p>").text(Cragbook.crag.policy).prepend($("<b>").text("Fixed gear policy: ")));
+    $('#craginfo').append($("<p>").text(Cragbook.crag.approach).prepend($("<b>").text("Approach: ")));
 }
 
 // shows routes on area pages
-function viewAreaRoutes(areaRoutes) {
+function viewAreaRoutes(routes) {
     var x, y, row, data;
     var table = $("<table></table>");
     
     // build table
-    if (areaRoutes.length > 0) {
+    if (routes.length > 0) {
         row = $("<tr>");
         row.append($("<th>"));
-        row.append($("<th>").text("Name").attr("onclick", "sortRoutes('area','name')"));
-        row.append($("<th>").text("Grade").attr("onclick", "sortRoutes('area','grade')"));
+        row.append($("<th>").text("Name").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('name'))"));
+        row.append($("<th>").text("Grade").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('grade'))"));
         row.append($("<th>"));
-        row.append($("<th>").text("Stars").attr("onclick", "sortRoutes('area','stars')"));
-        row.append($("<th>").text("Length").attr("onclick", "sortRoutes('area','length')"));
-        row.append($("<th>").text("Crag").attr("onclick", "sortRoutes('area','crag')"));
-        row.append($("<th>").text("First Ascent").attr("onclick", "sortRoutes('area','firstascent')"));
+        row.append($("<th>").text("Stars").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('stars'))"));
+        row.append($("<th>").text("Length").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('length'))"));
+        row.append($("<th>").text("Crag").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('crag'))"));
+        row.append($("<th>").text("First Ascent").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('firstascent'))"));
         table.append(row);
         
-        for (x in areaRoutes) {
-            row = $("<tr>").addClass("pointer").attr("id", areaRoutes[x].routeid);
-            data= $("<td>").click( { "id" : areaRoutes[x].routeid }, viewRouteInfo);
+        for (x in routes) {
+            row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+            data= $("<td>").click( { "id" : routes[x].routeid }, viewRouteInfo);
             
-            switch(areaRoutes[x].discipline) {
+            switch(routes[x].discipline) {
                 case "1":
                     data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
                     break;
@@ -376,16 +376,17 @@ function viewAreaRoutes(areaRoutes) {
             }
             row.append(data);
             
-            data = $("<td>").click({ id : areaRoutes[x].routeid }, viewRouteInfo);
-            data.text(areaRoutes[x].name);
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].name);
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
-            data.text(areaRoutes[x].grade);
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].grade);
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
-            switch(areaRoutes[x].seriousness) {
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            
+            switch(routes[x].seriousness) {
                 case "1":
                     data.append($("<i>").addClass("fa fa-smile-o green"));
                     break;
@@ -397,20 +398,20 @@ function viewAreaRoutes(areaRoutes) {
             }
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
-            data.text(areaRoutes[x].stars);
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].stars);
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
-            data.text(areaRoutes[x].length + "m");
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].length + "m");
             row.append(data);
 
             data = $("<td>");
-            data.append($("<a>").attr("href", "crag.php?cragid=" + areaRoutes[x].cragid).text(areaRoutes[x].cragName));
+            data.append($("<a>").attr("href", "crag.php?cragid=" + routes[x].cragid).text(routes[x].cragName));
             row.append(data);
             
-            data = $("<td>").click( { id: areaRoutes[x].routeid }, viewRouteInfo);
-            data.append($("<div>").addClass("firstascent").text(areaRoutes[x].firstascent));
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.append($("<div>").addClass("firstascent").text(routes[x].firstascent));
             row.append(data);
             
             table.append(row);
@@ -421,38 +422,37 @@ function viewAreaRoutes(areaRoutes) {
     
     // show table
     $('#routes').html(table);
-    $('#gradefilter').html(gradeFilter('area'));
 }
 
 // shows routes on crag pages
-function viewCragRoutes(cragRoutes) {
+function viewCragRoutes(routes) {
     var x, row, data;
     var table = $("<table></table");
     
     // build table
-    if (cragRoutes.length > 0) {
+    if (routes.length > 0) {
         row = $("<tr>");
         row.append($("<th>"));
-        row.append($("<th>").text("Name").attr("onclick", "sortRoutes('crag','name')"));
-        row.append($("<th>").text("Grade").attr("onclick", "sortRoutes('crag','grade')"));
+        row.append($("<th>").text("Name").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('name'))"));
+        row.append($("<th>").text("Grade").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('grade'))"));
         row.append($("<th>"));
-        row.append($("<th>").text("Stars").attr("onclick", "sortRoutes('crag','stars')"));
-        row.append($("<th>").text("Length").attr("onclick", "sortRoutes('crag','length')"));
-        row.append($("<th>").text("First Ascent").attr("onclick", "sortRoutes('crag','firstascent')"));
-        row.append($("<th>").text("Sector").attr("onclick", "sortRoutes('crag','sector')"));
+        row.append($("<th>").text("Stars").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('stars'))"));
+        row.append($("<th>").text("Length").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('length'))"));
+        row.append($("<th>").text("First Ascent").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('firstascent'))"));
+        row.append($("<th>").text("Sector").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('sector'))"));
         
         
         // show editing options if user logged in
-        if (auth === true)
+        if (Cragbook.auth === true)
             row.append($("<th>"));
         
         table.append(row);
             
-        for (x in cragRoutes) {
-            row = $("<tr>").addClass("pointer").attr("id", cragRoutes[x].routeid);
-            data = $("<td>").click( { "id" : cragRoutes[x].routeid }, viewRouteInfo);
+        for (x in routes) {
+            row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+            data = $("<td>").click( { "id" : routes[x].routeid }, viewRouteInfo);
             
-            switch(cragRoutes[x].discipline) {
+            switch(routes[x].discipline) {
                 case "1":
                     data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
                     break;
@@ -464,16 +464,16 @@ function viewCragRoutes(cragRoutes) {
             }
             row.append(data);
             
-            data = $("<td>").click({ id : cragRoutes[x].routeid }, viewRouteInfo);
-            data.text(cragRoutes[x].name);
+            data = $("<td>").click({ id : routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].name);
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
-            data.text(cragRoutes[x].grade);
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].grade);
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
-            switch(cragRoutes[x].seriousness) {
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            switch(routes[x].seriousness) {
                 case "1":
                     data.append($("<i>").addClass("fa fa-smile-o green"));
                     break;
@@ -485,27 +485,27 @@ function viewCragRoutes(cragRoutes) {
             }
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
-            data.text(cragRoutes[x].stars);
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].stars);
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
-            data.text(cragRoutes[x].length + "m");
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].length + "m");
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
-            data.append($("<div>").addClass("firstascent").text(cragRoutes[x].firstascent));
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.append($("<div>").addClass("firstascent").text(routes[x].firstascent));
             row.append(data);
             
-            data = $("<td>").click( { id: cragRoutes[x].routeid }, viewRouteInfo);
-            data.text(cragRoutes[x].sector);
+            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            data.text(routes[x].sector);
             row.append(data);
             
-            if (auth === true) {
+            if (Cragbook.auth === true) {
                 data = $("<td>");
-                data.append($("<a>").addClass("fa fa-edit fa-lg").attr("href", "admin/route.php?action=edit&routeid=" + cragRoutes[x].routeid))
+                data.append($("<a>").addClass("fa fa-edit fa-lg").attr("href", "admin/route.php?action=edit&routeid=" + routes[x].routeid))
                 data.append(" ");
-                data.append($("<a>").addClass("fa fa-trash-o fa-lg").attr("href", "admin/route.php?action=delete&routeid=" + cragRoutes[x].routeid))
+                data.append($("<a>").addClass("fa fa-trash-o fa-lg").attr("href", "admin/route.php?action=delete&routeid=" + routes[x].routeid))
                 row.append(data);
             }
             
@@ -516,222 +516,17 @@ function viewCragRoutes(cragRoutes) {
         table.append($("<p>").text("No routes"));
     
     $('#routes').html(table);
-    $('#gradefilter').html(gradeFilter('crag'));
 }
 
-function viewAllRoutes(page) {
+function viewRoutes(page, routes) {
     var div;
     
     div = $("<div>").addClass("center");
     div.append($("<i>").addClass("fa fa-circle-o-notch fa-spin fa-5x"));
     $("#routes").html(div);
     
-    routes = allRoutes.slice();
-    
     if (page == 'area') viewAreaRoutes(routes);
     else if (page == 'crag') viewCragRoutes(routes);
-}
-
-// sort routes depending on column
-function sortRoutes(page, sort) {
-    switch (sort) {
-        case 'name':
-            routes.sort(function (a, b) {
-                var x = a.name.toLowerCase();
-                var y = b.name.toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-            });
-            break;
-        
-        case 'grade':
-            var tradRoutes, sportRoutes, boulderProblems, x;
-            
-            tradRoutes = getTradRoutes(routes);
-            sportRoutes = getSportRoutes(routes);
-            boulderProblems = getBoulderProblems(routes);
-            
-            tradRoutes.sort(function (a, b) {
-                var gradeA = a.grade.split(" ");
-                var gradeB = b.grade.split(" ");
-                
-                if (gradeA[0] == gradeB[0]) {
-                    if (gradeA[1] < gradeB[1]) return -1;
-                    else if (gradeA[1] > gradeB[1]) return 1;
-                    else return 0;
-                } 
-                else {
-                    a = britishGrade(a.grade);
-                    b = britishGrade(b.grade);
-                    
-                    if (a < b) return -1;
-                    else if (a > b) return 1;
-                    else return 0;
-                }
-            });
-            
-            sportRoutes.sort(function(a, b) { 
-                if (a.grade < b.grade) return -1;
-                else if (a.grade > b.grade) return 1;
-                else return 0;
-            });
-            
-            boulderProblems.sort(function(a, b) {
-                if (a.grade == "VB") return -1;
-                else if (b.grade == "VB") return 1;
-                else if (a.grade < b.grade) return -1;
-                else if (a.grade > b.grade) return 1;
-                else return 0;
-            });
-            
-            routes = [];
-            
-            for (x in tradRoutes)
-                routes.push(tradRoutes[x]);
-                
-            for (x in sportRoutes)
-                routes.push(sportRoutes[x]);
-                
-            for (x in boulderProblems)
-                routes.push(boulderProblems[x]);
-            
-            break;
-            
-        case 'stars':
-            routes.sort(function(a, b) { return b.stars.length - a.stars.length });
-            break;        
-        
-        case 'length':
-            routes.sort(function(a, b) { return a.length - b.length });
-            break;
-        
-        case 'firstascent':
-            routes.sort(function(a, b) {
-                var x = a.firstascent.toLowerCase();
-                var y = b.firstascent.toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-            });
-            break;
-        
-        case 'sector':
-            routes.sort(function(a, b) {
-                var x = a.sector.toLowerCase();
-                var y = b.sector.toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-            });
-            break;
-        
-        case 'crag':
-            routes.sort(function(a, b) {
-                var x = a.cragName.toLowerCase();
-                var y = b.cragName.toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-            });
-            break;
-    }
-
-    if (page == 'area') viewAreaRoutes(routes);
-    else if (page == 'crag') viewCragRoutes(routes);
-}
-
-// extracts trad routes from a given arrary of routes
-function getTradRoutes(routes) {
-    var x, tradRoutes = [];
-    
-    for (x in routes) {
-        if (routes[x].discipline == 1) 
-            tradRoutes.push(routes[x]);
-    }
-    
-    return tradRoutes;
-}
-
-// extracts sport routes from a given arrary of routes
-function getSportRoutes(routes) {
-    var x, sportRoutes = [];
-    
-    for (x in routes) {
-        if (routes[x].discipline == 2) {
-            sportRoutes.push(routes[x]);
-        }
-    }
-    
-    return sportRoutes;
-}
-
-// extracts boulder problems from a given arrary of routes
-function getBoulderProblems (routes) {
-    var x, boulderProblems = [];
-    
-    for (x in routes) {
-        if (routes[x].discipline == 3) {
-            boulderProblems.push(routes[x]);
-        }
-    }
-    
-    return boulderProblems;
-}
-
-// filters routes for british trad grading
-function trad(page) {
-    routes = getTradRoutes(allRoutes);
-    
-    if (page == 'crag') viewCragRoutes(routes);
-    else if (page == 'area') viewAreaRoutes(routes);
-}
-
-// filters routes for french grading
-function sport(page) {
-    routes = getSportRoutes(allRoutes);
-    
-    if (page == 'crag') viewCragRoutes(routes);
-    else if (page == 'area') viewAreaRoutes(routes);
-}
-
-// filters routes for font grading
-function bouldering(page) {
-    routes = getBoulderProblems(allRoutes);
-    
-    if (page == 'crag') viewCragRoutes(routes);
-    else if (page == 'area') viewAreaRoutes(routes);
-}
-
-// helper function for sorting british grades
-function britishGrade(grade) {
-    if (/^E$/.test(grade)) grade = 0;
-    else if (/^M/.test(grade)) grade = 1;
-    else if (/^D/.test(grade)) grade = 2;
-    else if (/^HD/.test(grade)) grade = 3;
-    else if (/^VD/.test(grade)) grade = 4;
-    else if (/^HVD/.test(grade)) grade = 5;
-    else if (/^MS/.test(grade)) grade = 6;
-    else if (/^S/.test(grade)) grade = 7;
-    else if (/^HS/.test(grade)) grade = 8;
-    else if (/^MVS/.test(grade)) grade = 9;
-    else if (/^VS/.test(grade)) grade = 10;
-    else if (/^HVS/.test(grade)) grade = 11;
-    else if (/^E1/.test(grade)) grade = 12;
-    else if (/^E2/.test(grade)) grade = 13;
-    else if (/^E3/.test(grade)) grade = 14;
-    else if (/^E4/.test(grade)) grade = 15;
-    else if (/^E5/.test(grade)) grade = 16;
-    else if (/^E6/.test(grade)) grade = 17;
-    else if (/^E7/.test(grade)) grade = 18;
-    else if (/^E8/.test(grade)) grade = 19;
-    else if (/^E9/.test(grade)) grade = 20;
-    else if (/^E10/.test(grade)) grade = 21;
-    else if (/^E11/.test(grade)) grade = 22;
-    else if (/^MXS/.test(grade)) grade = 23;
-    else if (/^XS/.test(grade)) grade = 24;
-    else if (/^HXS/.test(grade)) grade = 25;
-    return grade;
 }
 
 
@@ -755,8 +550,8 @@ function viewCragMap(location) {
     
     // set map options for single crag
     else if (location == 'crag') {
-        cragList = [crag];
-        location = crag.location.split(",");
+        Cragbook.cragList = [Cragbook.crag];
+        location = Cragbook.crag.location.split(",");
         var latlng = new google.maps.LatLng(location[0], location[1]);
         var zoom = 15;
         var height = 300;
@@ -764,7 +559,7 @@ function viewCragMap(location) {
     
     // set map options for area
     else {
-        location = area.location.split(",");
+        location = Cragbook.area.location.split(",");
         var latlng = new google.maps.LatLng(location[0], location[1]);
         var zoom = 12;
         var height = 300;
@@ -783,25 +578,25 @@ function viewCragMap(location) {
     });
     
     // add markers
-    for (i in cragList) {
-        if (cragList[i].location === "") {
+    for (i in Cragbook.cragList) {
+        if (Cragbook.cragList[i].location === "") {
             // skip
         }
         else {
             // get crag location
-            var location = cragList[i].location.split(",");
+            var location = Cragbook.cragList[i].location.split(",");
             var latlng = new google.maps.LatLng(location[0], location[1]);
             
             // set marker
             var marker = new google.maps.Marker({
                 position: latlng,
                 map: map,
-                title: cragList[i].name
+                title: Cragbook.cragList[i].name
             });
             
             // set marker info window content
-            contentString = '<div><a href="crag.php?cragid=' + cragList[i].cragid + '"><b><h3>' + cragList[i].name + '</h3></b></a></div>';
-            contentString += '<div>' + cragList[i].description + '</div>';
+            contentString = '<div><a href="crag.php?cragid=' + Cragbook.cragList[i].cragid + '"><b><h3>' + Cragbook.cragList[i].name + '</h3></b></a></div>';
+            contentString += '<div>' + Cragbook.cragList[i].description + '</div>';
             
             marker.info = contentString;
             
@@ -835,26 +630,26 @@ function viewAreaMap() {
     });
     
     // add markers
-    for (i in areaList) {
-        if (areaList[i].location === "") {
+    for (i in Cragbook.areaList) {
+        if (Cragbook.areaList[i].location === "") {
             // skip
         }
         else {
             
             // get area location
-            var location = areaList[i].location.split(",");
+            var location = Cragbook.areaList[i].location.split(",");
             var latlng = new google.maps.LatLng(location[0], location[1]);
             
             // set marker
             var marker = new google.maps.Marker({
                 position: latlng,
                 map: map,
-                title: areaList[i].name
+                title: Cragbook.areaList[i].name
             });
             
             // set marker info window content
-            contentString = '<div><a href="area.php?areaid=' + areaList[i].areaid + '"><b><h3>' + areaList[i].name + '</h3></b></a></div>';
-            contentString += '<div>' + areaList[i].description + '</div>';
+            contentString = '<div><a href="area.php?areaid=' + Cragbook.areaList[i].areaid + '"><b><h3>' + Cragbook.areaList[i].name + '</h3></b></a></div>';
+            contentString += '<div>' + Cragbook.areaList[i].description + '</div>';
             
             marker.info = contentString;
             
@@ -987,13 +782,13 @@ function printRoutes(page) {
     div = $("<h6>").text("Great Western Rock");
     
     if (page == 'area') {
-        div.append($("<p>").append($("<h2>").text(area.name)));
-        div.append($("<p>").append($("<h4>").text(area.description)));
+        div.append($("<p>").append($("<h2>").text(Cragbook.area.name)));
+        div.append($("<p>").append($("<h4>").text(Cragbook.area.description)));
         div.append($("<p>").append($("<h4>").text("Routes")));
     }
     
     else if (page == 'crag') {
-        div.append($("<p>").append($("<h2>").text(crag.name)));
+        div.append($("<p>").append($("<h2>").text(Cragbook.crag.name)));
         div.append($("<p>").append($("#view").html()));
         div.append($("<p>").append($("<h4>").text("Routes")));
     }
@@ -1055,21 +850,21 @@ function getSearch() {
     data = "search=" + encodeURIComponent(JSON.stringify(search));
     
     $.post(url, data, function (data, status, xhr) {
-        allRoutes = JSON.parse(data);
+        Cragbook.allRoutes = JSON.parse(data);
         $.getJSON("include/crag_json.php", function (data) {
-            cragList = data;
+            Cragbook.cragList = data;
             
             // assign crag name for each route
-            for (x in allRoutes) {
-                for (y in cragList) {
-                    if(cragList[y].cragid == allRoutes[x].cragid) {
-                        allRoutes[x].cragName = cragList[y].name;
+            for (x in Cragbook.allRoutes) {
+                for (y in Cragbook.cragList) {
+                    if(Cragbook.cragList[y].cragid == Cragbook.allRoutes[x].cragid) {
+                        Cragbook.allRoutes[x].cragName = Cragbook.cragList[y].name;
                     }
                 }
             }
             
-            if (allRoutes !== 0) routes = allRoutes.slice();
-            else routes = 0;
+            if (Cragbook.allRoutes !== 0) Cragbook.routes = Cragbook.allRoutes.slice();
+            else Cragbook.routes = 0;
             
             showSearchResults(search);
         });
@@ -1108,21 +903,85 @@ function showSearchResults(search) {
     
     $("#searchresults").addClass("panel").html(div);
     
-    viewAreaRoutes(allRoutes);
+    viewAreaRoutes(Cragbook.allRoutes);
+}
+
+
+function allRoutesFilter(page) {
+    viewRoutes(page, Cragbook.routes.getAllRoutes());
+    $("#filter").hide();
+}
+
+function tradRoutesFilter(page) {
+    var div;
+    
+    div = $("<div>");
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('M'))").text("M"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('D'))").text("D"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('VD'))").text("VD"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('S'))").text("S"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('VS'))").text("VS"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('HVS'))").text("HVS"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('E'))").text("Extreme"));
+
+    viewRoutes(page, Cragbook.routes.getTradRoutes());
+    
+    $("#filter").html(div).show();
+}
+
+
+function sportRoutesFilter(page) {
+    var div;
+    
+    div = $("<div>");
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F1'))").text("F1"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F2'))").text("F2"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F3'))").text("F3"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F4'))").text("F4"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F5'))").text("F5"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F6'))").text("F6"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F7'))").text("F7"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F8'))").text("F8"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('F9'))").text("F9"));
+
+    
+    viewRoutes(page, Cragbook.routes.getSportRoutes());
+    
+    $("#filter").html(div).show();
+}
+
+function boulderProblemsFilter(page) {
+    var div;
+    
+    div = $("<div>");
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f1'))").text("f1"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f2'))").text("f2"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f3'))").text("f3"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f4'))").text("f4"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f5'))").text("f5"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f6'))").text("f6"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f7'))").text("f7"));
+    div.append($("<button>").addClass("btn").attr("onclick", "viewRoutes('" + page + "', Cragbook.routes.gradeFilter('f8'))").text("f8"));
+    
+    viewRoutes(page, Cragbook.routes.getBoulderProblems());
+    
+    $("#filter").html(div).show();
 }
 
 function gradeFilter(page) {
-    var div, all, trad, sport, bouldering;
+    var div, all, trad, sport, bouldering, filter;
     
     div = ($("<div>"));
-    all = $("<button>").addClass("btn").attr("onclick", "viewAllRoutes('" + page +"')").text("All");
-    trad = $("<button>").addClass("btn").attr("onclick", "trad('" + page + "')").html('<i class="fa fa-circle-o"></i> Trad');
-    sport = $("<button>").addClass("btn").attr("onclick", "sport('" + page + "')").html('<i class="fa fa-circle yellow"></i> Sport');
-    bouldering = $("<button>").addClass("btn").attr("onclick", "bouldering('" + page + "')").html('<i class="fa fa-circle"></i> Bouldering');
+    all = $("<button>").addClass("btn").attr("onclick", "allRoutesFilter('" + page +"')").text("All");
+    trad = $("<button>").addClass("btn").attr("onclick", "tradRoutesFilter('" + page +"')").html('<i class="fa fa-circle-o"></i> Trad');
+    sport = $("<button>").addClass("btn").attr("onclick", "sportRoutesFilter('" + page +"')").html('<i class="fa fa-circle yellow"></i> Sport');
+    bouldering = $("<button>").addClass("btn").attr("onclick", "boulderProblemsFilter('" + page +"')").html('<i class="fa fa-circle"></i> Bouldering');
+    filter = $("<div>").attr("id", "filter");
     
     div.append(all);
     div.append(trad);
     div.append(sport);
     div.append(bouldering);
+    div.append(filter);
     return div;
 }

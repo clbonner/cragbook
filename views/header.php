@@ -7,6 +7,7 @@
     
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=<?= $googlemaps_apikey ?>"></script>
+    <script src="<?= SITEURL ?>/include/js/classes.js"></script>
     <script src="<?= SITEURL ?>/include/js/functions.js"></script>
 
     <link rel="icon" href="cragbook.ico" type="image/x-icon">

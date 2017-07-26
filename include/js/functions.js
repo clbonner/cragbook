@@ -361,11 +361,7 @@ function viewAreaRoutes(routes) {
         table.append(row);
         
         for (x in routes) {
-            if (routes[x].discipline == 4)
-                row = $("<tr>").addClass("pointer hybrid").attr("id", routes[x].routeid);
-            else
-                row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
-
+            row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
             data= $("<td>").click( { "id" : routes[x].routeid }, viewRouteInfo);
             
             switch(routes[x].discipline) {
@@ -383,11 +379,19 @@ function viewAreaRoutes(routes) {
             }
             row.append(data);
             
-            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            if (routes[x].discipline == 4)
+                data = $("<td>").addClass("hybrid").click( { id: routes[x].routeid }, viewRouteInfo);
+            else
+                data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            
             data.text(routes[x].name);
             row.append(data);
             
-            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            if (routes[x].discipline == 4)
+                data = $("<td>").addClass("hybrid").click( { id: routes[x].routeid }, viewRouteInfo);
+            else
+                data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+                
             data.text(routes[x].grade);
             row.append(data);
             
@@ -459,10 +463,7 @@ function viewCragRoutes(routes) {
         table.append(row);
             
         for (x in routes) {
-            if (routes[x].discipline == 4)
-                row = $("<tr>").addClass("pointer hybrid").attr("id", routes[x].routeid);
-            else
-                row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
+            row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
             
             data = $("<td>").click( { "id" : routes[x].routeid }, viewRouteInfo);
             
@@ -481,11 +482,19 @@ function viewCragRoutes(routes) {
             }
             row.append(data);
             
-            data = $("<td>").click({ id : routes[x].routeid }, viewRouteInfo);
+            if (routes[x].discipline == 4)
+                data = $("<td>").addClass("hybrid").click({ id : routes[x].routeid }, viewRouteInfo);
+            else
+                data = $("<td>").click({ id : routes[x].routeid }, viewRouteInfo);
+            
             data.text(routes[x].name);
             row.append(data);
             
-            data = $("<td>").click( { id: routes[x].routeid }, viewRouteInfo);
+            if (routes[x].discipline == 4)
+                data = $("<td>").addClass("hybrid").click({ id : routes[x].routeid }, viewRouteInfo);
+            else
+                data = $("<td>").click({ id : routes[x].routeid }, viewRouteInfo);
+            
             data.text(routes[x].grade);
             row.append(data);
             
@@ -870,21 +879,18 @@ function getSearch() {
     data = "search=" + encodeURIComponent(JSON.stringify(search));
     
     $.post(url, data, function (data, status, xhr) {
-        Cragbook.allRoutes = JSON.parse(data);
+        Cragbook.routes = new Cragbook.RouteList(JSON.parse(data));
         $.getJSON("include/crag_json.php", function (data) {
             Cragbook.cragList = data;
             
             // assign crag name for each route
-            for (x in Cragbook.allRoutes) {
+            for (x in Cragbook.routes.all) {
                 for (y in Cragbook.cragList) {
-                    if(Cragbook.cragList[y].cragid == Cragbook.allRoutes[x].cragid) {
-                        Cragbook.allRoutes[x].cragName = Cragbook.cragList[y].name;
+                    if(Cragbook.cragList[y].cragid == Cragbook.routes.all[x].cragid) {
+                        Cragbook.routes.all[x].cragName = Cragbook.cragList[y].name;
                     }
                 }
             }
-            
-            if (Cragbook.allRoutes !== 0) Cragbook.routes = Cragbook.allRoutes.slice();
-            else Cragbook.routes = 0;
             
             showSearchResults(search);
         });
@@ -923,7 +929,7 @@ function showSearchResults(search) {
     
     $("#searchresults").addClass("panel").html(div);
     
-    viewAreaRoutes(Cragbook.allRoutes);
+    viewAreaRoutes(Cragbook.routes.getAllRoutes());
 }
 
 

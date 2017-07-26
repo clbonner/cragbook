@@ -142,7 +142,7 @@ var Cragbook = {
             this.view = [];
             
             for (x in this.all) {
-                if (this.all[x].discipline == 2) {
+                if (this.all[x].discipline == 2 || this.all[x].discipline == 4) {
                     this.view.push(this.all[x]);
                 }
             }

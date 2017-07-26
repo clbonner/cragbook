@@ -7,7 +7,7 @@
  */
 
 // global variables
-var allRoutes, routes, crag, area, cragList, areaList, returnurl, map, marker, auth, btn;
+var map, marker, btn;
 const defaultCenter = {lat: 51.4490382, lng: -2.5943542};
 
 // info window for markers
@@ -590,7 +590,7 @@ function viewCragMap(location) {
     else {
         location = Cragbook.area.location.split(",");
         var latlng = new google.maps.LatLng(location[0], location[1]);
-        var zoom = 12;
+        var zoom = 10;
         var height = 300;
     }
     

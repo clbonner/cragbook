@@ -18,7 +18,7 @@ function viewRouteOrder() {
     var x, table, row, data, buttons;
     
     // sort array objects by orderid
-    Cragbook.allRoutes.sort(function(a, b){return a.orderid - b.orderid});
+    Cragbook.routes.all.sort(function(a, b){return a.orderid - b.orderid});
     
     // build table of routes
     table = $("<table>");
@@ -29,20 +29,20 @@ function viewRouteOrder() {
         .append($("<th>").text("Sector"));
     table.append(row);
             
-    for (x in Cragbook.allRoutes) {
+    for (x in Cragbook.routes.all) {
         row = $("<tr>");
         data = $("<td>");
-        data.append($("<button>").attr("id", Cragbook.allRoutes[x].routeid).addClass("fa fa-arrow-up btn-border").attr("onclick", "routeUp(this.id)"));
-        data.append($("<button>").attr("id", Cragbook.allRoutes[x].routeid).addClass("fa fa-arrow-down btn-border").attr("onclick", "routeDown(this.id)"));
+        data.append($("<button>").attr("id", Cragbook.routes.all[x].routeid).addClass("fa fa-arrow-up btn-border").attr("onclick", "routeUp(this.id)"));
+        data.append($("<button>").attr("id", Cragbook.routes.all[x].routeid).addClass("fa fa-arrow-down btn-border").attr("onclick", "routeDown(this.id)"));
         row.append(data);
         
-        data = $("<td>").attr("id", "route").text(Cragbook.allRoutes[x].name);
+        data = $("<td>").attr("id", "route").text(Cragbook.routes.all[x].name);
         row.append(data);
         
-        data = $("<td>").text(Cragbook.allRoutes[x].grade);
+        data = $("<td>").text(Cragbook.routes.all[x].grade);
         row.append(data);
         
-        data = $("<td>").text(Cragbook.allRoutes[x].sector);
+        data = $("<td>").text(Cragbook.routes.all[x].sector);
         row.append(data);
         
         table.append(row);
@@ -59,7 +59,7 @@ function viewRouteOrder() {
 // send route order data back to database
 function updateRouteOrder() {
     var url = "../include/route_json.php";
-    var data = "routes=" + encodeURIComponent(JSON.stringify(Cragbook.allRoutes));
+    var data = "routes=" + encodeURIComponent(JSON.stringify(Cragbook.routes.all));
 
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     $("#buttons").hide();
@@ -73,10 +73,10 @@ function updateRouteOrder() {
 function routeDown(routeid) {
     var x;
     
-    for (x in Cragbook.allRoutes) {
-        if (routeid == Cragbook.allRoutes[x].routeid && Cragbook.allRoutes[x].orderid < Cragbook.allRoutes.length){
-            Cragbook.allRoutes[x].orderid = ++Cragbook.allRoutes[x].orderid;
-            Cragbook.allRoutes[++x].orderid = --Cragbook.allRoutes[x].orderid;
+    for (x in Cragbook.routes.all) {
+        if (routeid == Cragbook.routes.all[x].routeid && Cragbook.routes.all[x].orderid < Cragbook.routes.all.length){
+            Cragbook.routes.all[x].orderid = ++Cragbook.routes.all[x].orderid;
+            Cragbook.routes.all[++x].orderid = --Cragbook.routes.all[x].orderid;
             break;
         }
     }
@@ -88,10 +88,10 @@ function routeDown(routeid) {
 function routeUp(routeid) {
     var x;
 
-    for (x in Cragbook.allRoutes) {
-        if (routeid == Cragbook.allRoutes[x].routeid && Cragbook.allRoutes[x].orderid > 1){
-            Cragbook.allRoutes[x].orderid = --Cragbook.allRoutes[x].orderid;
-            Cragbook.allRoutes[--x].orderid = ++Cragbook.allRoutes[x].orderid;
+    for (x in Cragbook.routes.all) {
+        if (routeid == Cragbook.routes.all[x].routeid && Cragbook.routes.all[x].orderid > 1){
+            Cragbook.routes.all[x].orderid = --Cragbook.routes.all[x].orderid;
+            Cragbook.routes.all[--x].orderid = ++Cragbook.routes.all[x].orderid;
             break;
         }
     }
@@ -110,11 +110,11 @@ function getRouteOrder(crag) {
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     
     $.getJSON(url, function (data, status, xhr){
-        Cragbook.allRoutes = data;
+        Cragbook.routes = new Cragbook.RouteList(data);
         
         // assign orderid to each route
-        for (x in allRoutes) {
-            Cragbook.allRoutes[x].orderid = i++;
+        for (x in Cragbook.routes.all) {
+            Cragbook.routes.all[x].orderid = i++;
         }
         
         viewRouteOrder();

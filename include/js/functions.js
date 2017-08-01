@@ -333,7 +333,7 @@ function viewCragInfo() {
     $("#infoview").addClass("btn-border");
     btn = "#infoview";
     
-    div = $("<div>").attr("id", "craginfo");
+    div = $("<div>").attr("id", "craginfo").addClass("heading");
     $('#view').html(div);
     
     $('#craginfo').append($("<p>").addClass("heading").text(Cragbook.crag.description));

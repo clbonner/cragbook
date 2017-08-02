@@ -23,7 +23,7 @@ $(document).ready( function () {
         <div class="heading">Crags</div>
         <div id="viewpicker">
             <button id="listview" class="fa fa-list btn-picker" onclick="viewCragList()"></button>
-            <button id="mapview" class="fa fa-map-marker btn-picker" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></button>
+            <button id="mapview" class="fa fa-map-o btn-picker" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></button>
             <button id="printview" class="fa fa-print btn-picker" onclick="printRoutes('area')"></button>
         </div>
         <div id="view"></div>

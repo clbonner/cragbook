@@ -26,6 +26,7 @@
             <a class="btn-menu left" href="<?= SITEURL ?>/all_areas.php">Areas</a>
             <a class="btn-menu left" href="<?= SITEURL ?>/all_crags.php">Crags</a>
             <a class="btn-menu left" href="<?= SITEURL ?>/search.php"><i class="fa fa-search menu-icon"></i></a>
+            <a class="btn-menu left" href="<?= SITEURL ?>/help.php"><i class="fa fa-question menu-icon"></i></a>
         </div>
         <div class="right">
             <?php if(isset($_SESSION["userid"])): ?>

@@ -12,7 +12,7 @@ $(document).ready( function () {
     <div class="heading">Climbing Areas</div>
     <div id="viewpicker">
         <button id="listview" class="fa fa-list btn-picker" onclick="viewAreaList()"></button>
-        <button id="mapview" class="fa fa-map-marker btn-picker" onclick="viewAreaMap()"></button>
+        <button id="mapview" class="fa fa-map-o btn-picker" onclick="viewAreaMap()"></button>
     </div>
     <div id="view"></div>
 </div>

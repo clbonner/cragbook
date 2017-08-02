@@ -16,8 +16,7 @@ $(document).ready( function () {
     <div id="name" class="title"></div>
     <div id="viewpicker">
         <button id="infoview" class="fa fa-info btn-picker" onclick="viewCragInfo()"></button>
-        <button id="mapview" class="fa fa-map-marker btn-picker" onclick="viewCragMap('crag')"></button>
-        <!--<button id="photoview" class="fa fa-photo btn-picker" onclick="viewCragPhotos()"></button>-->
+        <button id="mapview" class="fa fa-map-o btn-picker" onclick="viewCragMap('crag')"></button>
         <button id="printview" class="fa fa-print btn-picker" onclick="printRoutes('crag')"></button>
     </div>
     <div id="view"></div>

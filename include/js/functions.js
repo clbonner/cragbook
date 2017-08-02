@@ -215,6 +215,20 @@ function getAllAreas() {
     });
 }
 
+
+// get JSON data on areas and show map
+function getAllAreasMap() {
+    var url = "include/area_json.php";
+    
+    $.getJSON("include/auth_json.php", function (data, status, xhr) {
+        Cragbook.auth = data;
+        $.getJSON(url, function (data, status, xhr) {
+            Cragbook.areaList = data;
+            viewAreaMap();
+        });
+    });
+}
+
 // get JSON data for crag info
 function getAllCrags() {
     var url = "include/crag_json.php";

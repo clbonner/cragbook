@@ -19,5 +19,33 @@
             <p><i class="fa fa-map-o btn btn-border"></i> Shows a map of areas/crags.</p>
             <p><i class="fa fa-print btn btn-border"></i> Prints a list of currently selected routes and area/crag information.</p>
         </div>
+        
+        <br>
+        
+        <p>
+            In the routes section you will see a filter. This will let you filter by climbing discipline and grades. Columns can also be clicked to sort the routes.
+            
+            <div id="gradefilter"></div><script>$("#gradefilter").html(gradeFilter("crag"))</script>
+        </p>
+        
+        <br>
+        
+        <p>
+            As per our guidebooks, against each route you will see a coloured dot indicating the type of climb.</p>
+            <p><i class="fa fa-circle-thin"></i> Trad Climb</p>
+            <p><i class="fa fa-circle yellow"></i> Sport Climb</p>
+            <p><i class="fa fa-circle yellow"></i> <span class="hybrid">Hybrid Climb (bolts/pegs/nuts)</span></p>
+            <p><i class="fa fa-circle"></i> Bouldering</p>
+        </p>
+        
+        <br>
+
+        <p>
+            Additionally, on sport climbs you will see a coloured smiley indicating the friendliness of the bolting and how bold it may feel.</p>
+            <p><i class="fa fa-smile-o green"></i> A good choice. Friendly bolting for the grade. Just go climbing and no worries about the clips.</p>
+            <p><i class="fa fa-meh-o amber"></i> Adequate. Some worrisome run-outs, some disconcerting clips, but generally OK.</p>
+            <p><i class="fa fa-frown-o red"></i> Care required. A degree of danger present; some gripping clips, some scary run-outs, maybe a dodgy bolt or perhaps all of them!</p>
+            <p><i class="fa fa-times-circle"></i> Danger not within your control. Usually means multiple untrustworthy or bad bolts and/or poor anchor.</p>
+        </p>
     </div>
 </div>

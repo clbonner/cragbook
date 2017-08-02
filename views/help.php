@@ -23,7 +23,7 @@
         <br>
         
         <p>
-            In the routes section you will see a filter. This will let you filter by climbing discipline and grades. Columns can also be clicked to sort the routes.
+            In the routes section you can use the filter to specify which climbing disciplines and grades you want to see. Columns can also be used to sort the routes.
             
             <div id="gradefilter"></div><script>$("#gradefilter").html(gradeFilter("crag"))</script>
         </p>

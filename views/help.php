@@ -36,6 +36,7 @@
             <p><i class="fa fa-circle yellow"></i> Sport Climb</p>
             <p><i class="fa fa-circle yellow"></i> <span class="hybrid">Hybrid Climb (bolts/pegs/nuts)</span></p>
             <p><i class="fa fa-circle"></i> Bouldering</p>
+            <p><i class="fa fa-times-circle red"></i> These routes are BANNED!</p>
         </p>
         
         <br>

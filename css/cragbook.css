@@ -20,10 +20,10 @@ body {
 }
 
 header {
-    height: 32px;
+    height: 12px;
     width: 100%;
     color: white;
-    font-size: 25px;
+    font-size: 10px;
     background-color: #0099ff;
     margin: 0px;
     left: 15px;

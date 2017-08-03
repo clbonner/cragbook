@@ -2,7 +2,7 @@
     <div class="title">Help</div>
     <br>
     <div>
-        <p>Using Cragbook is very simple. You can look for information in one of three ways using the site menu above.</p>
+        <p>Using Cragbook is very simple. You can look for information in one of three ways using the menu above.</p>
         
         <div>
             <p><span class="btn btn-border">Areas</span> Shows you a list of areas, wherein lies all the crags for that area.</p>

@@ -261,6 +261,11 @@ function viewRouteInfo(route) {
                 case '3':
                     discipline = $("<i>").addClass("fa fa-circle").html("&nbsp");
                     break;
+                case '4':
+                    discipline = $("<i>").addClass("fa fa-circle yellow").html("&nbsp");
+                    break;
+                case "5":
+                    discipline = $("<i>").addClass("fa fa-times-circle red").html("&nbsp");
             }
             
             switch (Cragbook.routes.view[x].seriousness) {
@@ -273,6 +278,8 @@ function viewRouteInfo(route) {
                 case '3':
                     seriousness = $("<i>").addClass("fa fa-frown-o red").html("&nbsp");
                     break;
+                case "4":
+                    seriousness = $("<i>").addClass("fa fa-times-circle").html("&nbsp");
             }
             
             $('#routeinfowindow').append($("<h3>").text(Cragbook.routes.view[x].name + ' ' + Cragbook.routes.view[x].stars).prepend(discipline));
@@ -390,6 +397,9 @@ function viewAreaRoutes(routes) {
                     break;
                 case "4":
                     data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
+                    break;
+                case "5":
+                    data.append($("<i>").addClass("fa fa-times-circle red"));
             }
             row.append(data);
             
@@ -493,6 +503,9 @@ function viewCragRoutes(routes) {
                     break;
                 case "4":
                     data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
+                    break;
+                case "5":
+                    data.append($("<i>").addClass("fa fa-times-circle red"));
             }
             row.append(data);
             

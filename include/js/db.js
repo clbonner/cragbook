@@ -230,7 +230,7 @@ function getSearch() {
 
 // gets all routes from the database at a given grade
 function getGrades(grade) {
-    var viewpicker, routes, filter, modal, data, div, url = "include/search_json.php";
+    var page = { data : "area" }, viewpicker, routes, filter, modal, data, div, url = "include/search_json.php";
 
     // get search results
     div = $("<div>");
@@ -270,7 +270,8 @@ function getGrades(grade) {
             $("#grades").append(routes);
             $("#grades").append(modal);
             
-            viewAreaRoutes(Cragbook.routes.sort('grade'));
+            Cragbook.routes.getAllRoutes();
+            sortByGrade(page)
         });
     });
 }

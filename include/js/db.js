@@ -6,48 +6,7 @@
  * Javascript functions relating to database requests (aka AJAX).
  */
  
-// sorts routes by orderid and updates DOM element
-function viewRouteOrder() {
-    var x, table, row, data, buttons;
-    
-    // sort array objects by orderid
-    Cragbook.routes.all.sort(function(a, b){return a.orderid - b.orderid});
-    
-    // build table of routes
-    table = $("<table>");
-    row = $("<tr>")
-        .append($("<th>").text("Order"))
-        .append($("<th>").text("Name"))
-        .append($("<th>").text("Grade"))
-        .append($("<th>").text("Sector"));
-    table.append(row);
-            
-    for (x in Cragbook.routes.all) {
-        row = $("<tr>");
-        data = $("<td>");
-        data.append($("<button>").attr("id", Cragbook.routes.all[x].routeid).addClass("fa fa-arrow-up btn-border").attr("onclick", "routeUp(this.id)"));
-        data.append($("<button>").attr("id", Cragbook.routes.all[x].routeid).addClass("fa fa-arrow-down btn-border").attr("onclick", "routeDown(this.id)"));
-        row.append(data);
-        
-        data = $("<td>").attr("id", "route").text(Cragbook.routes.all[x].name);
-        row.append(data);
-        
-        data = $("<td>").text(Cragbook.routes.all[x].grade);
-        row.append(data);
-        
-        data = $("<td>").text(Cragbook.routes.all[x].sector);
-        row.append(data);
-        
-        table.append(row);
-    }
-    
-    // add the buttons
-    $('#buttons').html($("<button>").addClass("btn-save").click(updateRouteOrder).text("Save"));
-    $('#buttons').append($("<button>").addClass("btn-cancel").attr("onclick", "window.location.assign('" + Cragbook.returnurl + "')").text("Cancel"));
-    
-    // display table and buttons
-    $("#routes").html(table);
-}
+
 
 // send route order data back to database
 function updateRouteOrder() {
@@ -62,10 +21,6 @@ function updateRouteOrder() {
     });
 }
 
-
-
-/* AJAX functions */
-/* -------------- */
 
 // gets routes from route_update.php as JSON and stores in routes
 function getRouteOrder(crag) {
@@ -88,8 +43,8 @@ function getRouteOrder(crag) {
 
 // get routes for area
 function getAreaRoutes(areaid) {
-    var url = "include/route_json.php?areaid=" + areaid;
-    
+    var page = { data : "area" }, url = "include/route_json.php?areaid=" + areaid;
+
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     
     $.getJSON(url, function (data, status, xhr){
@@ -105,21 +60,23 @@ function getAreaRoutes(areaid) {
         }
         
         $('#gradefilter').html(gradeFilter('area'));
-        viewAreaRoutes(Cragbook.routes.getAllRoutes());
+        Cragbook.routes.getAllRoutes();
+        sortByCrag(page)
     });
 }
 
 // get routes for crag
 function getCragRoutes(cragid) {
-    var url = "include/route_json.php?cragid=" + cragid;
-
+    var page = { data : "crag" }, url = "include/route_json.php?cragid=" + cragid;
+    
     $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
     
     $.getJSON(url, function (data, status, xhr){
         Cragbook.routes = new Cragbook.RouteList(data);
         
         $('#gradefilter').html(gradeFilter('crag'));
-        viewCragRoutes(Cragbook.routes.getAllRoutes());
+        Cragbook.routes.getAllRoutes();
+        sortBySector(page);
     });
 }
 

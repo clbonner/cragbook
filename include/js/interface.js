@@ -528,7 +528,7 @@ function showSearchForm() {
 }
 
 function showSearchResults(search) {
-    var div = $("<div>");
+    var div = $("<div>"), page = { data : "area" };
     
     if (search.area == "") search.area = "None";
     if (search.crag == "") search.crag = "None";
@@ -544,7 +544,8 @@ function showSearchResults(search) {
     
     $("#searchresults").addClass("panel").html(div);
     
-    viewAreaRoutes(Cragbook.routes.getAllRoutes());
+    Cragbook.routes.getAllRoutes();
+    sortByCrag(page);
 }
 
 

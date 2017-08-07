@@ -2,72 +2,45 @@
  * and is licensesed under the GNU General Public License version 3.
  * Copyright 2017 Christopher L Bonner
  *
- * include/js/functions.js
- * Javascript functions for Cragbook.
+ * include/js/interface.js
+ * Javascript functions relating to changing the DOM/user interface.
  */
-
-// global variables
-var map, marker, btn;
-const defaultCenter = {lat: 51.4490382, lng: -2.5943542};
-
-// info window for markers
-var infowindow = new google.maps.InfoWindow();
-
-// sorts routes by orderid and updates DOM element
-function viewRouteOrder() {
-    var x, table, row, data, buttons;
-    
-    // sort array objects by orderid
-    Cragbook.routes.all.sort(function(a, b){return a.orderid - b.orderid});
-    
-    // build table of routes
-    table = $("<table>");
-    row = $("<tr>")
-        .append($("<th>").text("Order"))
-        .append($("<th>").text("Name"))
-        .append($("<th>").text("Grade"))
-        .append($("<th>").text("Sector"));
-    table.append(row);
-            
-    for (x in Cragbook.routes.all) {
-        row = $("<tr>");
-        data = $("<td>");
-        data.append($("<button>").attr("id", Cragbook.routes.all[x].routeid).addClass("fa fa-arrow-up btn-border").attr("onclick", "routeUp(this.id)"));
-        data.append($("<button>").attr("id", Cragbook.routes.all[x].routeid).addClass("fa fa-arrow-down btn-border").attr("onclick", "routeDown(this.id)"));
-        row.append(data);
-        
-        data = $("<td>").attr("id", "route").text(Cragbook.routes.all[x].name);
-        row.append(data);
-        
-        data = $("<td>").text(Cragbook.routes.all[x].grade);
-        row.append(data);
-        
-        data = $("<td>").text(Cragbook.routes.all[x].sector);
-        row.append(data);
-        
-        table.append(row);
-    }
-    
-    // add the buttons
-    $('#buttons').html($("<button>").addClass("btn-save").click(updateRouteOrder).text("Save"));
-    $('#buttons').append($("<button>").addClass("btn-cancel").attr("onclick", "window.location.assign('" + Cragbook.returnurl + "')").text("Cancel"));
-    
-    // display table and buttons
-    $("#routes").html(table);
+ 
+function sortByName(page) {
+    viewRoutes(page.data, Cragbook.routes.sort('name')); 
+    $("th:contains('Name')").append($("<i>").addClass('fa fa-sort-desc'));
 }
 
-// send route order data back to database
-function updateRouteOrder() {
-    var url = "../include/route_json.php";
-    var data = "routes=" + encodeURIComponent(JSON.stringify(Cragbook.routes.all));
-
-    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
-    $("#buttons").hide();
-    
-    $.post(url, data, function (data, status, xhr){
-        window.location.assign(Cragbook.returnurl);
-    });
+function sortByGrade(page) {
+    viewRoutes(page.data, Cragbook.routes.sort('grade')); 
+    $("th:contains('Grade')").append($("<i>").addClass('fa fa-sort-desc'));
 }
+
+function sortByStars(page) {
+    viewRoutes(page.data, Cragbook.routes.sort('stars')); 
+    $("th:contains('Stars')").append($("<i>").addClass('fa fa-sort-desc'));
+}
+
+function sortByLength(page) {
+    viewRoutes(page.data, Cragbook.routes.sort('length')); 
+    $("th:contains('Length')").append($("<i>").addClass('fa fa-sort-desc'));
+}
+
+function sortByFA(page) {
+    viewRoutes(page.data, Cragbook.routes.sort('firstascent')); 
+    $("th:contains('First Ascent')").append($("<i>").addClass('fa fa-sort-desc'));
+}
+
+function sortBySector(page) {
+    viewRoutes(page.data, Cragbook.routes.sort('sector')); 
+    $("th:contains('Sector')").append($("<i>").addClass('fa fa-sort-desc'));
+}
+
+function sortByCrag(page) {
+    viewRoutes(page.data, Cragbook.routes.sort('crag')); 
+    $("th:contains('Crag')").append($("<i>").addClass('fa fa-sort-desc'));
+}
+
 
 // moves a route down in the table
 function routeDown(routeid) {
@@ -99,148 +72,6 @@ function routeUp(routeid) {
     viewRouteOrder();
 }
 
-/* AJAX functions */
-/* -------------- */
-
-// gets routes from route_update.php as JSON and stores in routes
-function getRouteOrder(crag) {
-    var i = 1, x, url = "../include/route_json.php?cragid=" + crag;
-    Cragbook.returnurl = '../crag.php?cragid=' + crag;
-    
-    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
-    
-    $.getJSON(url, function (data, status, xhr){
-        Cragbook.routes = new Cragbook.RouteList(data);
-        
-        // assign orderid to each route
-        for (x in Cragbook.routes.all) {
-            Cragbook.routes.all[x].orderid = i++;
-        }
-        
-        viewRouteOrder();
-    });
-}
-
-// get routes for area
-function getAreaRoutes(areaid) {
-    var url = "include/route_json.php?areaid=" + areaid;
-    
-    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
-    
-    $.getJSON(url, function (data, status, xhr){
-        Cragbook.routes = new Cragbook.RouteList(data);
-    
-        // assign crag name for each route
-        for (x in Cragbook.routes.all) {
-            for (y in Cragbook.cragList) {
-                if(Cragbook.cragList[y].cragid == Cragbook.routes.all[x].cragid) {
-                    Cragbook.routes.all[x].cragName = Cragbook.cragList[y].name;
-                }
-            }
-        }
-        
-        $('#gradefilter').html(gradeFilter('area'));
-        viewAreaRoutes(Cragbook.routes.getAllRoutes());
-    });
-}
-
-// get routes for crag
-function getCragRoutes(cragid) {
-    var url = "include/route_json.php?cragid=" + cragid;
-
-    $("#routes").html("<i class=\"fa fa-circle-o-notch fa-spin fa-5x center\"></i>");
-    
-    $.getJSON(url, function (data, status, xhr){
-        Cragbook.routes = new Cragbook.RouteList(data);
-        
-        $('#gradefilter').html(gradeFilter('crag'));
-        viewCragRoutes(Cragbook.routes.getAllRoutes());
-    });
-}
-
-// get JSON data on crags for area
-function getArea(id) {
-    var url = "include/crag_json.php?areaid=" + id;
-
-    $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        Cragbook.auth = data;
-        
-        // get crags in area
-        $.getJSON(url, function (data, status, xhr) {
-            Cragbook.cragList = data;
-            viewCragList();
-            
-            if (id != 'all)') {
-                getAreaRoutes(id);
-            }
-        });
-        
-        // get area info
-        $.getJSON("include/area_json.php?areaid=" + id, function (data, status, xhr) {
-            Cragbook.area = data;
-            
-            $("#name").text(Cragbook.area.name);
-            $("#description").text(Cragbook.area.description);
-        });
-    });
-}
-
-// get JSON data for crag info
-function getCrag(id) {
-    var url = "include/crag_json.php?cragid=" + id;
-    
-    $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        Cragbook.auth = data;
-        $.getJSON(url, function (data, status, xhr) {
-            Cragbook.crag = data[0];
-            
-            $("#name").text(Cragbook.crag.name);
-            
-            viewCragInfo();
-            getCragRoutes(id);
-        });
-    });
-}
-
-// get JSON data on areas
-function getAllAreas() {
-    var url = "include/area_json.php";
-    
-    $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        Cragbook.auth = data;
-        $.getJSON(url, function (data, status, xhr) {
-            Cragbook.areaList = data;
-            viewAreaList();
-        });
-    });
-}
-
-
-// get JSON data on areas and show map
-function getAllAreasMap() {
-    var url = "include/area_json.php";
-    
-    $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        Cragbook.auth = data;
-        $.getJSON(url, function (data, status, xhr) {
-            Cragbook.areaList = data;
-            viewAreaMap();
-        });
-    });
-}
-
-// get JSON data for crag info
-function getAllCrags() {
-    var url = "include/crag_json.php";
-    
-    $.getJSON("include/auth_json.php", function (data, status, xhr) {
-        Cragbook.auth = data;
-        $.getJSON(url, function (data, status, xhr) {
-            Cragbook.cragList = data;
-            viewCragList();
-        });
-    });
-}
 
 // gets JDON data for a route and display route info
 function viewRouteInfo(route) {
@@ -371,14 +202,14 @@ function viewAreaRoutes(routes) {
     // build table
     if (routes.length > 0) {
         row = $("<tr>");
+        row.append($("<th>").append($("<i>").addClass("fa fa-sort-amount-asc")));
+        row.append($("<th>").text("Name").click("area", sortByName));
+        row.append($("<th>").text("Grade").click("area", sortByGrade));
         row.append($("<th>"));
-        row.append($("<th>").text("Name").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('name'))"));
-        row.append($("<th>").text("Grade").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('grade'))"));
-        row.append($("<th>"));
-        row.append($("<th>").text("Stars").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('stars'))"));
-        row.append($("<th>").text("Length").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('length'))"));
-        row.append($("<th>").text("Crag").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('crag'))"));
-        row.append($("<th>").text("First Ascent").attr("onclick", "viewRoutes('area', Cragbook.routes.sort('firstascent'))"));
+        row.append($("<th>").text("Stars").click("area", sortByStars));
+        row.append($("<th>").text("Length").click("area", sortByLength));
+        row.append($("<th>").text("Crag").click("area", sortByCrag));
+        row.append($("<th>").text("First Ascent").click("area", sortByFA));
         table.append(row);
         
         for (x in routes) {
@@ -470,14 +301,14 @@ function viewCragRoutes(routes) {
     // build table
     if (routes.length > 0) {
         row = $("<tr>");
+        row.append($("<th>").append($("<i>").addClass("fa fa-sort-amount-asc")));
+        row.append($("<th>").text("Name").click("crag", sortByName));
+        row.append($("<th>").text("Grade").click("crag", sortByGrade));
         row.append($("<th>"));
-        row.append($("<th>").text("Name").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('name'))"));
-        row.append($("<th>").text("Grade").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('grade'))"));
-        row.append($("<th>"));
-        row.append($("<th>").text("Stars").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('stars'))"));
-        row.append($("<th>").text("Length").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('length'))"));
-        row.append($("<th>").text("First Ascent").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('firstascent'))"));
-        row.append($("<th>").text("Sector").attr("onclick", "viewRoutes('crag', Cragbook.routes.sort('sector'))"));
+        row.append($("<th>").text("Stars").click("crag", sortByStars));
+        row.append($("<th>").text("Length").click("crag", sortByLength));
+        row.append($("<th>").text("First Ascent").click("crag", sortByFA));
+        row.append($("<th>").text("Sector").click("crag", sortBySector));
         
         
         // show editing options if user logged in
@@ -586,229 +417,6 @@ function viewRoutes(page, routes) {
 }
 
 
-/* Google Maps Functions */
-/* --------------------- */
-
-// show map on area page with drop pins for crags in the area
-function viewCragMap(location) {
-    var i, contentString;
-    
-    $(btn).removeClass("btn-border");
-    $("#mapview").addClass("btn-border");
-    btn = "#mapview";
-    
-    // set map options for all crags
-    if (location == 'all') {
-        var latlng = new google.maps.LatLng(defaultCenter);
-        var zoom = 9;
-        var height = 500;
-    }
-    
-    // set map options for single crag
-    else if (location == 'crag') {
-        Cragbook.cragList = [Cragbook.crag];
-        location = Cragbook.crag.location.split(",");
-        var latlng = new google.maps.LatLng(location[0], location[1]);
-        var zoom = 15;
-        var height = 300;
-    }
-    
-    // set map options for area
-    else {
-        location = Cragbook.area.location.split(",");
-        var latlng = new google.maps.LatLng(location[0], location[1]);
-        var zoom = 10;
-        var height = 300;
-    }
-    
-    // set and get map canvas
-    $('#view').html('<div id="map" class="panel" style="height: ' + height + 'px; width: 100%"></div>');
-    var canvas = $("#map").get(0);
-    
-    // create map
-    map = new google.maps.Map(canvas, {
-        zoom: zoom,
-        center: latlng,
-        scrollwheel: false,
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-    });
-    
-    // add markers
-    for (i in Cragbook.cragList) {
-        if (Cragbook.cragList[i].location === "") {
-            // skip
-        }
-        else {
-            // get crag location
-            var location = Cragbook.cragList[i].location.split(",");
-            var latlng = new google.maps.LatLng(location[0], location[1]);
-            
-            // set marker
-            var marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                title: Cragbook.cragList[i].name
-            });
-            
-            // set marker info window content
-            contentString = '<div><a href="crag.php?cragid=' + Cragbook.cragList[i].cragid + '"><b><h3>' + Cragbook.cragList[i].name + '</h3></b></a></div>';
-            contentString += '<div>' + Cragbook.cragList[i].description + '</div>';
-            
-            marker.info = contentString;
-            
-            // add event listener for pin click
-            marker.addListener('click', function() {
-                infowindow.setContent(this.info);
-                infowindow.open(map, this);
-            });
-        }
-    }
-}
-
-// shows map for areas in the climbing areas page
-function viewAreaMap() {
-    var i, contentString;
-    
-    $(btn).removeClass("btn-border");
-    $("#mapview").addClass("btn-border");
-    btn = "#mapview";
-    
-    // set and get map canvas
-    $('#view').html('<div id="map" class="panel" style="height: 500px; width: 100%"></div>');
-    var canvas = $("#map").get(0);
-    
-    // create map
-    map = new google.maps.Map(canvas, {
-        zoom: 9,
-        center: defaultCenter,
-        scrollwheel: false,
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-    });
-    
-    // add markers
-    for (i in Cragbook.areaList) {
-        if (Cragbook.areaList[i].location === "") {
-            // skip
-        }
-        else {
-            
-            // get area location
-            var location = Cragbook.areaList[i].location.split(",");
-            var latlng = new google.maps.LatLng(location[0], location[1]);
-            
-            // set marker
-            var marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                title: Cragbook.areaList[i].name
-            });
-            
-            // set marker info window content
-            contentString = '<div><a href="area.php?areaid=' + Cragbook.areaList[i].areaid + '"><b><h3>' + Cragbook.areaList[i].name + '</h3></b></a></div>';
-            contentString += '<div>' + Cragbook.areaList[i].description + '</div>';
-            
-            marker.info = contentString;
-            
-            // add event listener for pin click
-            marker.addListener('click', function() {
-                infowindow.setContent(this.info);
-                infowindow.open(map, this);
-            });
-        }
-    }
-}
-
-// map for setting area location on area form
-function setAreaMap(location) {
-    
-    // set current location if editing area
-    if (location === "") {
-        var center = defaultCenter;
-        var zoom = 5;
-    }
-    else {
-        location = location.split(",");
-        var center = new google.maps.LatLng(location[0], location[1]);
-        var zoom = 10;
-    }
-    
-    // get map canvas
-    var canvas = $("#map").get(0);
-    
-    // create map
-    map = new google.maps.Map(canvas, {
-        zoom: zoom,
-        center: center,
-        scrollwheel: false,
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-    });
-    
-    // get center location on map when moved
-    map.addListener('center_changed', function() {
-        var center = map.getCenter();
-        $("#latlng").val(center.lat() + ',' + center.lng());
-    });
-}
-
-// map for setting crag location on crag form
-function setCragMap(location) {
-    
-    // set crag location if editing crag
-    if (location === "") {
-        var center = defaultCenter;
-        var zoom = 5;
-    }
-    else {
-        location = location.split(",");
-        var center = new google.maps.LatLng(location[0], location[1]);
-        var zoom = 12;
-    }
-    
-    // get map canvas
-    var canvas = $("#map").get(0);
-    
-    // create map
-    map = new google.maps.Map(canvas, {
-        zoom: zoom,
-        center: center,
-        scrollwheel: false,
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-    });
-    
-    // set current location of marker if editing
-    if (location !== "") {
-        marker = new google.maps.Marker({
-            position: center,
-            map: map
-        });
-    }
-    
-    // set marker to null if new crag
-    else
-        marker = null;
-        
-    // right click to drop a pin
-    map.addListener('rightclick', function(location) {
-        
-        // remove current marker from map
-        if (marker !== null)
-            marker.setMap(null);
-        
-        // add new marker
-        marker = new google.maps.Marker({
-            position: location.latLng,
-            map: map
-        });
-        
-        // center map on marker
-        map.panTo(location.latLng);
-        
-        // set lat and lng values for location
-        $("#latlng").val(location.latLng.lat() + ',' + location.latLng.lng());
-    });
-}
-
-
 function viewCragDownloads() {
     $(btn).removeClass("btn-border");
     $("#photoview").addClass("btn-border");
@@ -864,70 +472,6 @@ function printRoutes(page) {
     printWindow.document.write("</body><script>window.print();window.close();</script></html>");
 }
 
-function getSearch() {
-    var data, search, div, url = "include/search_json.php";
-    
-    var area = $("#area").val(), crag = $("#crag").val(), route = $("#route").val(), grade = $("#grade").val();
-    
-    // input validation
-    if (area !== "" && !area.match(/^[0-9a-zA-Z ]+$/)) {
-        $("#error").html($("<div>").addClass("red")
-            .text("Invalid input for area. Must only contain letters or numbers."));
-        return;
-    }
-    if (crag !== "" && !crag.match(/^[0-9a-zA-Z ]+$/)) {
-        $("#error").html($("<div>").addClass("red")
-            .text("Invalid input for crag. Must only contain letters or numbers."));
-        return;
-    }
-    if (route !== "" && !route.match(/^[0-9a-zA-Z ]+$/)) {
-        $("#error").html($("<div>").addClass("red")
-            .text("Invalid input for route. Must only contain letters or numbers."));
-        return;
-    }
-    if (grade !== "" && !grade.match(/^[0-9a-zA-Z \+\-]+$/)) {
-        $("#error").html($("<div>").addClass("red")
-            .text("Invalid input for grade. Must only contain letters, numbers and +/-."));
-        return;
-    }
-    if (area == "" && crag == "" && route == "" && grade == "") {
-        $("#error").html($("<div>").addClass("red")
-            .text("Please enter at least one search item."));
-        return;
-    }
-    
-    // get search results
-    div = $("<div>");
-    div.append($("<i>").addClass("fa fa-search btn btn-border").click(showSearchForm));
-    div.append($("<i>").addClass("fa fa-print btn btn-border").attr("onclick", "printRoutes('search')"));
-    $("#searchform").html(div);
-    
-    div = $("<div>").addClass("center");
-    div.append($("<i>").addClass("fa fa-circle-o-notch fa-spin fa-5x"));
-    $("#searchresults").html(div);
-
-    search = { "area" : area, "crag" : crag, "route" : route, "grade" : grade };
-    data = "search=" + encodeURIComponent(JSON.stringify(search));
-    
-    $.post(url, data, function (data, status, xhr) {
-        Cragbook.routes = new Cragbook.RouteList(JSON.parse(data));
-        $.getJSON("include/crag_json.php", function (data) {
-            Cragbook.cragList = data;
-            
-            // assign crag name for each route
-            for (x in Cragbook.routes.all) {
-                for (y in Cragbook.cragList) {
-                    if(Cragbook.cragList[y].cragid == Cragbook.routes.all[x].cragid) {
-                        Cragbook.routes.all[x].cragName = Cragbook.cragList[y].name;
-                    }
-                }
-            }
-            
-            showSearchResults(search);
-        });
-    });
-}
-
 function showSearchForm() {
     var div = $("<div>");
     div.append($("<div>").addClass("heading").text("Search for routes"));
@@ -953,8 +497,6 @@ function showSearchResults(search) {
         .append($("<p>").attr("id", "searchoptions").text("Area: " + search.area + " / Crag: " + 
         search.crag + " / Route: " + search.route + " / Grade: " + search.grade)));
 
-    div.append($("<div>").attr("id", "gradefilter").html(gradeFilter('area')));
-    
     div.append($("<div>").addClass("panel").attr("id", "routes"));
     div.append($("<div>").addClass("modal").attr("id", "modal"));
     
@@ -1042,54 +584,4 @@ function gradeFilter(page) {
     div.append(bouldering);
     div.append(filter);
     return div;
-}
-
-// gets all routes from the database at a given grade
-function getGrades(grade) {
-    var viewpicker, routes, filter, modal, data, div, url = "include/search_json.php";
-
-    // get search results
-    div = $("<div>");
-    div.append($("<i>").addClass("fa fa-print btn btn-border").attr("onclick", "printRoutes('search')"));
-
-    div.append($("<div>").addClass("center"));
-    div.append($("<i>").addClass("fa fa-circle-o-notch fa-spin fa-5x"));
-    $("#searchresults").html(div);
-
-    search = { "grade" : grade };
-    data = "search=" + encodeURIComponent(JSON.stringify(search));
-    
-    $.post(url, data, function (data, status, xhr) {
-        Cragbook.routes = new Cragbook.RouteList(JSON.parse(data));
-        $.getJSON("include/crag_json.php", function (data) {
-            Cragbook.cragList = data;
-            
-            // assign crag name for each route
-            for (x in Cragbook.routes.all) {
-                for (y in Cragbook.cragList) {
-                    if(Cragbook.cragList[y].cragid == Cragbook.routes.all[x].cragid) {
-                        Cragbook.routes.all[x].cragName = Cragbook.cragList[y].name;
-                    }
-                }
-            }
-            
-            div = $("<div>").addClass("heading").attr("id", "title").text("Showing all grades at " + grade);
-            
-            viewpicker = $("<div>").attr("id","viewpicker");
-            viewpicker.append($("<button>").attr("id","printview").addClass("fa fa-print btn-picker").attr("onclick", "printRoutes('grades')"));
-            filter = $("<div>").attr("id", "gradefilter").html(gradeFilter('area'));
-            
-            routes = $("<div>").addClass("panel").attr("id", "routes");
-            modal = $("<div>").addClass("modal").attr("id", "modal");
-            
-            
-            $("#grades").addClass("panel").html(div);
-            $("#grades").append(viewpicker);
-            $("#grades").append(filter);
-            $("#grades").append(routes);
-            $("#grades").append(modal);
-            
-            viewAreaRoutes(Cragbook.routes.getAllRoutes());
-        });
-    });
 }

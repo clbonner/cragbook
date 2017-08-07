@@ -114,10 +114,12 @@ var Cragbook = {
         this.getAllRoutes = function() {
             var x;
             
-            this.view = this.all.slice();
             this.discipline = "all";
             
-            return this.view;
+            if (this.all == 0)
+                return this.view = 0;
+            else
+                return this.view = this.all.slice();
         }
         
         // extracts trad routes from array of all routes

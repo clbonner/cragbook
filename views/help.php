@@ -2,11 +2,12 @@
     <div class="title">Help</div>
     <br>
     <div>
-        <p>Using Cragbook is very simple. You can look for information in one of three ways using the menu above.</p>
+        <p>Using our crag database is very simple. You can look for information in one of three ways using the menu above.</p>
         
         <div>
             <p><span class="btn btn-border">Areas</span> Shows you a list of areas, wherein lies all the crags for that area.</p>
             <p><span class="btn btn-border">Crags</span> Shows you all crags regardless of areas.</p>
+            <p><span class="btn btn-border">Grades</span> Shows you a list of all routes in the database at the given grade.</p>
             <p><i class="fa fa-search btn btn-border"></i> Allows you to find routes by using one or more search criteria.</p>
         </div>
 
@@ -48,5 +49,9 @@
             <p><i class="fa fa-frown-o red"></i> Care required. A degree of danger present; some gripping clips, some scary run-outs, maybe a dodgy bolt or perhaps all of them!</p>
             <p><i class="fa fa-times-circle"></i> Danger not within your control. Usually means multiple untrustworthy or bad bolts and/or poor anchor.</p>
         </p>
+        
+        <br>
+        <hr>
+        Copyright &copy Christopher L Bonner 2017
     </div>
 </div>

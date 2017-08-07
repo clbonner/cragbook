@@ -15,16 +15,23 @@
     <link rel="stylesheet" href="<?= SITEURL ?>/css/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-    <header>
-        <div id="sitetitle">
-            <?= $sitetitle ?>
-        </div>
-    </header>
     <div id="menu">
         <div class="left">
             <a class="btn-menu left" href="<?= SITEURL ?>/index.php"><i class="fa fa-home menu-icon"></i></a>
             <a class="btn-menu left" href="<?= SITEURL ?>/all_areas.php">Areas</a>
             <a class="btn-menu left" href="<?= SITEURL ?>/all_crags.php">Crags</a>
+            <div class="dropdown left">
+                <a class="btn-menu">Grades</a>
+                <div class="dropdown-content">
+                    <div class="center">Show all grades at...</div>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F3" class="btn-menu txt-left">F3</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F4" class="btn-menu txt-left">F4</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F5" class="btn-menu txt-left">F5</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F6" class="btn-menu txt-left">F6</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F7" class="btn-menu txt-left">F7</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F8" class="btn-menu txt-left">F8</a>
+                </div>
+            </div>
             <a class="btn-menu left" href="<?= SITEURL ?>/search.php"><i class="fa fa-search menu-icon"></i></a>
             <a class="btn-menu left" href="<?= SITEURL ?>/help.php"><i class="fa fa-question menu-icon"></i></a>
         </div>
@@ -35,3 +42,4 @@
             <?php endif ?>
         </div>
     </div>
+    <div id="modal"></div>

@@ -853,6 +853,10 @@ function printRoutes(page) {
         div.append($("<p>").append($("<h2>").text("Search Results")));
         div.append($("<p>").append($("#searchoptions").html()));
     }
+    else if (page == 'grades') {
+        div.append($("<p>").append($("#title").html()));
+    }
+    
     printWindow.document.write(head);
     printWindow.document.write(div.html());
 
@@ -1038,4 +1042,54 @@ function gradeFilter(page) {
     div.append(bouldering);
     div.append(filter);
     return div;
+}
+
+// gets all routes from the database at a given grade
+function getGrades(grade) {
+    var viewpicker, routes, filter, modal, data, div, url = "include/search_json.php";
+
+    // get search results
+    div = $("<div>");
+    div.append($("<i>").addClass("fa fa-print btn btn-border").attr("onclick", "printRoutes('search')"));
+
+    div.append($("<div>").addClass("center"));
+    div.append($("<i>").addClass("fa fa-circle-o-notch fa-spin fa-5x"));
+    $("#searchresults").html(div);
+
+    search = { "grade" : grade };
+    data = "search=" + encodeURIComponent(JSON.stringify(search));
+    
+    $.post(url, data, function (data, status, xhr) {
+        Cragbook.routes = new Cragbook.RouteList(JSON.parse(data));
+        $.getJSON("include/crag_json.php", function (data) {
+            Cragbook.cragList = data;
+            
+            // assign crag name for each route
+            for (x in Cragbook.routes.all) {
+                for (y in Cragbook.cragList) {
+                    if(Cragbook.cragList[y].cragid == Cragbook.routes.all[x].cragid) {
+                        Cragbook.routes.all[x].cragName = Cragbook.cragList[y].name;
+                    }
+                }
+            }
+            
+            div = $("<div>").addClass("heading").attr("id", "title").text("Showing all grades at " + grade);
+            
+            viewpicker = $("<div>").attr("id","viewpicker");
+            viewpicker.append($("<button>").attr("id","printview").addClass("fa fa-print btn-picker").attr("onclick", "printRoutes('grades')"));
+            filter = $("<div>").attr("id", "gradefilter").html(gradeFilter('area'));
+            
+            routes = $("<div>").addClass("panel").attr("id", "routes");
+            modal = $("<div>").addClass("modal").attr("id", "modal");
+            
+            
+            $("#grades").addClass("panel").html(div);
+            $("#grades").append(viewpicker);
+            $("#grades").append(filter);
+            $("#grades").append(routes);
+            $("#grades").append(modal);
+            
+            viewAreaRoutes(Cragbook.routes.getAllRoutes());
+        });
+    });
 }

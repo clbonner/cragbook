@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<?= SITEURL ?>/css/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
+    <header></header>
     <div id="menu">
         <div class="left">
             <a class="btn-menu left" href="<?= SITEURL ?>/index.php"><i class="fa fa-home menu-icon"></i></a>

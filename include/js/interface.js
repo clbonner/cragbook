@@ -486,8 +486,9 @@ function printRoutes(page) {
     head += '<link rel="stylesheet" href="css/cragbook.css">';
     head += '<link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">';
     head += '</head><body>';
+    head += '<div class="margin-5"><img src="http://greatwesternrock.co.uk/wp-content/uploads/2016/12/gwr-logo-verysmall.png"></img></div>';
 
-    div = $("<h6>").text("Great Western Rock");
+    div = $("<div>");
     
     if (page == 'area') {
         div.append($("<p>").append($("<h2>").text(Cragbook.area.name)));

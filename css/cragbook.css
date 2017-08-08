@@ -519,6 +519,10 @@ textarea {
     color: blue;
 }
 
+.font8 {
+    font-size: 8px;
+}
+
 /* background for modal popup */
 .modal {
     display: none;

@@ -2,7 +2,7 @@
     <div class="title">Help</div>
     <br>
     <div>
-        <p>Using our crag database is very simple. You can look for information in one of three ways using the menu above.</p>
+        <p>Using our crag database is very simple. You can look for information in one of four ways using the menu above.</p>
         
         <div>
             <p><span class="btn btn-border">Areas</span> Shows you a list of areas, wherein lies all the crags for that area.</p>
@@ -12,10 +12,10 @@
         </div>
 
         <br>
-        <p>When viewing areas or crags, each page has some buttons that do the following. </p>
+        <p>When viewing areas or crags, each page has some buttons that will do the following. </p>
         
         <div id="viewpicker">
-            <p><i class="fa fa-list btn btn-border"></i> Displays a list of areas/crags.</p>
+            <p><i class="fa fa-list btn btn-border"></i> Displays the list of areas/crags.</p>
             <p><i class="fa fa-info btn btn-border"></i> Shows crag information on crag pages.</p>
             <p><i class="fa fa-map-o btn btn-border"></i> Shows a map of areas/crags.</p>
             <p><i class="fa fa-print btn btn-border"></i> Prints a list of currently selected routes and area/crag information.</p>
@@ -24,7 +24,7 @@
         <br>
         
         <p>
-            In the routes section you can use the filter to specify which climbing disciplines and grades you want to see. Columns can also be used to sort the routes.
+            In the routes section you can use the filter to specify which climbing disciplines and grades you want to see. You can also click column headers to sort routes.
             
             <div id="gradefilter"></div><script>$("#gradefilter").html(gradeFilter("crag"))</script>
         </p>

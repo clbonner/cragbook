@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<?= SITEURL ?>/css/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
+    <div class="margin-5"><img src="http://greatwesternrock.co.uk/wp-content/uploads/2016/12/gwr-logo-verysmall.png"></img></div>
     <header></header>
     <div id="menu">
         <div class="left">
@@ -27,6 +28,7 @@
                 <a class="btn-menu">Grades</a>
                 <div class="dropdown-content">
                     <div class="center">Show all grades at...</div>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F2" class="btn-menu txt-left">F2</a>
                     <a href="<?= SITEURL ?>/grades.php?grade=F3" class="btn-menu txt-left">F3</a>
                     <a href="<?= SITEURL ?>/grades.php?grade=F4" class="btn-menu txt-left">F4</a>
                     <a href="<?= SITEURL ?>/grades.php?grade=F5" class="btn-menu txt-left">F5</a>

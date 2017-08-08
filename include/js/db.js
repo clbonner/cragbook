@@ -230,8 +230,8 @@ function getSearch() {
 
 // gets all routes from the database at a given grade
 function getGrades(grade) {
-    var page = { data : "area" }, viewpicker, routes, filter, modal, data, div, url = "include/search_json.php";
-
+    var page = { data : "area" }, viewpicker, routes, modal, data, div, url = "include/search_json.php";
+    
     // get search results
     div = $("<div>");
     div.append($("<i>").addClass("fa fa-print btn btn-border").attr("onclick", "printRoutes('search')"));
@@ -258,6 +258,7 @@ function getGrades(grade) {
             }
             
             div = $("<div>").addClass("heading").attr("id", "title").text("Showing all grades at " + grade);
+            div.append($("<p>").addClass("font8").html("<i>Click column headers to sort</i>"));
             
             viewpicker = $("<div>").attr("id","viewpicker");
             viewpicker.append($("<button>").attr("id","printview").addClass("fa fa-print btn-picker").attr("onclick", "printRoutes('grades')"));

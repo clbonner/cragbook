@@ -24,7 +24,7 @@ header {
     width: 100%;
     color: white;
     font-size: 10px;
-    background-color: #999999;
+    background-color: red;
     margin: 0px;
     left: 15px;
 }
@@ -114,7 +114,7 @@ textarea {
 #menu {
     height: 26px;
     width: 100%;
-    background-color: #466596;
+    background-color: #303030;
     color: #fff;
     font-size: 14px;
     margin: 0px;
@@ -237,7 +237,7 @@ textarea {
 
 .btn:hover {
     color: #fff;
-    background-color: #f44336;
+    background-color: red;
 }
 
 .btn-picker {
@@ -261,7 +261,7 @@ textarea {
 
 .btn-picker:hover {
     color: #fff;
-    background-color: #f44336;
+    background-color: red;
 }
 
 .btn-border {
@@ -285,7 +285,7 @@ textarea {
 .btn-border:hover {
     color: #fff;
     border-color: #f44336;
-    background-color: #f44336;
+    background-color: red;
 }
 
 .btn-menu {
@@ -306,7 +306,7 @@ textarea {
 .btn-menu:hover {
     color: #fff;
     border-color: #f44336;
-    background-color: #f44336;
+    background-color: red;
 }
 
 /* admin user buttons */
@@ -412,7 +412,7 @@ textarea {
 .btn-public:hover {
     color: #fff;
     border-color: #f44336;
-    background-color: #f44336;
+    background-color: red;
 }
 
 .lrg-icon {
@@ -568,7 +568,7 @@ textarea {
     border-color: #999999;
     display: none;
     position: absolute;
-    background-color: #466596;
+    background-color: #303030;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;

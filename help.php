@@ -4,11 +4,11 @@
  * and is licensesed under the GNU General Public License version 3.
  * Copyright 2017 Christopher L Bonner
  *
- * all_crags.php 
- * Controller for listing climbing areas
+ * help.php 
+ * Displays help page.
  */
-
+ 
 require_once(__DIR__ ."/include/config.php");
-view("all_crags.php", []);
-
+view("help.php", []);
+    
 ?>

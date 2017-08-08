@@ -97,7 +97,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     if ($_POST["private"] == "on") $private = 1;
     else $private = 0;
     
-    var_dump($private);
     // add/update database
     if ($_SESSION["action"] == "add") {
         $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent,discipline,seriousness,private) VALUES (" .$_SESSION["id"] .",\"" .$name 

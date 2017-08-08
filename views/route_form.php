@@ -9,6 +9,8 @@
         <option value="1" <?php if($data["route"]["discipline"] == '1') echo("selected") ?>>Trad</option>
         <option value="2" <?php if($data["route"]["discipline"] == '2') echo("selected") ?>>Sport</option>
         <option value="3" <?php if($data["route"]["discipline"] == '3') echo("selected") ?>>Bouldering</option>
+        <option value="4" <?php if($data["route"]["discipline"] == '4') echo("selected") ?>>Hybrid</option>
+        <option value="5" <?php if($data["route"]["discipline"] == '5') echo("selected") ?>>BANNED</option>
     </select>
     <label>Grade</label>
     <input type="text" name="grade" value="<?= $data["route"]["grade"] ?>">
@@ -18,6 +20,7 @@
         <option value="1" <?php if($data["route"]["seriousness"] == '1') echo("selected") ?>>Safe</option>
         <option value="2" <?php if($data["route"]["seriousness"] == '2') echo("selected") ?>>Caution</option>
         <option value="3" <?php if($data["route"]["seriousness"] == '3') echo("selected") ?>>Scary</option>
+        <option value="4" <?php if($data["route"]["seriousness"] == '4') echo("selected") ?>>Danger</option>
     </select>
     <label>Stars</label>
     <input type="text" name="stars" value="<?= $data["route"]["stars"] ?>">

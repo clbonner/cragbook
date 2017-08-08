@@ -523,6 +523,10 @@ textarea {
     font-size: 8px;
 }
 
+.font10 {
+    font-size: 10px;
+}
+
 /* background for modal popup */
 .modal {
     display: none;

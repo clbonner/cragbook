@@ -258,7 +258,7 @@ function getGrades(grade) {
             }
             
             div = $("<div>").addClass("heading").attr("id", "title").text("Showing all grades at " + grade);
-            div.append($("<p>").addClass("font8").html("<i>Click column headers to sort</i>"));
+            div.append($("<p>").addClass("font10").html("<i>Click column headers to sort</i>"));
             
             viewpicker = $("<div>").attr("id","viewpicker");
             viewpicker.append($("<button>").attr("id","printview").addClass("fa fa-print btn-picker").attr("onclick", "printRoutes('grades')"));

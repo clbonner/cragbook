@@ -26,7 +26,7 @@
             <div class="dropdown left">
                 <a class="btn-menu">Grades</a>
                 <div class="dropdown-content">
-                    <div class="center">Show grades at...</div>
+                    <div class="center">Show all grades at...</div>
                     <a href="<?= SITEURL ?>/grades.php?grade=2" class="btn-menu txt-left">2 / F2 / f2 / V2</a>
                     <a href="<?= SITEURL ?>/grades.php?grade=3" class="btn-menu txt-left">3 / F3 / f3 / V3</a>
                     <a href="<?= SITEURL ?>/grades.php?grade=4" class="btn-menu txt-left">4 / F4 / f4 / V4</a>

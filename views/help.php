@@ -40,6 +40,6 @@
         
         <br>
         <hr>
-        Cragbook v0.1 &copy Christopher L Bonner 2017
+        Cragbook &copy Christopher L Bonner 2017
     </div>
 </div>

@@ -20,7 +20,7 @@ body {
 }
 
 header {
-    height: 5px;
+    height: 0px;
     width: 100%;
     color: white;
     font-size: 10px;
@@ -30,7 +30,15 @@ header {
 }
 
 footer {
-    margin-top: 15px;
+    height: 12px;
+    width: 100%;
+    color: white;
+    font-size: 10px;
+    background-color: #999999;
+    margin: 0px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
 }
 
 p {

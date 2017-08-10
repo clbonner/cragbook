@@ -1,6 +1,6 @@
 <script>
 $(document).ready( function () {
-    getAreas();
+    getAllAreas();
 });
 </script>
 <div class="content panel">
@@ -11,8 +11,8 @@ $(document).ready( function () {
     <?php endif ?>
     <div class="heading">Climbing Areas</div>
     <div id="viewpicker">
-        <button id="listview" class="fa fa-list btn-border" onclick="viewAreaList()"></button>
-        <button id="mapview" class="fa fa-map-marker btn-border" onclick="viewAreaMap()"></button>
+        <button id="listview" class="fa fa-list btn-picker" onclick="viewAreaList()"></button>
+        <button id="mapview" class="fa fa-map-o btn-picker" onclick="viewAreaMap()"></button>
     </div>
     <div id="view"></div>
 </div>

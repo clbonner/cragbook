@@ -1,12 +1,10 @@
 <script>
 $(document).ready( function () {
-    getCragInfo(<?= $_GET["cragid"] ?>);
-    getCragRoutes(<?= $_GET["cragid"] ?>);
+    getCrag(<?= $_GET["cragid"] ?>);
 });
 </script>
-
 <div id="backlink">
-    <a href="<?= SITEURL ?>/crags.php?areaid=<?= $data["area"]["areaid"] ?>"><i class="fa fa-angle-left"></i> <?= $data["area"]["name"] ?> </a>
+    <a href="<?= SITEURL ?>/area.php?areaid=<?= $data["area"]["areaid"] ?>"><i class="fa fa-angle-left">&nbsp<?= $data["area"]["name"] ?></i></a>
 </div>
 <div class="content panel">
     <?php if (isset($_SESSION["userid"])): ?>
@@ -15,10 +13,11 @@ $(document).ready( function () {
             <button class="btn-edit fa fa-trash" onclick="window.location.assign('<?= SITEURL ?>/admin/crag.php?action=delete&cragid=<?= $_GET["cragid"] ?>')"></button>
         </div>
     <?php endif ?>
-    <div class="title"><?= $data["crag"]["name"] ?></div>
+    <div id="name" class="title"></div>
     <div id="viewpicker">
-        <button id="listview" class="fa fa-info btn-border" onclick="viewCragInfo()"></button>
-        <button id="mapview" class="fa fa-map-marker btn-border" onclick="viewCragMap('crag')"></button>
+        <button id="infoview" class="fa fa-info btn-picker" onclick="viewCragInfo()"></button>
+        <button id="mapview" class="fa fa-map-o btn-picker" onclick="viewCragMap('crag')"></button>
+        <button id="printview" class="fa fa-print btn-picker" onclick="printRoutes('crag')"></button>
     </div>
     <div id="view"></div>
 </div>
@@ -30,15 +29,7 @@ $(document).ready( function () {
         </div>
     <?php endif ?>
     <div class="heading">Routes</div>
-    <div id="gradefilter">
-        <button class="btn" onclick="viewCragRoutes(routes)">All</button>
-        <button class="btn" onclick="britishFilter('crag')">British</button>
-        <button class="btn" onclick="frenchFilter('crag')">French</button>
-        <button class="btn" onclick="ydsFilter('crag')">YDS</button>
-        <button class="btn" onclick="uiaaFilter('crag')">UIAA</button>
-        <button class="btn" onclick="fontFilter('crag')">Font</button>
-        <button class="btn" onclick="vGradeFilter('crag')">V grade</button>
-    </div>
+    <div id="gradefilter"></div>
     <div id="routes"></div>
-    <div id="routeinfo" class="modal"></div>
+    <div id="modal" class="modal"></div>
 </div>

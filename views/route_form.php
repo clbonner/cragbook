@@ -3,6 +3,13 @@
     <input type="text" name="name" value="<?= $data["route"]["name"] ?>" required>
     <label>Route description</label>
     <textarea name="description" rows=5><?= $data["route"]["description"] ?></textarea><br>
+    <label>Discipline</label>
+    <select name="discipline">
+        <option disabled <?php if($data["route"]["discipline"] == '0') echo("selected") ?>>Select...</option>
+        <option value="1" <?php if($data["route"]["discipline"] == '1') echo("selected") ?>>Trad</option>
+        <option value="2" <?php if($data["route"]["discipline"] == '2') echo("selected") ?>>Sport</option>
+        <option value="3" <?php if($data["route"]["discipline"] == '3') echo("selected") ?>>Bouldering</option>
+    </select>
     <label>Grade</label>
     <input type="text" name="grade" value="<?= $data["route"]["grade"] ?>">
     <label>Stars</label>

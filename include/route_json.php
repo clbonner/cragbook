@@ -17,7 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // send JSON data for routes at crag
     if (isset($_GET["areaid"])) {
         
-        $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." ORDER BY name ASC;";
+        if (isset($_SESSION["userid"]))
+            $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." ORDER BY name ASC;";
+        else
+            $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." AND public=1 ORDER BY name ASC;";
         
         if (!$result = $db->query($sql))
             ajax_err("Error in route_json.php: " .$db->error);
@@ -44,6 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             while ($route = $result->fetch_assoc()) {
                 array_push($routes, $route);
             }
+            
+            if (!isset($_SESSION["userid"])) {
+                for ($i = 0; $i < sizeof($routes); $i++) {
+                    if ($routes[$i]["private"] == 1) {
+                        $routes[$i]["description"] = "";
+                    }
+                }
+            }
         }
         else
             $routes = "";
@@ -66,28 +77,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             array_push($routes, $route);
         }
         
+        if (!isset($_SESSION["userid"])) {
+            foreach ($routes as $key => $value) {
+                if ($routes[$key]["private"] == 1) {
+                    $routes[$key]["description"] = "";
+                }
+            }
+        }
+        
         // send routes as JSON
         echo json_encode($routes);
-    }
-    
-    // get individual route
-    elseif (isset($_GET["routeid"])) {
-        
-        $sql = "SELECT * FROM routes WHERE routeid = ". $_GET["routeid"];
-        
-        if (!$result = $db->query($sql)) {
-            exit("Error in route_json.php: " .$db->error);
-        }
-        elseif ($result->num_rows == 1)
-            $route = $result->fetch_assoc();
-        else 
-            $route = "";
-    
-        // remove html special chars from description
-        $route["description"] = htmlspecialchars_decode($route["description"]);
-        
-        // send route as JSON
-        echo json_encode($route);
     }
 }
 

@@ -17,7 +17,7 @@ $db = db_connect();
 if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add")
 {
     set_data("add", $_GET["areaid"]);
-    $returnurl = SITEURL ."/crags.php?areaid=" .$_GET["areaid"];
+    $returnurl = SITEURL ."/area.php?areaid=" .$_GET["areaid"];
     
     view("crag_form.php", ["button" => "Add", "returnurl" => $returnurl]);
 }
@@ -32,7 +32,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
         $crag = $result->fetch_assoc();
     
     set_data("edit", $_GET["cragid"]);
-    $returnurl = SITEURL ."/crag_info.php?cragid=" .$_GET["cragid"];
+    $returnurl = SITEURL ."/crag.php?cragid=" .$_GET["cragid"];
     
     view("crag_form.php", ["button" => "Save", "crag" => $crag, "returnurl" => $returnurl]);
 }
@@ -49,7 +49,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
     set_data("delete", $_GET["cragid"]);
     
     $message = "Are you sure you want to delete <b>" .$crag["name"] ."</b> and all associated routes?";
-    $returnurl = SITEURL ."/crag_info.php?cragid=" .$crag["cragid"];
+    $returnurl = SITEURL ."/crag.php?cragid=" .$crag["cragid"];
     $controller = "crag.php";
     
     view("delete_form.php", ["message" => $message, "returnurl" => $returnurl,
@@ -83,7 +83,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
         error("Error in admin/crag.php: " .$db->error);
     
     // return to the area page
-    header("Location: " .SITEURL ."/crags.php?areaid=" .$area["areaid"]);
+    header("Location: " .SITEURL ."/area.php?areaid=" .$area["areaid"]);
     
     clear_data();
 }
@@ -97,18 +97,20 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     $policy = sec_check($_POST["policy"]);
     $location = sec_check($_POST["location"]);
     $approach = sec_check($_POST["approach"]);
+    if ($_POST["public"] == "on") $public = 1;
+    else $public = 0;
     
     // add new crag
     if ($_SESSION["action"] == "add") {
-        $sql = "INSERT INTO crags (areaid,name,description,access,policy,location,approach) VALUES (\"" .$_SESSION["id"] ."\",\"" .$name 
-            ."\",\"" .$description ."\",\"" .$access ."\",\"" .$policy ."\",\"" .$location ."\",\"" .$approach ."\");";
+        $sql = "INSERT INTO crags (areaid,name,description,access,policy,location,approach,public) VALUES (\"" .$_SESSION["id"] ."\",\"" .$name 
+            ."\",\"" .$description ."\",\"" .$access ."\",\"" .$policy ."\",\"" .$location ."\",\"" .$approach ."\"," .$public .");";
     }
 
     // update crag details
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE crags SET name=\"" .$name. "\",description=\"" .$description 
             ."\",access=\"" .$access ."\",policy=\"" .$policy ."\",location=\"" .$location 
-            ."\",approach=\"" .$approach ."\" WHERE cragid = " .$_SESSION["id"] .";";
+            ."\",approach=\"" .$approach ."\",public=" .$public ." WHERE cragid = " .$_SESSION["id"] .";";
     }
     
     if (!$result = $db->query($sql))
@@ -122,11 +124,12 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
         elseif ($result->num_rows == 1)
             $crag = $result->fetch_assoc();
     }
-    elseif ($_SESSION["action"] == "edit")
+    elseif ($_SESSION["action"] == "edit") {
         $crag["cragid"] = $_SESSION["id"];
+    }
     
     // return to crag page
-    header("Location: " .SITEURL ."/crag_info.php?cragid=" .$crag["cragid"]);
+    header("Location: " .SITEURL ."/crag.php?cragid=" .$crag["cragid"]);
     
     clear_data();
 }

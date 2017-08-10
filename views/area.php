@@ -1,7 +1,6 @@
 <script>
 $(document).ready( function () {
-    getCrags(<?= $_GET["areaid"] ?>);
-    getAreaRoutes(<?= $_GET["areaid"] ?>)
+    getArea(<?= $_GET["areaid"] ?>);
 });
 </script>
 <div>
@@ -12,8 +11,8 @@ $(document).ready( function () {
                 <button class="btn-edit fa fa-trash" onclick="window.location.assign('<?= SITEURL ?>/admin/area.php?action=delete&areaid=<?= $_GET["areaid"] ?>')"></button>
             </div>
         <?php endif ?>
-        <div class="title"><?= $data["area"]["name"] ?></div>
-        <div class="heading"><?= htmlspecialchars_decode($data["area"]["description"]) ?></div>
+        <div id="name" class="title"></div>
+        <div id="description" class="heading"></div>
     </div>
     <div class="content panel">
         <?php if(isset($_SESSION["userid"])): ?>
@@ -23,23 +22,16 @@ $(document).ready( function () {
         <?php endif ?>
         <div class="heading">Crags</div>
         <div id="viewpicker">
-            <button id="listview" class="fa fa-list btn-border" onclick="viewCragList()"></button>
-            <button id="mapview" class="fa fa-map-marker btn-border" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></button>
+            <button id="listview" class="fa fa-list btn-picker" onclick="viewCragList()"></button>
+            <button id="mapview" class="fa fa-map-o btn-picker" onclick="viewCragMap('<?= $data["area"]["location"] ?>')"></button>
+            <button id="printview" class="fa fa-print btn-picker" onclick="printRoutes('area')"></button>
         </div>
         <div id="view"></div>
     </div>
     <div class="content panel">
         <div class="heading">Routes</div>
-        <div id="gradefilter">
-        <button class="btn" onclick="viewAreaRoutes(routes)">All</button>
-        <button class="btn" onclick="britishFilter('area')">British</button>
-        <button class="btn" onclick="frenchFilter('area')">French</button>
-        <button class="btn" onclick="ydsFilter('area')">YDS</button>
-        <button class="btn" onclick="uiaaFilter('area')">UIAA</button>
-        <button class="btn" onclick="fontFilter('area')">Font</button>
-        <button class="btn" onclick="vGradeFilter('area')">V grade</button>
-        </div>
+        <div id="gradefilter"></div>
         <div id="routes"></div>
-        <div id="routeinfo" class="modal"></div>
+        <div id="modal" class="modal"></div>
     </div>
 </div>

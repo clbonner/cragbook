@@ -11,6 +11,12 @@
     <label>Area location (centre location on map)</label>
     <div id="map" class="panel"></div>
     <input id="latlng" type="text" name="location" value="<?= $data["area"]["location"] ?>" readonly>
-    <button class="btn-save" type="submit"><?= $data["button"] ?></button>
-    <button class="btn-cancel" type="button" onclick="window.location.assign('<?= $data["returnurl"] ?>')">Cancel</button>
+    <div class="margin-bottom-5">
+        <input type="checkbox" name="public" class="inline" <?php if ($data["area"]["public"] == true) echo "checked" ?>>
+        <label class="inline">Publicly viewable</label>
+    </div>
+    <div>
+        <button class="btn-save" type="submit"><?= $data["button"] ?></button>
+        <button class="btn-cancel" type="button" onclick="window.location.assign('<?= $data["returnurl"] ?>')">Cancel</button>
+    </div>
 </form>

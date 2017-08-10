@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // return all crags
         if (isset($_SESSION["userid"]))
             $sql = "SELECT * FROM crags ORDER BY name ASC;";
-        else
+        else 
             $sql = "SELECT * FROM crags WHERE public=1 ORDER BY name ASC;";
     }
     

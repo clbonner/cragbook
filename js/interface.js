@@ -144,10 +144,6 @@ function viewRouteInfo(route) {
 }
 
 
-/* DOM manipulation functions */
-/* -------------------------- */
-
-
 // display list of crags for area page
 function viewCragList() {
     var i, div;

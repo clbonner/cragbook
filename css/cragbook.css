@@ -501,7 +501,7 @@ textarea {
 /* traffic light colors */
 
 .green {
-    color: green;
+    color: #70d856;
 }
 
 .amber {
@@ -513,7 +513,7 @@ textarea {
 }
 
 .blue {
-    color: blue;
+    color: #5b9aff;
 }
 
 .yellow {

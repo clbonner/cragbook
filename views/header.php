@@ -28,13 +28,13 @@
                 <a class="btn-menu">Grades</a>
                 <div class="dropdown-content">
                     <div class="center">Show all grades at...</div>
-                    <a href="<?= SITEURL ?>/grades.php?grade=F2" class="btn-menu txt-left">F2</a>
-                    <a href="<?= SITEURL ?>/grades.php?grade=F3" class="btn-menu txt-left">F3</a>
-                    <a href="<?= SITEURL ?>/grades.php?grade=F4" class="btn-menu txt-left">F4</a>
-                    <a href="<?= SITEURL ?>/grades.php?grade=F5" class="btn-menu txt-left">F5</a>
-                    <a href="<?= SITEURL ?>/grades.php?grade=F6" class="btn-menu txt-left">F6</a>
-                    <a href="<?= SITEURL ?>/grades.php?grade=F7" class="btn-menu txt-left">F7</a>
-                    <a href="<?= SITEURL ?>/grades.php?grade=F8" class="btn-menu txt-left">F8</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F2" class="btn-menu txt-left">F2 - F2+</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F3" class="btn-menu txt-left">F3 - F3+</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F4" class="btn-menu txt-left">F4 - F4+</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F5" class="btn-menu txt-left">F5 - F5+</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F6" class="btn-menu txt-left">F6a - F6c+</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F7" class="btn-menu txt-left">F7a - F7c+</a>
+                    <a href="<?= SITEURL ?>/grades.php?grade=F8" class="btn-menu txt-left">F8a - F8c+</a>
                 </div>
             </div>
             <a class="btn-menu left" href="<?= SITEURL ?>/search.php"><i class="fa fa-search menu-icon"></i></a>

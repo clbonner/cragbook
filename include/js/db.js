@@ -257,7 +257,7 @@ function getGrades(grade) {
                 }
             }
             
-            div = $("<div>").addClass("heading").attr("id", "title").text("Showing all grades at " + grade);
+            div = $("<div>").addClass("heading").attr("id", "title").text("Showing all routes at grade " + grade);
             div.append($("<p>").addClass("font10").html("<i>Click column headers to sort</i>"));
             
             viewpicker = $("<div>").attr("id","viewpicker");

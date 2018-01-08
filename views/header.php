@@ -41,6 +41,7 @@
             <a class="btn-menu left" href="<?= SITEURL ?>/help.php"><i class="fa fa-question menu-icon"></i></a>
         </div>
         <div class="right">
+            <a class="btn-menu left" href="http://greatwesternrock.co.uk">Back to Main Site&nbsp<i class="fa fa-sign-out menu-icon"></i></a>
             <?php if(isset($_SESSION["userid"])): ?>
                 <a class="btn-menu left" href="<?= SITEURL ?>/admin/prefs.php"><i class="fa fa-cog menu-icon"></i></a>
                 <a class="btn-menu left" href="<?= SITEURL ?>/admin/logout.php"><i class="fa fa-sign-out menu-icon"></i></a>

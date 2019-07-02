@@ -258,22 +258,22 @@ function viewAreaRoutes(routes) {
             row = $("<tr>").addClass("pointer").attr("id", routes[x].routeid);
             data= $("<td>").click( { "id" : routes[x].routeid }, viewRouteInfo);
             
-            if (routes[x].banned == 1)
-                data.append($("<i>").addClass("fa fa-times-circle red"));
-            else {
-                switch(routes[x].discipline) {
-                    case "1":
-                        data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
-                        break;
-                    case "2":
-                        data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
-                        break;
-                    case "3":
-                        data.append($("<i>").addClass("fa fa-circle fa-lg"));
-                        break;
-                    case "4":
-                        data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
-                }
+           
+            switch(routes[x].discipline) {
+                case "1":
+                    data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
+                    break;
+                case "2":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
+                    break;
+                case "3":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg"));
+                    break;
+                case "4":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
+                    break;
+                case "5":
+                    data.append($("<i>").addClass("fa fa-times-circle red"));
             }
             row.append(data);
             
@@ -365,22 +365,21 @@ function viewCragRoutes(routes) {
             
             data = $("<td>").click( { "id" : routes[x].routeid }, viewRouteInfo);
             
-            if (routes[x].banned == 1)
-                data.append($("<i>").addClass("fa fa-times-circle red"));
-            else {
-                switch(routes[x].discipline) {
-                    case "1":
-                        data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
-                        break;
-                    case "2":
-                        data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
-                        break;
-                    case "3":
-                        data.append($("<i>").addClass("fa fa-circle fa-lg"));
-                        break;
-                    case "4":
-                        data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
-                }
+            switch(routes[x].discipline) {
+                case "1":
+                    data.append($("<i>").addClass("fa fa-circle-thin fa-lg"));
+                    break;
+                case "2":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
+                    break;
+                case "3":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg"));
+                    break;
+                case "4":
+                    data.append($("<i>").addClass("fa fa-circle fa-lg yellow"));
+                    break;
+                case "5":
+                    data.append($("<i>").addClass("fa fa-times-circle red"));
             }
             row.append(data);
             

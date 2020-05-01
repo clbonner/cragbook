@@ -15,27 +15,29 @@ $db = db_connect();
 
 // export all routes
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $sql = "SELECT * FROM routes WHERE cragid = " .$_GET["cragid"] .";";
+    // get routes for crag
+    $sql = "SELECT * FROM routes WHERE cragid = " .$_GET["cragid"]
+      ." ORDER BY orderid ASC;";
+
     $routes = [];
 
     if (!$result = $db->query($sql))
         error("Error in admin/route.php: " .$db->error);
-    elseif ($result->num_rows !== NULL) {
+    elseif ($result->num_rows !== NULL)
         while ($route = $result->fetch_assoc()) {
             array_push($routes, $route);
         }
-    }
 
     $fp = fopen('export.csv', 'w');
 
-    fputcsv($fp, array("Name", "Grade", "Length" , "Stars", "First Ascent",
-      "Crag Sector", "Seriousness", "Description", "Discipline", "Private"));
+    fputcsv($fp, array("OrderID", "Name", "Grade", "Length" , "Stars", "First Ascent",
+      "Crag Sector", "Seriousness", "Description", "Discipline", "Hidden"));
 
     foreach($routes as $route) {
-      fputcsv($fp, array($route["name"], $route["grade"], $route["length"],
-        $route["stars"], $route["fascent"], $route["sector"],
-        $route["seriosness"], $route["description"],
-        $route["discipline"], $route["private"]));
+      fputcsv($fp, array($route["orderid"], $route["name"], $route["grade"],
+        $route["length"], $route["stars"], $route["fascent"], $route["sector"],
+        $route["seriosness"], $route["description"], $route["discipline"],
+        $route["private"]));
     }
 
     fclose($fp);

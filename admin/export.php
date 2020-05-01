@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $routes = [];
 
     if (!$result = $db->query($sql))
-        error("Error in admin/route.php: " .$db->error);
+        error("Error in admin/export.php. SQL: " .$sql ." ERROR: " .$db->error);
     elseif ($result->num_rows !== NULL)
         while ($route = $result->fetch_assoc()) {
             array_push($routes, $route);
@@ -35,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     foreach($routes as $route) {
       fputcsv($fp, array($route["orderid"], $route["name"], $route["grade"],
-        $route["length"], $route["stars"], $route["fascent"], $route["sector"],
-        $route["seriosness"], $route["description"], $route["discipline"],
+        $route["length"], $route["stars"], $route["firstascent"], $route["sector"],
+        $route["seriousness"], $route["description"], $route["discipline"],
         $route["private"]));
     }
 

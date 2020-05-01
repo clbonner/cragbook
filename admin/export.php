@@ -5,7 +5,7 @@
  * Copyright 2020 Christopher L Bonner
  *
  * admin/export.php
- * Controller for exporting all routes from a crag.
+ * Controller for exporting all routes from a specified crag.
  */
 
 require_once(__DIR__ ."/../include/config.php");

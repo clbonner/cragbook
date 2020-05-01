@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     fgetcsv($fp);
 
     // import each route in to the database
+    // 0=orderid 1=name 2=grade 3=length etc...
     while ($route = fgetcsv($fp)) {
         $sql = "INSERT INTO routes (cragid,orderid,name,grade,length,stars,
           firstascent,sector,seriousness,description,discipline,private) VALUES ("
@@ -42,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
           .$route[8] ."\","
           .$route[9] .","
           .$route[10] .");";
-
+          
         // execute query
         if (!$result = $db->query($sql))
             error("Error in admin/import.php. QUERY: " .$sql ." ERROR: ".$db->error);

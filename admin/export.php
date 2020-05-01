@@ -14,20 +14,35 @@ login_check();
 $db = db_connect();
 
 // export all routes
-//if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "export") {
-    //$sql = "SELECT * FROM routes WHERE cragid = " .$_GET["cragid"] .";";
-    $sql = "SELECT * FROM routes WHERE cragid = 18"
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $sql = "SELECT * FROM routes WHERE cragid = " .$_GET["cragid"] .";";
+    $routes = [];
+
     if (!$result = $db->query($sql))
         error("Error in admin/route.php: " .$db->error);
-    elseif ($result->num_rows !== NULL)
-        $routes = $result->fetch_assoc();
-
-    $fp = fopen("export.csv", "w");
-    foreach($route as $routes) {
-      fputcsv($fp, $route);
+    elseif ($result->num_rows !== NULL) {
+        while ($route = $result->fetch_assoc()) {
+            array_push($routes, $route);
+        }
     }
 
-    require("export.csv");
-//}
+    $fp = fopen('export.csv', 'w');
+
+    fputcsv($fp, array("Name", "Grade", "Length" , "Stars", "First Ascent",
+      "Crag Sector", "Seriousness", "Description", "Discipline", "Private"));
+
+    foreach($routes as $route) {
+      fputcsv($fp, array($route["name"], $route["grade"], $route["length"],
+        $route["stars"], $route["fascent"], $route["sector"],
+        $route["seriosness"], $route["description"],
+        $route["discipline"], $route["private"]));
+    }
+
+    fclose($fp);
+
+    // dump export file
+    header("Location:" .SITEURL ."/admin/export.csv");
+}
 
 $db->close();
+?>

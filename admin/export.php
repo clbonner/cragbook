@@ -16,7 +16,7 @@ $db = db_connect();
 // export all routes
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // get routes for crag
-    $sql = "SELECT * FROM routes WHERE cragid = " .$_GET["cragid"]
+    $sql = "SELECT * FROM routes WHERE cragid=" .$_GET["exportcrag"]
       ." ORDER BY orderid ASC;";
 
     $routes = [];

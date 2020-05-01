@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
         $user = $result->fetch_assoc();
 
     // get list of crags
-    $sql = "SELECT name,cragid FROM crags";
+    $sql = "SELECT name,cragid FROM crags ORDER BY name ASC";
     if (!$result = $db->query($sql))
         error("Error in admin/prefs.php: " .$db->error);
     elseif ($result->num_rows !== NULL)

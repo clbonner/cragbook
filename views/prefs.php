@@ -21,21 +21,22 @@
     <div class="heading">Export</div><br>
     <div>All crag routes must be exported before importing.</div>
     <div>Please select a crag.</div>
-    <select name="cragid">
+    <select name="exportcrag">
       <?php foreach($data["crags"] as $crag)
           echo "<option value=\"" .$crag["cragid"] ."\">" .$crag["name"] ."</option>";
       ?>
     </select>
-    <button class="btn-save" type="submit">Export</button>
+    <p><button class="btn-save" type="submit">Export</button></p>
 </form>
-<form class="content" action="<?= SITEURL ?>/admin/import.php" method="post">
+<form class="content" action="<?= SITEURL ?>/admin/import.php" method="post" enctype="multipart/form-data">
     <div class="heading">Import</div><br>
     <div>When importing all exisiting routes will be replaced with the imported routes.</div>
-    <div>Please select a crag.</div>
-    <select name="cragid">
+    <div>Please select a crag and upload a CSV file in the same export format.</div>
+    <select name="importcrag">
       <?php foreach($data["crags"] as $crag)
-          echo "<option value=\"" .$crag["id"] ."\">" .$crag["name"] ."</option>";
+          echo "<option value=\"" .$crag["cragid"] ."\">" .$crag["name"] ."</option>";
       ?>
     </select>
+    <input type="file" name="csvfile">
     <button class="btn-cancel" type="submit">Import</button>
 </form>

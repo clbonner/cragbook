@@ -32,14 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // insert header line
     fputcsv($fp, array("OrderID", "Name", "Grade", "Length" , "Stars", "First Ascent",
-      "Crag Sector", "Seriousness", "Description", "Discipline", "Hidden"));
+      "Crag Sector", "Description"));
 
     // insert routes
     foreach($routes as $route) {
       fputcsv($fp, array($route["orderid"], $route["name"], $route["grade"],
         $route["length"], $route["stars"], $route["firstascent"], $route["sector"],
-        $route["seriousness"], $route["description"], $route["discipline"],
-        $route["private"]));
+        $route["description"]));
     }
 
     fclose($fp);

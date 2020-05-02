@@ -40,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
           .$route[3] .",\""
           .$route[4] ."\",\""
           .$route[5] ."\",\""
-          .$route[6] ."\","
-          .$route[8] ."\");";
+          .$route[6] ."\",\""
+          .$route[7] ."\");";
 
         // import route
         if (!$result = $db->query($sql))

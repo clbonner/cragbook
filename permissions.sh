@@ -5,6 +5,7 @@
 # permissions.sh
 # Sets all the correct permissions on files and folders.
 
+chmod -R 644 ./*.php
 chmod 755 ./admin
 chmod 755 ./css
 chmod 755 ./css/font-awesome
@@ -15,4 +16,3 @@ chmod 755 ./css/font-awesome/scss
 chmod 755 ./include
 chmod 755 ./js
 chmod 755 ./views
-chmod -R 644 ./*.php

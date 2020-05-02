@@ -4,7 +4,7 @@
  * and is licensesed under the GNU General Public License version 3.
  * Copyright 2017 Christopher L Bonner
  *
- * admin/prefs.php 
+ * admin/prefs.php
  * Controller for updating user and site preferences
  */
 
@@ -16,13 +16,25 @@ $db = db_connect();
 // show preferences form
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
+    $crags = [];
+
+    // get user details
     $sql = "SELECT * FROM users WHERE userid=" .$_SESSION["userid"];
     if (!$result = $db->query($sql))
         error("Error in admin/prefs.php: " .$db->error);
     else
         $user = $result->fetch_assoc();
-    
-    view("prefs.php", ["user" => $user]);
+
+    // get list of crags
+    $sql = "SELECT name,cragid FROM crags ORDER BY name ASC";
+    if (!$result = $db->query($sql))
+        error("Error in admin/prefs.php: " .$db->error);
+    elseif ($result->num_rows !== NULL)
+        while ($crag = $result->fetch_assoc()) {
+          array_push($crags, $crag);
+        }
+
+    view("prefs.php", ["user" => $user, "crags" => $crags]);
 }
 
 // update preferences
@@ -30,21 +42,21 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $button = "Back";
     $returnurl = SITEURL ."/admin/prefs.php";
-    
+
     // get user details
     $sql = "SELECT * FROM users WHERE userid=" .$_SESSION["userid"];
     if (!$result = $db->query($sql))
         error("Error in admin/prefs.php: " .$db->error);
     else
         $user = $result->fetch_assoc();
-    
+
     // security checks
     $username = sec_check($_POST["username"]);
     $displayname = sec_check($_POST["displayname"]);
     $oldpass = sec_check($_POST["oldpass"]);
     $newpass = sec_check($_POST["newpass"]);
     $confirmpass = sec_check($_POST["confirmpass"]);
-    
+
     // validate submission
     if (empty($username)) {
         view("info.php", ["message" => "You must provide a username.", "button" => $button, "returnurl" => $returnurl]);
@@ -60,7 +72,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
             view("info.php", ["message" => "Your password cannot be blank.", "button" => $button, "returnurl" => $returnurl]);
             exit;
         }
-            
+
         // check password matches current one
         if (password_verify($oldpass, $user["password"])) {
             if ($newpass == $confirmpass) {
@@ -79,15 +91,15 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
             exit;
         }
     }
-    
+
     // update username/displayname
     $sql = "UPDATE users SET username=\"" .$username ."\", displayname=\"" .$displayname ."\" WHERE userid=" .$_SESSION["userid"] .";";
     if (!$db->query($sql))
         error("Error updating user details:" .$db->error);
-        
+
     info("Preferences updated.");
 }
 
 $db->close();
-    
+
 ?>

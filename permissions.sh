@@ -14,5 +14,5 @@ chmod 755 ./css/font-awesome/less
 chmod 755 ./css/font-awesome/scss
 chmod 755 ./include
 chmod 755 ./js
-chmod 755 ./view
-chmod -R ./*.php 644
+chmod 755 ./views
+chmod -R 644 ./*.php

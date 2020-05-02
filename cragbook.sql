@@ -35,7 +35,6 @@ CREATE TABLE `crags` (
   `cragid` int(11) NOT NULL,
   `areaid` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `photo` varchar(255) COLLATE utf8_bin NOT NULL,
   `description` text COLLATE utf8_bin NOT NULL,
   `approach` text COLLATE utf8_bin NOT NULL,
   `access` text COLLATE utf8_bin NOT NULL,

@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     // 0=orderid 1=name 2=grade 3=length etc...
     while ($route = fgetcsv($fp)) {
         $sql = "INSERT INTO routes (cragid,orderid,name,grade,length,stars,
-          firstascent,sector,description) VALUES ("
+          firstascent,sector,description,discipline) VALUES ("
           .$_POST["importcrag"] .","
           .$route[0] .",\""
           .$route[1] ."\",\""
@@ -41,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
           .$route[4] ."\",\""
           .$route[5] ."\",\""
           .$route[6] ."\",\""
-          .$route[7] ."\");";
+          .$route[7] ."\","
+          .$route[8] .");";
 
         // import route
         if (!$result = $db->query($sql))

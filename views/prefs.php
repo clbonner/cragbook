@@ -37,6 +37,7 @@
           echo "<option value=\"" .$crag["cragid"] ."\">" .$crag["name"] ."</option>";
       ?>
     </select>
+    <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
     <input type="file" name="csvfile">
     <button class="btn-cancel" type="submit">Import</button>
 </form>

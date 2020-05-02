@@ -15,11 +15,11 @@ $db = db_connect();
 
 // export all routes
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $routes = [];
+
     // get routes for crag
     $sql = "SELECT * FROM routes WHERE cragid=" .$_GET["exportcrag"]
       ." ORDER BY orderid ASC;";
-
-    $routes = [];
 
     if (!$result = $db->query($sql))
         error("Error in admin/export.php. SQL: " .$sql ." ERROR: " .$db->error);
@@ -30,9 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     $fp = fopen('export.csv', 'w');
 
+    // insert header line
     fputcsv($fp, array("OrderID", "Name", "Grade", "Length" , "Stars", "First Ascent",
       "Crag Sector", "Seriousness", "Description", "Discipline", "Hidden"));
 
+    // insert routes
     foreach($routes as $route) {
       fputcsv($fp, array($route["orderid"], $route["name"], $route["grade"],
         $route["length"], $route["stars"], $route["firstascent"], $route["sector"],

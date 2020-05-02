@@ -15,7 +15,9 @@ $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    move_uploaded_file($_FILES["csvfile"]["tmp_name"], "import.csv");
+    if (!move_uploaded_file($_FILES["csvfile"]["tmp_name"], "import.csv"))
+        error("Upload failed. ERROR: " .$_FILES["csvfile"]["error"]);
+        
     $fp = fopen("import.csv", "r");
 
     // remove exisiting routes from database
@@ -43,13 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
           .$route[8] ."\","
           .$route[9] .","
           .$route[10] .");";
-          
-        // execute query
+
+        // import route
         if (!$result = $db->query($sql))
             error("Error in admin/import.php. QUERY: " .$sql ." ERROR: ".$db->error);
     }
 
     fclose($fp);
+
+    // show crag after import
     header("Location: " .SITEURL ."/crag.php?cragid=" .$_POST["importcrag"]);
 }
 

@@ -8,7 +8,7 @@
 
 
 var Cragbook = {
-    
+
     // class prototype for Routes objects
     RouteList : function(jsonData) {
         this.all = jsonData;
@@ -18,7 +18,7 @@ var Cragbook = {
         // sorts routes by field
         this.sort = function(sort) {
             switch (sort) {
-                
+
                 case 'name':
                     this.view.sort(function (a, b) {
                         var x = a.name.toLowerCase();
@@ -28,60 +28,60 @@ var Cragbook = {
                         return 0;
                     });
                     break;
-                
+
                 case 'grade':
                     var tradRoutes, sportRoutes, boulderProblems, x;
-                    
+
                     switch(this.discipline) {
-                        
+
                         case "all" :
                             tradRoutes = this.getTradRoutes(this.all);
                             sportRoutes = this.getSportRoutes(this.all);
                             boulderProblems = this.getBoulderProblems(this.all);
-                            
+
                             tradRoutes = this.sortTradRoutes(tradRoutes);
                             sportRoutes = this.sortSportRoutes(sportRoutes);
                             boulderProblems = this.sortBoulderProblems(boulderProblems);
-                            
+
                             this.view = [];
-                            
+
                             for (x in tradRoutes)
                                 this.view.push(tradRoutes[x]);
-                                
+
                             for (x in sportRoutes)
                                 this.view.push(sportRoutes[x]);
-                                
+
                             for (x in boulderProblems)
                                 this.view.push(boulderProblems[x]);
-                            
+
                             this.discipline = "all";
                             return this.view;
 
                         case "trad" :
                             tradRoutes = this.sortTradRoutes(this.view);
-                            
+
                             return this.view = tradRoutes;
 
                         case "sport" :
                             sportRoutes = this.sortSportRoutes(this.view);
-                            
+
                             return this.view = sportRoutes;
 
                         case "boulder" :
                             boulderProblems = this.sortBoulderProblems(this.view);
-                            
+
                             return this.view = boulderProblems;
                     }
                     break;
-                    
+
                 case 'stars':
                     this.view.sort(function(a, b) { return b.stars.length - a.stars.length });
-                    break;        
-                
+                    break;
+
                 case 'length':
                     this.view.sort(function(a, b) { return a.length - b.length });
                     break;
-                
+
                 case 'firstascent':
                     this.view.sort(function(a, b) {
                         var x = a.firstascent.toLowerCase();
@@ -91,106 +91,112 @@ var Cragbook = {
                         return 0;
                     });
                     break;
-                
+
                 case 'sector':
-                    this.view.sort(function(a, b) { return a.orderid - b.orderid });
+                    if (this.view != 0)
+                        this.view.sort(function(a, b) { return a.orderid - b.orderid });
+                    else return 0;
+
                     break;
-                
+
                 case 'crag':
-                    this.view.sort(function(a, b) {
-                        var x = a.cragName.toLowerCase();
-                        var y = b.cragName.toLowerCase();
-                        if (x < y) return -1;
-                        if (x > y) return 1;
-                        return 0;
-                    });
-                    break;
+                    if (this.view != 0)
+                        this.view.sort(function(a, b) {
+                            var x = a.cragName.toLowerCase();
+                            var y = b.cragName.toLowerCase();
+                            if (x < y) return -1;
+                            if (x > y) return 1;
+                            return 0;
+                        });
+                   else return 0;
+
+                   break;
             }
-            
+
             return this.view;
         }
-        
+
         // return all routes
         this.getAllRoutes = function() {
             var x;
-            
+
             this.discipline = "all";
-            
+
             if (this.all == 0)
                 return this.view = 0;
             else
                 return this.view = this.all.slice();
         }
-        
+
         // extracts trad routes from array of all routes
         this.getTradRoutes = function() {
             var x;
-            
+
             this.view = [];
-            
+
             for (x in this.all) {
-                if (this.all[x].discipline == 1) 
+                if (this.all[x].discipline == 1)
                     this.view.push(this.all[x]);
             }
-            
+
             this.discipline = "trad";
             return this.view;
         }
-        
+
         // extracts sport routes from a given arrary of routes
         this.getSportRoutes = function() {
             var x;
-            
+
             this.view = [];
-            
+
             for (x in this.all) {
                 if (this.all[x].discipline == 2 || this.all[x].discipline == 4) {
                     this.view.push(this.all[x]);
                 }
             }
-            
+
             this.discipline = "sport";
             return this.view;
         }
-        
+
         // extracts boulder problems from a given arrary of routes
         this.getBoulderProblems = function() {
             var x;
-            
+
             this.view = [];
-            
+
             for (x in this.all) {
                 if (this.all[x].discipline == 3) {
                     this.view.push(this.all[x]);
                 }
             }
-            
+
             this.discipline = "boulder";
             return this.view;
         }
-        
+
         this.sortTradRoutes = function(tradRoutes) {
             tradRoutes.sort(function (a, b) {
                 var gradeA = a.grade.split(" ");
                 var gradeB = b.grade.split(" ");
-                
+
                 if (gradeA[0] == gradeB[0]) {
                     if (gradeA[1] < gradeB[1]) return -1;
                     else if (gradeA[1] > gradeB[1]) return 1;
                     else return 0;
-                } 
+                }
                 else {
                     a = britishGrade(a.grade);
                     b = britishGrade(b.grade);
-                    
+
                     if (a < b) return -1;
                     else if (a > b) return 1;
                     else return 0;
                 }
             });
-            
+
             return tradRoutes;
-            
+
             // helper function for sorting british grades
             function britishGrade(grade) {
                 if (/^E$/.test(grade)) grade = 0;
@@ -222,17 +228,17 @@ var Cragbook = {
                 return grade;
             }
         }
-        
+
         this.sortSportRoutes = function(sportRoutes) {
-            sportRoutes.sort(function(a, b) { 
+            sportRoutes.sort(function(a, b) {
                 if (a.grade < b.grade) return -1;
                 else if (a.grade > b.grade) return 1;
                 else return 0;
             });
-            
+
             return sportRoutes;
         }
-        
+
         this.sortBoulderProblems = function(boulderProblems) {
             boulderProblems.sort(function(a, b) {
                 if (a.grade == "VB") return -1;
@@ -241,10 +247,10 @@ var Cragbook = {
                 else if (a.grade > b.grade) return 1;
                 else return 0;
             });
-            
+
             return boulderProblems;
         }
-        
+
         this.gradeFilter = function(filter) {
             var x, routes = [];
             var pattern = new RegExp("^" + filter);
@@ -253,33 +259,32 @@ var Cragbook = {
                 case "trad" :
                     var tradRoutes = this.getTradRoutes(this.all);
                     tradRoutes = this.sortTradRoutes(tradRoutes);
-                    
+
                     this.view = tradRoutes;
                     break;
-                    
+
                 case "sport" :
                     var sportRoutes = this.getSportRoutes(this.all);
                     sportRoutes = this.sortSportRoutes(sportRoutes);
-                    
+
                     this.view = sportRoutes;
                     break;
-                    
+
                 case "boulder" :
                     var boulderProblems = this.getBoulderProblems(this.all);
                     boulderProblems = this.sortBoulderProblems(boulderProblems);
-                    
+
                     this.view = boulderProblems;
                     break;
             }
-            
+
             for (x in this.view) {
                 if (pattern.test(this.view[x].grade)) {
                     routes.push(this.view[x]);
                 }
             }
-            
+
             return this.view = routes;
         }
     }
 }
-

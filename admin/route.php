@@ -83,20 +83,20 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
 // update route database
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || $_SESSION["action"] == "edit")
 {
-    $name = sec_check($_POST["name"]);
-    $description = sec_check($_POST["description"]);
-    $grade = sec_check($_POST["grade"]);
-    $stars = sec_check($_POST["stars"]);
-    $length = sec_check($_POST["length"]);
-    $sector = sec_check($_POST["sector"]);
-    $fascent = sec_check($_POST["fascent"]);
-    $discipline = sec_check($_POST["discipline"]);
+    $name = $db->escape_string($_POST["name"]);
+    $description = $db->escape_string($_POST["description"]);
+    $grade = $db->escape_string($_POST["grade"]);
+    $stars = $db->escape_string($_POST["stars"]);
+    $length = $db->escape_string($_POST["length"]);
+    $sector = $db->escape_string($_POST["sector"]);
+    $fascent = $db->escape_string($_POST["fascent"]);
+    $discipline = $db->escape_string($_POST["discipline"]);
     if (!is_numeric($discipline)) error("Invalid entry for discipline.");
 
     // add/update database
     if ($_SESSION["action"] == "add") {
-        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent,discipline) VALUES (" .$_SESSION["id"] .",\"" .$name 
-            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\",\"" .$fascent ."\"," .$discipline .");";
+        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent,discipline,orderid) VALUES (" .$_SESSION["id"] .",\"" .$name 
+            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\",\"" .$fascent ."\"," .$discipline .", 1);";
     }
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE routes SET name=\"" .$name. "\",description=\"" .$description 

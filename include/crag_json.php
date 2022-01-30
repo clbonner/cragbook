@@ -13,6 +13,8 @@ $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET["areaid"])) {
+        is_valid_num($_GET["areaid"]);
+        
         // get crags for area
         if (isset($_SESSION["userid"]))
             $sql = "SELECT * FROM crags WHERE areaid=" .$_GET["areaid"] ." ORDER BY name ASC;";
@@ -20,10 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $sql = "SELECT * FROM crags WHERE areaid=" .$_GET["areaid"] ." AND public=1 ORDER BY name ASC;";
     }
     elseif (isset($_GET["cragid"])) {
+        is_valid_num($_GET["cragid"]);
+        
         // get a single crag
         if (isset($_SESSION["userid"]))
             $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"] .";";
-        else 
+        else
             $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"] ." AND public=1;";
     }
     else {

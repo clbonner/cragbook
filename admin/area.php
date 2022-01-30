@@ -103,8 +103,8 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
 // add or update an area
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || $_SESSION["action"] == "edit")
 {
-    $name = sec_check($_POST["name"]);
-    $description = sec_check($_POST["description"]);
+    $name = $db->escape_string($_POST["name"]);
+    $description = $db->escape_string($_POST["description"]);
     $location = $_POST["location"];
     if ($_POST["public"] == "on") $public = 1;
     else $public = 0;

@@ -15,6 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $search = rawurldecode($_POST["search"]);
     $search = json_decode($search, true);
+
+    foreach ($search as $item) {
+        $item = $db->escape_string($item);
+    }
     
     // get list of crags for the area
     if ($search["area"] !== "") {

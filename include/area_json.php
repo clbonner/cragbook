@@ -15,9 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     
     // get area
     if (isset($_GET["areaid"])) {
-        
-        if (!is_numeric($_GET["areaid"])) exit;
-    
+        is_valid_num($_GET["areaid"]);
+
         if (isset($_SESSION["userid"]))
             $sql = "SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] .";";
         else

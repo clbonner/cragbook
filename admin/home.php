@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 // update home page text
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $text = sec_check($_POST["text"]);
+    $text = $db->escape_string($_POST["text"]);
     
     $sql = "UPDATE site SET value = \"" .$text ."\" WHERE setting = \"home_text\";";
     if (!$result = $db->query($sql))

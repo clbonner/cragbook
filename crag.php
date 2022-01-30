@@ -12,6 +12,7 @@ require_once(__DIR__ ."/include/config.php");
 $db = db_connect();
 
 // get crag info
+is_valid_num($_GET["cragid"]);
 $sql = "SELECT areaid FROM crags WHERE cragid = ". $_GET["cragid"] .";";
 
 if (!$result = $db->query($sql))

@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     
     // send JSON data for routes at crag
     if (isset($_GET["areaid"])) {
+        is_valid_num($_GET["areaid"]);
         
         if (isset($_SESSION["userid"]))
             $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." ORDER BY name ASC;";
@@ -32,10 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 array_push($crags, $row);
 
             // get cragid's for area
+            $values = "";
             foreach($crags as $crag) {
                 $values = $values . $crag["cragid"] . ",";
             }
-            $values[strlen($values) - 1] = " ";
+            $values[strlen($values) - 1] = " "; // remove comma
             
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ORDER BY orderid;";
             
@@ -65,7 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     
     // send JSON data for routes at crag
     if (isset($_GET["cragid"])) {
-        
+        is_valid_num($_GET["cragid"]);
+
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";
         
         if (!$result = $db->query($sql)) {

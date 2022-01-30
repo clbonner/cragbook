@@ -51,11 +51,11 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
         $user = $result->fetch_assoc();
 
     // security checks
-    $username = sec_check($_POST["username"]);
-    $displayname = sec_check($_POST["displayname"]);
-    $oldpass = sec_check($_POST["oldpass"]);
-    $newpass = sec_check($_POST["newpass"]);
-    $confirmpass = sec_check($_POST["confirmpass"]);
+    $username = $db->escape_string($_POST["username"]);
+    $displayname = $db->escape_string($_POST["displayname"]);
+    $oldpass = $db->escape_string($_POST["oldpass"]);
+    $newpass = $db->escape_string($_POST["newpass"]);
+    $confirmpass = $db->escape_string($_POST["confirmpass"]);
 
     // validate submission
     if (empty($username)) {

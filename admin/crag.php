@@ -91,12 +91,12 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
 // add or update existing crag
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || $_SESSION["action"] == "edit")
 {
-    $name = sec_check($_POST["name"]);
-    $description = sec_check($_POST["description"]);
-    $access = sec_check($_POST["access"]);
-    $policy = sec_check($_POST["policy"]);
-    $location = sec_check($_POST["location"]);
-    $approach = sec_check($_POST["approach"]);
+    $name = $db->escape_string($_POST["name"]);
+    $description = $db->escape_string($_POST["description"]);
+    $access = $db->escape_string($_POST["access"]);
+    $policy = $db->escape_string($_POST["policy"]);
+    $location = $db->escape_string($_POST["location"]);
+    $approach = $db->escape_string($_POST["approach"]);
     if ($_POST["public"] == "on") $public = 1;
     else $public = 0;
     

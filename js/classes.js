@@ -2,7 +2,7 @@
  * and is licensesed under the GNU General Public License version 3.
  * Copyright 2017 Christopher L Bonner
  *
- * include/js/prototypes.js
+ * include/js/classes.js
  * Class prototypes for Cragbook.
  */
 

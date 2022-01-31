@@ -16,7 +16,7 @@ is_valid_num($_GET["cragid"]);
 $sql = "SELECT areaid FROM crags WHERE cragid = ". $_GET["cragid"] .";";
 
 if (!$result = $db->query($sql))
-    error("Error in crag.php: " .$db->error);
+    error("Error retrieving crag info.");
 else
     $crag = $result->fetch_assoc();
 
@@ -24,7 +24,7 @@ else
 $sql = "SELECT name,areaid FROM areas WHERE areaid = ". $crag["areaid"] .";";
 
 if (!$result = $db->query($sql))
-    error("Error in crag.php: " .$db->error);
+    error("Error retrieving area info.");
 else
     $area = $result->fetch_assoc();
 

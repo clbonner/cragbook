@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $sql = "SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] ." AND public=1;";
         
         if (!$result = $db->query($sql)) {
-            exit("Error in area_json.php: " .$db->error);
+            exit("Error retrieving area.");
         }
         
         $areas = $result->fetch_assoc();
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $sql = "SELECT * FROM areas WHERE public=1 ORDER BY name ASC;";
         
         if (!$result = $db->query($sql)) {
-            exit("Error in area_json.php: " .$db->error);
+            exit("Error retrieving areas.");
         }
         
         $areas = [];

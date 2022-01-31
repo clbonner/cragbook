@@ -21,14 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
     // get user details
     $sql = "SELECT * FROM users WHERE userid=" .$_SESSION["userid"];
     if (!$result = $db->query($sql))
-        error("Error in admin/prefs.php: " .$db->error);
+        error("Error retrieving user.");
     else
         $user = $result->fetch_assoc();
 
     // get list of crags
     $sql = "SELECT name,cragid FROM crags ORDER BY name ASC";
     if (!$result = $db->query($sql))
-        error("Error in admin/prefs.php: " .$db->error);
+        error("Error retrieving crags.");
     elseif ($result->num_rows !== NULL)
         while ($crag = $result->fetch_assoc()) {
           array_push($crags, $crag);
@@ -46,7 +46,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     // get user details
     $sql = "SELECT * FROM users WHERE userid=" .$_SESSION["userid"];
     if (!$result = $db->query($sql))
-        error("Error in admin/prefs.php: " .$db->error);
+        error("Error retrieving user.");
     else
         $user = $result->fetch_assoc();
 
@@ -79,7 +79,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
                 // update password in database
                 $sql = "UPDATE users SET password=\"" .password_hash($newpass, PASSWORD_DEFAULT) ."\" WHERE userid=" .$_SESSION["userid"] .";";
                 if (!$db->query($sql))
-                    error("Error updating password: " .$db->error);
+                    error("Error updating password.");
             }
             else {
                 view("info.php",["message" => "New passwords do not match!", "button" => $button, "returnurl" => $returnurl]);
@@ -95,7 +95,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
     // update username/displayname
     $sql = "UPDATE users SET username=\"" .$username ."\", displayname=\"" .$displayname ."\" WHERE userid=" .$_SESSION["userid"] .";";
     if (!$db->query($sql))
-        error("Error updating user details:" .$db->error);
+        error("Error updating user details.");
 
     info("Preferences updated.");
 }

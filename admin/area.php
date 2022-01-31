@@ -28,7 +28,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 {
     $sql = "SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/area.php: " .$db->error);
+        error("Error retrieving that area.");
     elseif ($result->num_rows == 1)
         $area = $result->fetch_assoc();
     
@@ -45,7 +45,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
 {
     $sql = "SELECT * FROM areas WHERE areaid=" .$_GET["areaid"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/area.php: " .$db->error);
+        error("Error retrieving area.");
     elseif ($result->num_rows == 1)
         $area = $result->fetch_assoc();
     
@@ -64,14 +64,14 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
     // get area and crag details
     $sql = "SELECT * FROM areas WHERE areaid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/area.php: " .$db->error);
+        error("Error retrieving area.");
     else
         $area = $result->fetch_assoc();
     
     
     $sql = "SELECT * FROM crags WHERE areaid=" .$area["areaid"];
     if (!$result = $db->query($sql)) 
-        error("Error in admin/area.php: " .$db->error);
+        error("Error retrieving crags.");
     else {
         $crags = [];
         while($row = $result->fetch_assoc())
@@ -82,17 +82,17 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
     foreach ($crags as $crag) {
         $sql = "DELETE FROM crags WHERE cragid=" .$crag["cragid"] .";";
         if (!$result = $db->query($sql))
-            error("Error in admin/area.php: " .$db->error);
+            error("Error deleting crags.");
         
         $sql = "DELETE FROM routes WHERE cragid=" .$crag["cragid"] .";";
         if (!$result = $db->query($sql))
-            error("Error in admin/area.php: " .$db->error);
+            error("Error deleting routes.");
     }
     
     // remove area
     $sql = "DELETE FROM areas WHERE areaid=" .$area["areaid"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/area.php: " .$db->error);
+        error("Error deleting area.");
     
     // return to area page
     header("Location: " .SITEURL ."/all_areas.php");
@@ -117,12 +117,12 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
             ."\",location=\"" .$location ."\",public=" .$public ." WHERE areaid=" .$_SESSION["id"] .";";
     }
     if (!$result = $db->query($sql))
-        error("Error in admin/area.php: " .$db->error);
+        error("Error saving area.");
     
     // get area details
     $sql = "SELECT * FROM areas WHERE name=\"" .$name ."\";";
     if (!$result = $db->query($sql))
-        error("Error in admin/area.php: " .$db->error);
+        error("Error retrieving area.");
     elseif ($result->num_rows == 1)
         $area = $result->fetch_assoc();
 

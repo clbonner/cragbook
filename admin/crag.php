@@ -27,7 +27,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit")
 {
     $sql = "SELECT * FROM crags WHERE cragid = " .$_GET["cragid"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/crag.php: " .$db->error);
+        error("Error retrieving crag.");
     elseif ($result->num_rows == 1)
         $crag = $result->fetch_assoc();
     
@@ -42,7 +42,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete")
 {
     $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/crag.php: " .$db->error);
+        error("Error retrieving crag.");
     elseif ($result->num_rows == 1)
         $crag = $result->fetch_assoc();
     
@@ -62,25 +62,25 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
     // get crag details
     $sql = "SELECT * FROM crags WHERE cragid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/crag.php: " .$db->error);
+        error("Error retrieving crag.");
     else
         $crag = $result->fetch_assoc();
     
     // get area details
     $sql = "SELECT * FROM areas WHERE areaid=" .$crag["areaid"];
     if (!$result = $db->query($sql))
-        error("Error in admin/crag.php: " .$db->error);
+        error("Error retrieving area.");
     elseif ($result->num_rows == 1)
         $area = $result->fetch_assoc();
 
     // remove crag and routes from database
     $sql = "DELETE FROM crags WHERE cragid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/crag.php: " .$db->error);
+        error("Error deleting crag.");
     
     $sql = "DELETE FROM routes WHERE cragid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/crag.php: " .$db->error);
+        error("Error deleting routes.");
     
     // return to the area page
     header("Location: " .SITEURL ."/area.php?areaid=" .$area["areaid"]);
@@ -114,13 +114,13 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     }
     
     if (!$result = $db->query($sql))
-        error("Error in admin/crag.php: " .$db->error);
+        error("Error saving crag.");
     
     // get cragid if newly added
     if ($_SESSION["action"] == "add") {
         $sql = "SELECT * FROM crags WHERE name=\"" .$name ."\" AND areaid=" .$_SESSION["id"] .";";
         if (!$result = $db->query($sql))
-            error("Error in admin/crag.php: " .$db->error);
+            error("Error retrieving crag.");
         elseif ($result->num_rows == 1)
             $crag = $result->fetch_assoc();
     }

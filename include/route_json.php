@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $_GET["areaid"] ." AND public=1 ORDER BY name ASC;";
         
         if (!$result = $db->query($sql))
-            ajax_err("Error in route_json.php: " .$db->error);
+            ajax_err("Error retrieving crags.");
         elseif ($result->num_rows > 0) {
         
             // store crags in array
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $sql = "SELECT * FROM routes WHERE cragid IN (". $values .") ORDER BY orderid;";
             
             if (!$result = $db->query($sql)) {
-                ajax_err("Error in route_json.php: " .$db->error);
+                ajax_err("Error retrieving routes.");
             }
             
             $routes = [];
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $sql = "SELECT * FROM routes WHERE cragid = ". $_GET["cragid"] ." ORDER BY orderid ASC;";
         
         if (!$result = $db->query($sql)) {
-            exit("Error in route_json.php: " .$db->error);
+            exit("Error retrieving routes.");
         }
         
         $routes = [];
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
         
         if(!$db->query($sql)){
-            exit("Error in route_json.php: " .$db->error);
+            exit("Error saving route.");
         }
     }
 }

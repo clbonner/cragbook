@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     // remove exisiting routes from database
     $sql = "DELETE FROM routes WHERE cragid=" .$_POST["importcrag"];
     if (!$result = $db->query($sql))
-        error("Error in admin/import.php. QUERY: " .$sql ." ERROR: ".$db->error);
+        error("Error deleting routes.");
 
     // ignore header line of CSV file
     fgetcsv($fp);
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
         // import route
         if (!$result = $db->query($sql))
-            error("Error in admin/import.php. QUERY: " .$sql ." ERROR: ".$db->error);
+            error("Error creating route " .$route[2]);
     }
 
     fclose($fp);

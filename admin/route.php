@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "add") {
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit") {
     $sql = "SELECT * FROM routes WHERE routeid = " .$_GET["routeid"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/route.php: " .$db->error);
+        error("Error retrieving route.");
     elseif ($result->num_rows == 1)
         $route = $result->fetch_assoc();
     
@@ -39,7 +39,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "edit") {
 elseif ($_SERVER["REQUEST_METHOD"] == "GET" && $_GET["action"] == "delete") {
     $sql = "SELECT * FROM routes WHERE routeid=" .$_GET["routeid"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/route.php: " .$db->error);
+        error("Error retrieving route.");
     elseif ($result->num_rows == 1)
         $route = $result->fetch_assoc();
     
@@ -58,21 +58,21 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "delete")
     // get route info
     $sql = "SELECT * FROM routes WHERE routeid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/route.php: " .$db->error);
+        error("Error retrieving route.");
     elseif ($result->num_rows == 1)
         $route = $result->fetch_assoc();
     
     // get crag info
     $sql = "SELECT * FROM crags WHERE cragid=" .$route["cragid"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/route.php: " .$db->error);
+        error("Error retrieving crag.");
     elseif ($result->num_rows == 1)
         $crag = $result->fetch_assoc();
     
     // remove route
     $sql = "DELETE FROM routes WHERE routeid=" .$_SESSION["id"] .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/route.php: " .$db->error);
+        error("Error deleting routes.");
     
     // return to crag page
     header("Location: " .SITEURL ."/crag.php?cragid=" .$crag["cragid"]);
@@ -105,13 +105,13 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
             ." WHERE routeid = " .$_SESSION["id"] .";";
     }
     if (!$result = $db->query($sql))
-        error("Error in admin/route.php: " .$db->error);
+        error("Error saving route.");
     
     // get cragid
     if ($_SESSION["action"] == "edit") {
         $sql = "SELECT * FROM routes WHERE routeid=" .$_SESSION["id"] .";";
         if (!$result = $db->query($sql))
-            error("Error in admin/route.php: " .$db->error);
+            error("Error retrieving route.");
         else
             $route = $result->fetch_assoc();
         
@@ -123,7 +123,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     // get crag details
     $sql = "SELECT * FROM crags WHERE cragid=" .$cragid .";";
     if (!$result = $db->query($sql))
-        error("Error in admin/route.php: " .$db->error);
+        error("Error retrieving crag.");
     else
         $crag = $result->fetch_assoc();
     

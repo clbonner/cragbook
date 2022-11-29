@@ -91,22 +91,18 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     $sector = $db->escape_string($_POST["sector"]);
     $fascent = $db->escape_string($_POST["fascent"]);
     $discipline = $db->escape_string($_POST["discipline"]);
-    $seriousness = $db->escape_string($_POST["seriousness"]);
     if (!is_numeric($discipline)) error("Invalid entry for discipline.");
-    if (!is_numeric($seriousness)) $seriousness = 0;
-    if ($_POST["private"] == "on") $private = 1;
-    else $private = 0;
 
     // add/update database
     if ($_SESSION["action"] == "add") {
-        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent,discipline,seriousness,private) VALUES (" .$_SESSION["id"] .",\"" .$name 
-            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\",\"" .$fascent ."\"," .$discipline ."," .$seriousness ."," .$private .");";
+        $sql = "INSERT INTO routes (cragid,name,description,grade,stars,length,sector,firstascent,discipline,orderid) VALUES (" .$_SESSION["id"] .",\"" .$name 
+            ."\",\"" .$description ."\",\"" .$grade ."\",\"" .$stars ."\"," .$length .",\"" .$sector ."\",\"" .$fascent ."\"," .$discipline .", 1);";
     }
     elseif ($_SESSION["action"] == "edit") {
         $sql = "UPDATE routes SET name=\"" .$name. "\",description=\"" .$description 
             ."\",grade=\"" .$grade ."\",stars=\"" .$stars ."\",length=\"" .$length 
-            ."\",sector=\"" .$sector ."\",firstascent=\"" .$fascent ."\",discipline=" .$discipline .",seriousness=" 
-            .$seriousness .",private=" .$private ." WHERE routeid = " .$_SESSION["id"] .";";
+            ."\",sector=\"" .$sector ."\",firstascent=\"" .$fascent ."\",discipline=" .$discipline 
+            ." WHERE routeid = " .$_SESSION["id"] .";";
     }
     if (!$result = $db->query($sql))
         error("Error saving route.");

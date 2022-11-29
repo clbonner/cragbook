@@ -26,11 +26,6 @@ function sortByLength(page) {
     $("th:contains('Length')").append($("<i>").addClass('fa fa-sort-desc'));
 }
 
-function sortByFA(page) {
-    viewRoutes(page.data, Cragbook.routes.sort('firstascent')); 
-    $("th:contains('First Ascent')").append($("<i>").addClass('fa fa-sort-desc'));
-}
-
 function sortBySector(page) {
     viewRoutes(page.data, Cragbook.routes.sort('sector')); 
     $("th:contains('Sector')").append($("<i>").addClass('fa fa-sort-desc'));
@@ -126,37 +121,17 @@ function viewRouteInfo(route) {
         if (Cragbook.routes.view[x].routeid == route.data.id) {
             switch (Cragbook.routes.view[x].discipline) {
                 case '1':
-                    discipline = $("<i>").addClass("fa fa-circle-thin").html("&nbsp");
+                    discipline = $("<i>").addClass("fa fa-circle blue").html("&nbsp");
                     break;
                 case '2':
-                    discipline = $("<i>").addClass("fa fa-circle yellow").html("&nbsp");
+                    discipline = $("<i>").addClass("fa fa-circle green").html("&nbsp");
                     break;
                 case '3':
-                    discipline = $("<i>").addClass("fa fa-circle").html("&nbsp");
-                    break;
-                case '4':
-                    discipline = $("<i>").addClass("fa fa-circle yellow").html("&nbsp");
-                    break;
-                case "5":
-                    discipline = $("<i>").addClass("fa fa-times-circle red").html("&nbsp");
-            }
-            
-            switch (Cragbook.routes.view[x].seriousness) {
-                case '1':
-                    seriousness = $("<i>").addClass("fa fa-smile-o green").html("&nbsp");
-                    break;
-                case '2':
-                    seriousness = $("<i>").addClass("fa fa-meh-o amber").html("&nbsp");
-                    break;
-                case '3':
-                    seriousness = $("<i>").addClass("fa fa-frown-o red").html("&nbsp");
-                    break;
-                case "4":
-                    seriousness = $("<i>").addClass("fa fa-times-circle").html("&nbsp");
+                    discipline = $("<i>").addClass("fa fa-circle amber").html("&nbsp");
             }
             
             $('#routeinfowindow').append($("<h3>").text(Cragbook.routes.view[x].name + ' ' + Cragbook.routes.view[x].stars).prepend(discipline));
-            $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].description).prepend(seriousness));
+            $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].description));
             $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].grade).prepend($("<b>").text("Grade: ")));
             $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].length + "m").prepend($("<b>").text("Length: ")));
             $('#routeinfowindow').append($("<p>").text(Cragbook.routes.view[x].sector).prepend($("<b>").text("Sector: ")));

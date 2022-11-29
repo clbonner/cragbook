@@ -2,12 +2,12 @@
     <div class="title">Help</div>
     <br>
     <div>
-        <p>Using our crag database is very simple. You can look for information in one of three ways using the menu above.</p>
+        <p>Using Cragbook is very simple. You can look for information in one of four ways using the menu above.</p>
         
         <div>
             <p><span class="btn btn-border">Areas</span> Shows you a list of areas, wherein lies all the crags for that area.</p>
             <p><span class="btn btn-border">Crags</span> Shows you all crags regardless of areas.</p>
-            <p><span class="btn btn-border">Grades</span> Shows you a list of all routes in the database at the given grade.</p>
+            <p><span class="btn btn-border">Grades</span> Shows you a list of all routes in a certain discipline.</p>
             <p><i class="fa fa-search btn btn-border"></i> Allows you to find routes by using one or more search criteria.</p>
         </div>
 
@@ -32,26 +32,14 @@
         <br>
         
         <p>
-            As per our guidebooks, against each route you will see a coloured dot indicating the type of climb.</p>
-            <p><i class="fa fa-circle-thin"></i> Trad Climb</p>
-            <p><i class="fa fa-circle yellow"></i> Sport Climb</p>
-            <p><i class="fa fa-circle yellow"></i> <span class="hybrid">Hybrid Climb (bolts/pegs/nuts)</span></p>
-            <p><i class="fa fa-circle"></i> Bouldering</p>
-            <p><i class="fa fa-times-circle red"></i> These routes are BANNED!</p>
-        </p>
-        
-        <br>
-
-        <p>
-            Additionally, on sport climbs you will see a coloured smiley indicating the friendliness of the bolting and how bold it may feel.</p>
-            <p><i class="fa fa-smile-o green"></i> A good choice. Friendly bolting for the grade. Just go climbing and no worries about the clips.</p>
-            <p><i class="fa fa-meh-o amber"></i> Adequate. Some worrisome run-outs, some disconcerting clips, but generally OK.</p>
-            <p><i class="fa fa-frown-o red"></i> Care required. A degree of danger present; some gripping clips, some scary run-outs, maybe a dodgy bolt or perhaps all of them!</p>
-            <p><i class="fa fa-times-circle"></i> Danger not within your control. Usually means multiple untrustworthy or bad bolts and/or poor anchor.</p>
+            <p>Different disciplines are differentiated by coloured dots, as below.</p>
+            <p><i class="fa fa-circle blue"></i> Trad Climb</p>
+            <p><i class="fa fa-circle green"></i> Sport Climb</p>
+            <p><i class="fa fa-circle amber"></i> Bouldering</p>
         </p>
         
         <br>
         <hr>
-        Copyright &copy Christopher L Bonner 2017
+        Cragbook &copy Christopher L Bonner 2017
     </div>
 </div>

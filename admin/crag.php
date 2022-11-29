@@ -99,8 +99,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     $approach = $db->escape_string($_POST["approach"]);
     if ($_POST["public"] == "on") $public = 1;
     else $public = 0;
-    if ($_POST["hide_descriptions"] == "on") $hide_descriptions = 1;
-    if ($_POST["show_descriptions"] == "on") $show_descriptions = 1;
     
     // add new crag
     if ($_SESSION["action"] == "add") {
@@ -128,18 +126,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["action"] == "add" || 
     }
     elseif ($_SESSION["action"] == "edit") {
         $crag["cragid"] = $_SESSION["id"];
-        
-        // update hide/show descriptions
-        if ($hide_descriptions == 1 && $show_descriptions == 0) {
-            $sql = "UPDATE routes SET private=1 WHERE cragid=" .$crag["cragid"];
-            if (!$result = $db->query($sql))
-                error("Error in admin/crag.php: " .$db->error);
-        }
-        else if ($show_descriptions == 1 && $hide_descriptions == 0) {
-            $sql = "UPDATE routes SET private=0 WHERE cragid=" .$crag["cragid"];
-            if (!$result = $db->query($sql))
-                error("Error in admin/crag.php: " .$db->error);
-        }
     }
     
     // return to crag page

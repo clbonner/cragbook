@@ -125,14 +125,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             array_push($routes, $row);
         }
 
-        // remove desctiptions  
-        if (!isset($_SESSION["userid"])) {
-            foreach ($routes as $key => $value) {
-                if ($routes[$key]["private"] == 1) {
-                    $routes[$key]["description"] = "";
-                }
-            }
-        }
     }
     else {
         $routes = [];

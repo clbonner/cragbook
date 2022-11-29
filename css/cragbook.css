@@ -11,7 +11,7 @@
 }
 
 html {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Avenir-Next;
     box-sizing: border-box;
 }
 
@@ -20,7 +20,7 @@ body {
 }
 
 header {
-    height: 0px;
+    height: 5px;
     width: 100%;
     color: white;
     font-size: 10px;
@@ -30,15 +30,7 @@ header {
 }
 
 footer {
-    height: 12px;
-    width: 100%;
-    color: white;
-    font-size: 10px;
-    background-color: #999999;
-    margin: 0px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    margin-top: 15px;
 }
 
 p {
@@ -501,7 +493,7 @@ textarea {
 /* traffic light colors */
 
 .green {
-    color: #70d856;
+    color: green;
 }
 
 .amber {
@@ -510,10 +502,6 @@ textarea {
 
 .red {
     color: red;
-}
-
-.blue {
-    color: #5b9aff;
 }
 
 .yellow {
@@ -548,6 +536,12 @@ textarea {
 .pointer:hover {
     cursor: pointer;
     background-color: #c9c9c9;
+}
+
+@font-face {
+	font-family: Avenir-Next;  
+	src: url(../avenir-next-regular.ttf);  
+	font-weight: normal;  
 }
 
 /* responsive section */

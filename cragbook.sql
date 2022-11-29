@@ -60,7 +60,8 @@ CREATE TABLE `routes` (
   `sector` varchar(255) COLLATE utf8_bin NOT NULL,
   `discipline` int(11) NOT NULL,
   `firstascent` varchar(255) COLLATE utf8_bin NOT NULL,
-  `orderid` int(11) NOT NULL
+  `orderid` int(11) NOT NULL,
+  `private` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------

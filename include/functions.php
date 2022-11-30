@@ -55,14 +55,6 @@ function db_connect() {
         return $db;
 }
 
-// Performs security checks on data that will be outputted as html
-function sec_check($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
 // sets specific session data for adding and editing areas/crags/routes
 function set_data($action, $id) {
     $_SESSION["action"] = $action;
@@ -79,6 +71,17 @@ function clear_data() {
 function login_check() {
     if (!isset($_SESSION["userid"]))
         exit;
+}
+
+// validate numeric input
+function is_valid_num($input) {
+    if (!is_numeric($input)) {
+        print("Invalid request.");
+        exit;
+    }
+    else {
+        return true;
+    }
 }
 
 ?>

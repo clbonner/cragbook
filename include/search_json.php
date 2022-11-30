@@ -15,6 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $search = rawurldecode($_POST["search"]);
     $search = json_decode($search, true);
+
+    foreach ($search as $item) {
+        $item = $db->escape_string($item);
+    }
     
     // get list of crags for the area
     if ($search["area"] !== "") {
@@ -111,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     elseif ($search["area"] !== "" || $search["crag"] !== "") {
-            $routes = 0;
+            $routes = [];
     }
     
     // send search results
@@ -120,18 +124,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         while ($row = $result->fetch_assoc()) {
             array_push($routes, $row);
         }
-        
-        // remove desctiptions  
-        if (!isset($_SESSION["userid"])) {
-            foreach ($routes as $key => $value) {
-                if ($routes[$key]["private"] == 1) {
-                    $routes[$key]["description"] = "";
-                }
-            }
-        }
+
     }
     else {
-        $routes = 0;
+        $routes = [];
     }
 
     echo json_encode($routes);

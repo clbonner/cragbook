@@ -7,10 +7,10 @@
     
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=<?= $googlemaps_apikey ?>"></script>
-    <script src="<?= SITEURL ?>/include/js/classes.js"></script>
-    <script src="<?= SITEURL ?>/include/js/db.js"></script>
-    <script src="<?= SITEURL ?>/include/js/interface.js"></script>
-    <script src="<?= SITEURL ?>/include/js/maps.js"></script>
+    <script src="<?= SITEURL ?>/js/classes.js"></script>
+    <script src="<?= SITEURL ?>/js/db.js"></script>
+    <script src="<?= SITEURL ?>/js/interface.js"></script>
+    <script src="<?= SITEURL ?>/js/maps.js"></script>
 
     <link rel="icon" href="cragbook.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?= SITEURL ?>/css/cragbook.css">
@@ -45,6 +45,9 @@
             <?php if(isset($_SESSION["userid"])): ?>
                 <a class="btn-menu left" href="<?= SITEURL ?>/admin/prefs.php"><i class="fa fa-cog menu-icon"></i></a>
                 <a class="btn-menu left" href="<?= SITEURL ?>/admin/logout.php"><i class="fa fa-sign-out menu-icon"></i></a>
+            <?php else: ?>
+                <a class="btn-menu left" href="<?= SITEURL ?>/admin/login.php"><i class="fa fa-sign-in menu-icon"></i></a>
             <?php endif ?>
+            
         </div>
     </div>

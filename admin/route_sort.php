@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
     $sql = "SELECT * FROM crags WHERE cragid=" .$_GET["cragid"];
     if (!$result = $db->query($sql))
-        error("Error in admin/route_sort.php: " .$db->error);
+        error("Error retrieving crag.");
     else
         $crag = $result->fetch_assoc();
     

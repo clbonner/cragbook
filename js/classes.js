@@ -2,7 +2,7 @@
  * and is licensesed under the GNU General Public License version 3.
  * Copyright 2017 Christopher L Bonner
  *
- * include/js/prototypes.js
+ * include/js/classes.js
  * Class prototypes for Cragbook.
  */
 
@@ -12,7 +12,7 @@ var Cragbook = {
     // class prototype for Routes objects
     RouteList : function(jsonData) {
         this.all = jsonData;
-        this.view;
+        this.view = this.all.slice();
         this.discipline = 'all';
 
         // sorts routes by field
@@ -96,11 +96,11 @@ var Cragbook = {
                     if (this.view != 0)
                         this.view.sort(function(a, b) { return a.orderid - b.orderid });
                     else return 0;
-
+                    
                     break;
 
                 case 'crag':
-                    if (this.view != 0)
+                    if (this.view != 0) {
                         this.view.sort(function(a, b) {
                             var x = a.cragName.toLowerCase();
                             var y = b.cragName.toLowerCase();
@@ -108,9 +108,8 @@ var Cragbook = {
                             if (x > y) return 1;
                             return 0;
                         });
-                   else return 0;
-
-                   break;
+                    }
+                    else return 0;
             }
 
             return this.view;
@@ -150,7 +149,7 @@ var Cragbook = {
             this.view = [];
 
             for (x in this.all) {
-                if (this.all[x].discipline == 2 || this.all[x].discipline == 4) {
+                if (this.all[x].discipline == 2) {
                     this.view.push(this.all[x]);
                 }
             }

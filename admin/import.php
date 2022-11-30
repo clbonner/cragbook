@@ -17,13 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     if (!move_uploaded_file($_FILES["csvfile"]["tmp_name"], "import.csv"))
         error("Upload failed. ERROR: " .$_FILES["csvfile"]["error"]);
-        
     $fp = fopen("import.csv", "r");
 
     // remove exisiting routes from database
     $sql = "DELETE FROM routes WHERE cragid=" .$_POST["importcrag"];
     if (!$result = $db->query($sql))
-        error("Error in admin/import.php. QUERY: " .$sql ." ERROR: ".$db->error);
+        error("Error deleting routes.");
 
     // ignore header line of CSV file
     fgetcsv($fp);

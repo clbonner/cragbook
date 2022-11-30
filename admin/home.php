@@ -17,7 +17,7 @@ $db = db_connect();
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $sql = "SELECT * FROM site;";
     if (!$result = $db->query($sql))
-        error("Error in admin/home.php: " .$db->error);
+        error("Error retrieving site settings.");
     else {
         while ($row = $result->fetch_assoc())
             $site[$row["setting"]] = $row["value"];
@@ -30,11 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 // update home page text
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $text = sec_check($_POST["text"]);
+    $text = $db->escape_string($_POST["text"]);
     
     $sql = "UPDATE site SET value = \"" .$text ."\" WHERE setting = \"home_text\";";
     if (!$result = $db->query($sql))
-        error("Error in home.php: " .$db->error);
+        error("Error saving home page text.");
     
     require(__DIR__ ."/../index.php");
 }

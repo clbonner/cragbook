@@ -18,7 +18,7 @@ Installing Cragbook is very simple.
 
 2. Import the 'cragbook.sql' file in to the MySQL database that you would like to use.
 
-3. Make sure that all PHP file permissions are set 644 and folders to 755.
+3. Make sure that all PHP file permissions are set 644 and folders to 755. You can use the permissions.sh script do do this automatically.
 
 4. Copy include/config-example.php to include/config.php and change the settings in that file to suit your installation.
 

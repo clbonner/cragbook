@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
       ." ORDER BY orderid ASC;";
 
     if (!$result = $db->query($sql))
-        error("Error in admin/export.php. SQL: " .$sql ." ERROR: " .$db->error);
+        error("Error retrieving routes.");
     elseif ($result->num_rows !== NULL)
         while ($route = $result->fetch_assoc()) {
             array_push($routes, $route);

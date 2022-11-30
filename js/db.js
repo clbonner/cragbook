@@ -60,8 +60,7 @@ function getAreaRoutes(areaid) {
         }
         
         $('#gradefilter').html(gradeFilter('area'));
-        Cragbook.routes.getAllRoutes();
-        sortByCrag(page)
+        sortByCrag(page);
     });
 }
 
@@ -75,7 +74,6 @@ function getCragRoutes(cragid) {
         Cragbook.routes = new Cragbook.RouteList(data);
         
         $('#gradefilter').html(gradeFilter('crag'));
-        Cragbook.routes.getAllRoutes();
         sortBySector(page);
     });
 }
@@ -262,17 +260,19 @@ function getGrades(grade) {
             
             viewpicker = $("<div>").attr("id","viewpicker");
             viewpicker.append($("<button>").attr("id","printview").addClass("fa fa-print btn-picker").attr("onclick", "printRoutes('grades')"));
+            filter = $("<div>").addClass("gradefilter").attr("id", "gradefilter");
             routes = $("<div>").addClass("panel").attr("id", "routes");
             modal = $("<div>").addClass("modal").attr("id", "modal");
             
             
             $("#grades").addClass("panel").html(div);
             $("#grades").append(viewpicker);
+            $("#grades").append(filter);
             $("#grades").append(routes);
             $("#grades").append(modal);
+            $('#gradefilter').html(gradeFilter('crag'));
             
-            Cragbook.routes.getAllRoutes();
-            sortByGrade(page)
+            sortByGrade(page);
         });
     });
 }

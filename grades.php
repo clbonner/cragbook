@@ -10,8 +10,6 @@
  
 require_once(__DIR__ ."/include/config.php");
 
-$grade = sec_check($_GET["grade"]);
-
 view("grades.php", ["grade" => $grade ]);
 
 ?>

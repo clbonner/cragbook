@@ -26,11 +26,11 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
         error("You must provide your password.");
     }
     
-    $username = sec_check($_POST["username"]);
-    $password = sec_check($_POST["password"]);
-    
     $db = db_connect();
     
+    $username = $db->escape_string($_POST["username"]);
+    $password = $db->escape_string($_POST["password"]);
+
     // get user details
     $sql = "SELECT * FROM users WHERE username = \"" .$username ."\";";
     if (!$result = $db->query($sql))
@@ -45,9 +45,10 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST")
         $_SESSION["userid"] = $user["userid"];
         $_SESSION["username"] = $user["username"];
     }
-    else
+    else {
         error("Incorrect username or password.");
-        
+    }
+    
     $db->close();
     
     // show home page

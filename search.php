@@ -9,8 +9,6 @@
  */
  
 require_once(__DIR__ ."/include/config.php");
-
-// show search form
 view("search.php", []);
 
 ?>

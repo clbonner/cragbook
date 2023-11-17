@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $crags = [];
     
     while ($crag = $result->fetch_assoc()) {
+	$crag["name"] = htmlspecialchars_decode($crag["name"]);
         $crag["description"] = htmlspecialchars_decode($crag["description"]);
         $crag["approach"] = htmlspecialchars_decode($crag["approach"]);
         array_push($crags, $crag);
